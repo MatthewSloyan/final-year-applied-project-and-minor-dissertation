@@ -55,10 +55,46 @@ Our project will be used as a Digital Twin to provide a simulation of a training
 ## Serious Fun
 
 ## Gamification
+Definition:
+The application of typical elements of game playing (e.g. point scoring, competition with others, rules of play) to other areas of activity, typically as an online marketing technique to encourage engagement with a product or service.
+Gamification can be applied in many fields such as the workplace, education, heath and even online gambling which could be thought of as a bad thing.
 
-## Digital Training
+In the workplace, the aim of Gamification is to increase employee productivity by using the characteristics of video games such as cooperative play and point scoring and the likes to give the employees the sense of achievement whilst they are doing their day to day job. Another aspect Gamification is a rewards based system. For an example if an employee scores a high enough score, they are they are rewarded with a real world object. This could give the employee more of a reason to work harder if they are guaranteed a return on their investment of hard work. 
+
+In the online gambling world, gamification is seen as a bad thing. It could be said that these websites or applications are virtualizing peoples money so much so that they become numb to what they are actually gambling away.
+
+In Conclusion, we are still in the infant stages of gamification. It does have its cons in terms of the virtualization of online gambling however, I think to pros far out weigh the cons. The return that these companies will obtain like happier and more productive employees is worth the cost to implement a system in the first place.
+
+
+## Digital Training / VR Training
+Virtual reality training is a way of training employees in a 3D virtual space that is more affordable, immersive and safer.
+The aim of VR training is to make training more visual and achieve higher engagement and retention rates. If the training simulator is done properly, the employee can be fully immersed in this virtual world. This immersion is what makes their training more memorable and they will retain  information easier.
+
+### VR Training can be done in various different ways:
+Mobile: This is the cheapest type of VR. It is done by inserting you mobile device into a VR headset. The application is then run on your mobile device. The disadvantage to this is there are no handheld controllers so it makes the application less immersive.
+
+Standalone: Oculus supply two products, the Oculus Go and the new Oculus Quest which require no cables attached into a desktop. This comes with handheld controllers. However this is less powerful than the Desktop version.
+
+Desktop: Finally this Headset (e.g Oculus Rift, HTC VIVE) is connected to a high-end computer. This would be the most expensive but most immersive because this headset capable of higher resolutions, refresh rates and better graphics.
+
+### Surgery Sims:
+VR training is extremely useful in the case of trainee surgeons. These simulators allow the trainee to perform realistic surgery without the need of an actual patient, minimising the risk on a person’s life. It also allows the trainee to be monitored and scored on their skills.
+
+https://virtualspeech.com/blog/how-is-vr-changing-corporate-training:
+An example of VR being used successfully in this sector is when the Johnson & Johnson Institute began looking to improve medical training for surgeons. They worked with Osso VR to develop immersive training for doctors to perform operations. The results saw a 230% increase in surgical performance.
+
+Here are some other results I found on another VR surgery simulator:
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1422600/:
+No differences in baseline assessments were found between groups. Gallbladder dissection was 29% faster for VR-trained residents. Non-VR-trained residents were nine times more likely to transiently fail to make progress and five times more likely to injure the gallbladder or burn nontarget tissue. Mean errors were six times less likely to occur in the VR-trained group.
+
+In Conclusion, VR Training is a safe and affordable way to train employees with high engagement and retention rates.
+
 
 [1]: https://www.academia.edu/download/57035006/CHATBOT_thesis_final.pdf
 [2]: https://www.intercom.com/blog/customer-service-chatbots/
 [3]: https://www.networkworld.com/article/3280225/what-is-digital-twin-technology-and-why-it-matters.html
 [4]: https://arc.aiaa.org/doi/abs/10.2514/6.2012-1818
+[5]: https://virtualspeech.com/blog/how-is-vr-changing-corporate-training
+[6]: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1422600/
+[7]: https://en.wikipedia.org/wiki/Gamification
+
