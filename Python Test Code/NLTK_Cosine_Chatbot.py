@@ -18,7 +18,7 @@ import string # to process standard python strings
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-f=open('chatbot.txt','r',errors = 'ignore')
+f=open('Sources/chatbot.txt','r',errors = 'ignore')
 raw=f.read()
 raw=raw.lower()# converts to lowercase
 nltk.download('punkt') # first-time use only
