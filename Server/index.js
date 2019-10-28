@@ -23,5 +23,18 @@ var server = app.listen(3000, function () {
 })
 
 app.get('/', function (req, res) {
+
+    // Using the spawn method built into node, create an instance of the python script and run it.
+    // Code apapted and improved from: https://stackoverflow.com/questions/23450534/how-to-call-a-python-function-from-node-js
     
+    const { spawn } = require('child_process');
+    const chatbot_script = spawn('python', ['chatbot_Server.py']);
+
+    // Wait for output of script
+    chatbot_script.stdout.on('data', function(data) {
+
+        console.log(data.toString());
+        res.write(data);
+        res.end('end');
+    });
 })
