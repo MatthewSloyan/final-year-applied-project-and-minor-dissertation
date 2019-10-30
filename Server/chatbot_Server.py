@@ -132,7 +132,7 @@ def main():
         print(rn.choice(responses))
         sys.stdout.flush()
 
-    predictResponse("Credit card?")
+    predictResponse(sys.argv[1])
 
 if __name__ == '__main__':
     main()
