@@ -1,5 +1,8 @@
 import numpy as np
 import tensorflow
+import socket
+import os
+import sys
 import keras as kr
 from keras import backend
 from keras.models import load_model
@@ -8,6 +11,7 @@ import random
 import nltk
 from nltk.stem.lancaster import LancasterStemmer
 stemmer = LancasterStemmer()
+
 
 with open("intents.json") as file:
     data = json.load(file)
@@ -86,21 +90,49 @@ def bag_of_words(s, words):
             
     return np.array(bag)
 
-def chat():
-    print("Start talking with the bot:")
+def chat(sentence):
+
+    results = model.predict([[bag_of_words(sentence, words)]])
+    results_index = np.argmax(results)
+    tag = labels[results_index]
+
+    for tg in data["intents"]:
+        if tg['tag'] == tag:
+            responses = tg['responses']
+
+    return random.choice(responses)
+
+#send string to server...
+#server gets string and predicts through chat
+#predict writes to file and file returned
+
+def Main():
+    host = '192.168.1.9'
+    port = 3000
+    filename = 'test.txt'
+    sentence = ''
+
+    s = socket.socket()
+    s.bind((host,port))
+    print("server Started")
+    s.listen(1)
     while True:
-        inp = input("You: ")
-        if inp.lower() == "quit":
-            break
+        c, addr = s.accept()
+        print("Connection from: " + str(addr))
+        while True:
+            data = c.recv(1024).decode('utf-8')
+            if not data:
+                break
+            sentence += data
+        
+        response = chat(sentence)
+        myfile = open(filename, "w")
+        myfile.write(response)
+        myfile.close()
+        print("from connected user: " + filename)
+        myfile = open(filename, "rb")
+        c.send(myfile.read())
+        c.close()
 
-        results = model.predict([[bag_of_words(inp, words)]])
-        results_index = np.argmax(results)
-        tag = labels[results_index]
-
-        for tg in data["intents"]:
-            if tg['tag'] == tag:
-                responses = tg['responses']
-
-        print("Bot: "+random.choice(responses))
-
-chat()
+if __name__ == '__main__':
+    Main()
