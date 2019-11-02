@@ -125,6 +125,9 @@ def Main():
                 break
             sentence += data
         
+        print(sentence)
+        if sentence == '\0':
+            sentence = "What time are you open?"
         response = chat(sentence)
         myfile = open(filename, "w")
         myfile.write(response)
