@@ -10,8 +10,15 @@ from keras.models import load_model
 import json
 import random
 import nltk
+
+import win32com.client as wincl
+from gtts import gTTS
+import os
+import pyttsx3
+
 from nltk.stem.lancaster import LancasterStemmer
 stemmer = LancasterStemmer()
+
 
 
 with open("intents.json") as file:
@@ -128,42 +135,22 @@ def getImage():
     print(s)
 
     response = chat(str(s))
+    
+    # WORKS
+    # speak = wincl.Dispatch("SAPI.SpVoice")
+    # speak.Speak(response)
 
+    # WORKS
+    # tts = gTTS(text=response, lang='en')
+    # tts.save("good.mp3")
+    
+    # DOESNT WORK    
+    # engine = pyttsx3.init("dummy")
+    # engine.say('Sally sells seashells by the seashore.')
+    # engine.say('The quick brown fox jumped over the lazy dog.')
+    # engine.runAndWait()
+    
     return response
-
-
-
-
-def Main():
-    host = '192.168.1.9'
-    port = 3000
-    filename = 'test.txt'
-    sentence = ''
-
-    s = socket.socket()
-    s.bind((host,port))
-    print("server Started")
-    s.listen(1)
-    while True:
-        c, addr = s.accept()
-        print("Connection from: " + str(addr))
-        while True:
-            data = c.recv(1024).decode('utf-8')
-            if not data:
-                break
-            sentence += data
-        
-        print(sentence)
-        if sentence == '\0':
-            sentence = "What time are you open?"
-        response = chat(sentence)
-        myfile = open(filename, "w")
-        myfile.write(response)
-        myfile.close()
-        print("from connected user: " + filename)
-        myfile = open(filename, "rb")
-        c.send(myfile.read())
-        c.close()
 
 if __name__ == "__main__":
     app.run(debug = False, threaded = False)
