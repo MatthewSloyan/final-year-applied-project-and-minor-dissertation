@@ -1,3 +1,4 @@
+from flask import Flask, json, jsonify, render_template, request
 import numpy as np
 import tensorflow
 import socket
@@ -106,6 +107,33 @@ def chat(sentence):
 #server gets string and predicts through chat
 #predict writes to file and file returned
 
+app = Flask(__name__)
+
+@app.route('/', methods=['POST'])
+def getImage():
+    jsonData = request.data
+
+    # get the base64 binary out of the json data so it can be decoded.
+    # base64 data follows this format "data:image/png;base64,iVBORw0KGgoA..."
+    # so strip out from base64, onwards.
+
+    s = ''
+
+    for i in jsonData:
+        s = s + chr(i) 
+
+    s = s.split('=')[1]
+
+    s = s.replace("%20"," ")
+    print(s)
+
+    response = chat(str(s))
+
+    return response
+
+
+
+
 def Main():
     host = '192.168.1.9'
     port = 3000
@@ -137,5 +165,5 @@ def Main():
         c.send(myfile.read())
         c.close()
 
-if __name__ == '__main__':
-    Main()
+if __name__ == "__main__":
+    app.run(debug = False, threaded = False)
