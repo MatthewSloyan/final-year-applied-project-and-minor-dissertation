@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 using UnityEngine.Windows.Speech;
+
 
 public class SpeechToText : MonoBehaviour
 {
@@ -12,9 +14,55 @@ public class SpeechToText : MonoBehaviour
 
     [SerializeField]
     private Text m_OutputText;
-
+    
     private DictationRecognizer m_DictationRecognizerObj;
     #endregion
+
+
+
+
+    public void sendText()
+    {
+        StartCoroutine(GetText());
+    }
+
+    IEnumerator GetText()
+    {
+
+        WWWForm form = new WWWForm();
+
+        form.AddField("myField", m_OutputText.text);
+        
+
+
+        Debug.Log(form.data);
+
+        string jsonStringTrial = JsonUtility.ToJson(form);
+
+        Debug.Log(jsonStringTrial);
+
+        UnityWebRequest www = UnityWebRequest.Post("localhost:5000", form);
+        www.SetRequestHeader("Content-Type", "application/json");
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            // Show results as text
+            Debug.Log(www.downloadHandler.text);
+
+            // Or retrieve results as binary data
+            byte[] results = www.downloadHandler.data;
+        }
+    }
+
+    public void textToSpeech()
+    {
+
+    }
 
     // Called when button is pressed. Listens for speech and predicts what it hears.
     public void listenForSpeech()
@@ -25,14 +73,14 @@ public class SpeechToText : MonoBehaviour
         // Sets the 
         m_DictationRecognizerObj.DictationResult += (text, confidence) =>
         {
-            Debug.LogFormat("Dictation result: {0}", text);
+            //Debug.LogFormat("Dictation result: {0}", text);
             m_OutputText.text = text;
         };
 
         // Guesses what it thinks initally and then corrects it to it's best knowledge.
         m_DictationRecognizerObj.DictationHypothesis += (text) =>
         {
-            Debug.LogFormat("Dictation hypothesis: {0}", text);
+           // Debug.LogFormat("Dictation hypothesis: {0}", text);
             m_HypothesesText.text = text;
         };
 
@@ -56,5 +104,20 @@ public class SpeechToText : MonoBehaviour
 
         // Start listening.
         m_DictationRecognizerObj.Start();
+    }
+
+
+    public class RequestS
+    {
+        public string s;
+
+        public RequestS(string sentence)
+        {
+            s = sentence;
+
+        }
+
+        //This method is required by the IComparable
+        //interface. 
     }
 }
