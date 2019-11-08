@@ -17,10 +17,7 @@ public class SpeechToText : MonoBehaviour
     
     private DictationRecognizer m_DictationRecognizerObj;
     #endregion
-
-
-
-
+    
     public void sendText()
     {
         StartCoroutine(GetText());
@@ -32,8 +29,6 @@ public class SpeechToText : MonoBehaviour
         WWWForm form = new WWWForm();
 
         form.AddField("myField", m_OutputText.text);
-        
-
 
         Debug.Log(form.data);
 
@@ -53,6 +48,7 @@ public class SpeechToText : MonoBehaviour
         {
             // Show results as text
             Debug.Log(www.downloadHandler.text);
+            TextToSpeech.Instance.ConvertTextToSpeech(www.downloadHandler.text);
 
             // Or retrieve results as binary data
             byte[] results = www.downloadHandler.data;
