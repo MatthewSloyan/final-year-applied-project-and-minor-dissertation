@@ -1,0 +1,3 @@
+-r:Google.Api.Gax.Grpc.dll
+-r:Google.Cloud.TextToSpeech.V1.dll
+-r:Google.Protobuf.dll
