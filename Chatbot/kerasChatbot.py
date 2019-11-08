@@ -12,9 +12,9 @@ import random
 import nltk
 
 import win32com.client as wincl
-from gtts import gTTS
+#from gtts import gTTS
 import os
-import pyttsx3
+#import pyttsx3
 
 from nltk.stem.lancaster import LancasterStemmer
 stemmer = LancasterStemmer()
