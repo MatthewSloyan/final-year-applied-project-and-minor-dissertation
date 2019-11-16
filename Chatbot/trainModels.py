@@ -5,70 +5,80 @@ from keras import backend
 from keras.models import load_model
 import json
 import pickle
-import random
 import nltk
 
 from nltk.stem.lancaster import LancasterStemmer
 stemmer = LancasterStemmer()
 
-# Global
-training = []
-output = []
-
-# Intent file names
+# List of Json scenarios files names
 intentFiles = ["intents_general.json", "intents_luas.json"]
 
-def processIntents(option):
-    with open(intentFiles[option]) as file:
-        data = json.load(file)
+# Reads in Json file, parses it and writes out to binary file.
+# This allows for multiple scenarios to be used and trained.
+def processIntents(scenarioNum):
+    try:
+        filePath = "Intents/" + intentFiles[int(scenarioNum)]
 
-    #PRE-PROCESSING
-    words = []
-    labels = []
-    docs_x = []
-    docs_y = []
+        with open(filePath) as file:
+            data = json.load(file)
 
-    for intent in data["intents"]:
-        for pattern in intent["patterns"]:
-            wrds = nltk.word_tokenize(pattern)
-            words.extend(wrds)
-            docs_x.append(wrds)
-            docs_y.append(intent["tag"])
+        #PRE-PROCESSING
+        words = []
+        labels = []
+        docs_x = []
+        docs_y = []
 
-        if intent["tag"] not in labels:
-            labels.append(intent["tag"])
+        for intent in data["intents"]:
+            for pattern in intent["patterns"]:
+                wrds = nltk.word_tokenize(pattern)
+                words.extend(wrds)
+                docs_x.append(wrds)
+                docs_y.append(intent["tag"])
 
-    words = [stemmer.stem(w.lower()) for w in words if w not in "?"]
-    words = sorted(list(set(words)))
+            if intent["tag"] not in labels:
+                labels.append(intent["tag"])
 
-    labels = sorted(labels)
+        words = [stemmer.stem(w.lower()) for w in words if w not in "?"]
+        words = sorted(list(set(words)))
 
-    out_empty = [0 for _ in range(len(labels))]
+        labels = sorted(labels)
 
-    for x, doc in enumerate(docs_x):
-        bag = []
+        training = []
+        output = []
+        out_empty = [0 for _ in range(len(labels))]
 
-        wrds = [stemmer.stem(w) for w in doc]
-        for w in words:
-            if w in wrds:
-                bag.append(1)
-            else:
-                bag.append(0)
+        for x, doc in enumerate(docs_x):
+            bag = []
 
-        output_row =  out_empty[:]
-        output_row[labels.index(docs_y[x])] = 1
+            wrds = [stemmer.stem(w) for w in doc]
+            for w in words:
+                if w in wrds:
+                    bag.append(1)
+                else:
+                    bag.append(0)
 
-        training.append(bag)
-        output.append(output_row)
+            output_row =  out_empty[:]
+            output_row[labels.index(docs_y[x])] = 1
 
-    training = np.array(training)
-    output = np.array(output)
+            training.append(bag)
+            output.append(output_row)
 
-    with open("data.pickle","wb") as f:
-        pickle.dump((words, labels),f)
+        training = np.array(training)
+        output = np.array(output)
 
-def trainModel(option):
+        with open("Models/scenario_" + scenarioNum + ".pickle", "wb") as f:
+            pickle.dump((words, labels),f)
+
+        # Train model using parsed data.
+        trainModel(scenarioNum, training, output)
+    except:
+        print("Error occured, please try again!")
+
+# Train model using data.
+def trainModel(scenarioNum, training, output):
+
     # BUILDING MODEL
+    print(training)
     model = kr.models.Sequential()
     model.add(kr.layers.Dense(units=8, activation='linear', input_dim=len(training[0])))
     model.add(kr.layers.Dense(units=8, activation='relu'))
@@ -77,4 +87,8 @@ def trainModel(option):
 
     # TRAINING MODEL
     model.fit(training, output, epochs=100, batch_size=8)
-    model.save('model.h5')
+    model.save("Models/model_" + scenarioNum + ".h5")
+
+# User input for our own testing and training of models.
+userInput = input("Enter scenario number: ") 
+processIntents(userInput)
