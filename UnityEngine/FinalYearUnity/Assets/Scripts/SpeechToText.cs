@@ -31,7 +31,7 @@ public class SpeechToText : MonoBehaviour
         WWWForm form = new WWWForm();
 
         form.AddField("myField", m_OutputText.text);
-        form.AddField("selection", selection);
+        //form.AddField("selection", selection);
 
         Debug.Log(form.data);
 
