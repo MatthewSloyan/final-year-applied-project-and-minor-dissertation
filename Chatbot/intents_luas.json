@@ -1,0 +1,23 @@
+{"intents": [
+        {"tag": "appreciation",
+        "patterns": ["Thank you.", "Thanks", "I really appreciate it"],
+        "responses": ["You're welcome.", "No problem", "Anytime!"],
+        "context_set": ""
+        },
+        {"tag": "ticketCheck",
+          "patterns": ["Can I check your ticket", "Tickets please", "Where is your ticket"],
+          "responses": ["Of course, here it is.", "I'm sorry I have misplaced it.", "I'm sorry I have misplaced it."],
+          "context_set": ""
+         },
+        {"tag": "ticketResponse",
+        "patterns": ["I'm sorry, you will have to purchase a new ticket.", "Tickets please", "Where is your ticket"],
+        "responses": ["This is unacceptable", "Okay, I will do that.", "I'm sorry I have misplaced it."],
+        "context_set": ""
+        },
+        {"tag": "hours",
+         "patterns": ["when are you guys operate", "what are your hours", "hours of operation", "Opening hours?"],
+         "responses": ["The luas runs from 7am to 11pm everyday!"],
+         "context_set": ""
+       }
+   ]
+}

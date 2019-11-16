@@ -14,7 +14,10 @@ public class SpeechToText : MonoBehaviour
 
     [SerializeField]
     private Text m_OutputText;
-    
+
+    [SerializeField]
+    private int selection = 0;
+
     private DictationRecognizer m_DictationRecognizerObj;
     #endregion
     
@@ -25,10 +28,10 @@ public class SpeechToText : MonoBehaviour
 
     IEnumerator GetText()
     {
-
         WWWForm form = new WWWForm();
 
         form.AddField("myField", m_OutputText.text);
+        form.AddField("selection", selection);
 
         Debug.Log(form.data);
 
