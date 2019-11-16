@@ -19,9 +19,7 @@ import os
 from nltk.stem.lancaster import LancasterStemmer
 stemmer = LancasterStemmer()
 
-
-
-with open("intents.json") as file:
+with open("intents_general.json") as file:
     data = json.load(file)
 
 #PRE-PROCESSING
@@ -81,7 +79,7 @@ try:
     model = load_model('model.h5')
 except:
     print("LOADING FAILED....")
-    model.fit(training, output, epochs=1000, batch_size=8)
+    model.fit(training, output, epochs=100, batch_size=8)
     model.save('model.h5')
 
 
@@ -117,12 +115,10 @@ def chat(sentence):
 app = Flask(__name__)
 
 @app.route('/', methods=['POST'])
-def getImage():
+def predictResponse():
     jsonData = request.data
 
-    # get the base64 binary out of the json data so it can be decoded.
-    # base64 data follows this format "data:image/png;base64,iVBORw0KGgoA..."
-    # so strip out from base64, onwards.
+    print(jsonData)
 
     s = ''
 

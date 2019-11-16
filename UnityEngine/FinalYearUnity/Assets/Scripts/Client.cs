@@ -17,7 +17,6 @@ public class Client : MonoBehaviour
         public RequestS(string sentence)
         {
             s = sentence;
-            
         }
 
         //This method is required by the IComparable
@@ -31,9 +30,6 @@ public class Client : MonoBehaviour
 
     IEnumerator GetText()
     {
-
-
-        //Here you add 3 BadGuys to the List
         WWWForm form = new WWWForm();
         form.AddField("myField", "hello");
 

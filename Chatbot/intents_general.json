@@ -1,0 +1,43 @@
+{"intents": [
+    {"tag": "greeting",
+     "patterns": ["Hi", "Is anyone there?", "Hello", "Good day", "Whats up"],
+     "responses": ["Hello!", "Good to see you again!", "Hi there, how can I help?", "Hello, how are you today?"],
+     "context_set": ""
+    },
+    {"tag": "greetingResponse",
+      "patterns": ["I am great thanks!", "Great, thank you!", "Not too bad!", "Not great!"],
+      "responses": ["That's good to hear.", "I'm glad.", "Not too bad!", "Not great!"],
+      "context_set": ""
+     },
+    {"tag": "greetingQuestion",
+      "patterns": ["How are you?", "How are things?", "How are you feeling?"],
+      "responses": ["I am great thanks!", "Great, thank you!", "Not too bad!", "Not great!"],
+      "context_set": ""
+     },
+    {"tag": "appreciation",
+    "patterns": ["Thank you.", "Thanks", "I really appreciate it"],
+    "responses": ["You're welcome.", "No problem", "Anytime!"],
+    "context_set": ""
+    },
+    {"tag": "goodbye",
+     "patterns": ["cya", "See you later", "Goodbye", "I am leaving", "Have a Good day"],
+     "responses": ["Sad to see you go!", "Talk to you later", "Goodbye!"],
+     "context_set": ""
+    },
+    {"tag": "age",
+      "patterns": ["how old", "how old is", "what is your age", "how old are you", "age?"],
+      "responses": ["I am 18 years old!", "18 years young!"],
+      "context_set": ""
+     },
+    {"tag": "name",
+    "patterns": ["what is your name", "what should I call you", "whats your name?"],
+    "responses": ["You can call me Tim.", "I'm Tim!", "My name is Tim!"],
+    "context_set": ""
+    },
+    {"tag": "weather",
+      "patterns": ["What is the weather like?", "Weather today?", "Is it raining?", "Awful weather today isn't it?"],
+      "responses": ["The weather is great, thank god!", "It's meant to clear up later, hopefully.", "I think it's meant to rain later."],
+      "context_set": ""
+     }
+]
+}
