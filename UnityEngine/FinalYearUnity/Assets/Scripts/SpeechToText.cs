@@ -21,6 +21,7 @@ public class SpeechToText : MonoBehaviour
     [SerializeField]
     private Button startRecordButton;
 
+    // Will be used to swap scenarios on the fly.
     [SerializeField]
     private int selection = 0;
 
@@ -38,6 +39,7 @@ public class SpeechToText : MonoBehaviour
     private Microphone mic;
 #endif
 
+    // On button click set up and convert speech to text.
     public async void ButtonClick()
     {
         // Creates an instance of a speech config with specified subscription key and service region.
@@ -47,7 +49,7 @@ public class SpeechToText : MonoBehaviour
 
         var config = SpeechConfig.FromSubscription(API_Key, "westeurope");
 
-        // Make sure to dispose the recognizer after use!
+        // Create a new instance of a SpeechRecognizer and pass api configuration.
         using (var recognizer = new SpeechRecognizer(config))
         {
             lock (threadLocker)
@@ -58,9 +60,6 @@ public class SpeechToText : MonoBehaviour
             // Starts speech recognition, and returns after a single utterance is recognized. The end of a
             // single utterance is determined by listening for silence at the end or until a maximum of 15
             // seconds of audio is processed.  The task returns the recognition text as result.
-            // Note: Since RecognizeOnceAsync() returns only a single utterance, it is suitable only for single
-            // shot recognition like command or query.
-            // For long-running multi-utterance recognition, use StartContinuousRecognitionAsync() instead.
             var result = await recognizer.RecognizeOnceAsync().ConfigureAwait(false);
 
             // Checks result.
@@ -81,13 +80,67 @@ public class SpeechToText : MonoBehaviour
 
             lock (threadLocker)
             {
+                // Message is displayed to user.
                 message = newMessage;
-                Debug.Log(message);
                 waitingForReco = false;
             }
         }
     }
 
+    // On start up get permission from microphone, and add listener to button.
+    void Start()
+    {
+#if PLATFORM_ANDROID
+        // Request to use the microphone, cf.
+        // https://docs.unity3d.com/Manual/android-RequestingPermissions.html
+        message = "Waiting for mic permission";
+        if (!Permission.HasUserAuthorizedPermission(Permission.Microphone))
+        {
+            Permission.RequestUserPermission(Permission.Microphone);
+        }
+#elif PLATFORM_IOS
+        if (!Application.HasUserAuthorization(UserAuthorization.Microphone))
+        {
+            Application.RequestUserAuthorization(UserAuthorization.Microphone);
+        }
+#else
+        micPermissionGranted = true;
+        message = "Click \"Listen\" button to recognize speech";
+#endif
+        startRecordButton.onClick.AddListener(ButtonClick);
+    }
+
+    // On frame update check for permission from microphone, and if button is pressed record speech.
+    void Update()
+    {
+#if PLATFORM_ANDROID
+        if (!micPermissionGranted && Permission.HasUserAuthorizedPermission(Permission.Microphone))
+        {
+            micPermissionGranted = true;
+            message = "Click button to recognize speech";
+        }
+#elif PLATFORM_IOS
+        if (!micPermissionGranted && Application.HasUserAuthorization(UserAuthorization.Microphone))
+        {
+            micPermissionGranted = true;
+            message = "Click button to recognize speech";
+        }
+#endif
+
+        lock (threadLocker)
+        {
+            if (startRecordButton != null)
+            {
+                startRecordButton.interactable = !waitingForReco && micPermissionGranted;
+            }
+            if (outputText != null)
+            {
+                outputText.text = message;
+            }
+        }
+    }
+
+    // Called when send to server button is selected.
     public void sendText()
     {
         StartCoroutine(GetText());
@@ -125,74 +178,10 @@ public class SpeechToText : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        if (outputText == null)
-        {
-            Debug.LogError("outputText property is null! Assign a UI Text element to it.");
-        }
-        else if (startRecordButton == null)
-        {
-            message = "startRecordButton property is null! Assign a UI Button to it.";
-            Debug.LogError(message);
-        }
-        else
-        {
-            // Continue with normal initialization, Text and Button objects are present.
-#if PLATFORM_ANDROID
-            // Request to use the microphone, cf.
-            // https://docs.unity3d.com/Manual/android-RequestingPermissions.html
-            message = "Waiting for mic permission";
-            if (!Permission.HasUserAuthorizedPermission(Permission.Microphone))
-            {
-                Permission.RequestUserPermission(Permission.Microphone);
-            }
-#elif PLATFORM_IOS
-            if (!Application.HasUserAuthorization(UserAuthorization.Microphone))
-            {
-                Application.RequestUserAuthorization(UserAuthorization.Microphone);
-            }
-#else
-            micPermissionGranted = true;
-            message = "Click \"Listen\" button to recognize speech";
-#endif
-            startRecordButton.onClick.AddListener(ButtonClick);
-        }
-    }
-
-    void Update()
-    {
-#if PLATFORM_ANDROID
-        if (!micPermissionGranted && Permission.HasUserAuthorizedPermission(Permission.Microphone))
-        {
-            micPermissionGranted = true;
-            message = "Click button to recognize speech";
-        }
-#elif PLATFORM_IOS
-        if (!micPermissionGranted && Application.HasUserAuthorization(UserAuthorization.Microphone))
-        {
-            micPermissionGranted = true;
-            message = "Click button to recognize speech";
-        }
-#endif
-
-        lock (threadLocker)
-        {
-            if (startRecordButton != null)
-            {
-                startRecordButton.interactable = !waitingForReco && micPermissionGranted;
-            }
-            if (outputText != null)
-            {
-                outputText.text = message;
-            }
-        }
-    }
-
+    //This method is required by the IComparable
+    //interface. 
     public class RequestS
     {
-        //This method is required by the IComparable
-        //interface. 
         public string s;
 
         public RequestS(string sentence)
