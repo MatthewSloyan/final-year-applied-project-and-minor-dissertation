@@ -71,7 +71,7 @@ def predictResponse():
     s = s.replace("%20"," ")
     print(s)
 
-    response = chat(str(s), 1)
+    response = chat(str(s), 0)
     
     return response
 
