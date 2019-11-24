@@ -6,7 +6,7 @@
     },
     {"tag": "greetingResponse",
       "patterns": ["I am great thanks!", "Great, thank you!", "Not too bad!", "Not great!"],
-      "responses": ["That's good to hear.", "I'm glad.", "Not too bad!", "Not great!"],
+      "responses": ["That's good to hear.", "I'm glad."],
       "context_set": ""
      },
     {"tag": "greetingQuestion",
@@ -15,7 +15,7 @@
       "context_set": ""
      },
     {"tag": "appreciation",
-    "patterns": ["Thank you.", "Thanks", "I really appreciate it"],
+    "patterns": ["Thank you.", "Thanks", "I really appreciate it", "Thank you very much"],
     "responses": ["You're welcome.", "No problem", "Anytime!"],
     "context_set": ""
     },

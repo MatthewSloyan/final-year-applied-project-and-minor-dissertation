@@ -628,8 +628,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51eed2a9fc20ce34884533354a7bfe38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HypothesesText: {fileID: 1547946103}
-  m_OutputText: {fileID: 803473998}
+  outputText: {fileID: 803473998}
+  startRecordButton: {fileID: 894951339}
 --- !u!114 &369933333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1278,7 +1278,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1547946103
 MonoBehaviour:
   m_ObjectHideFlags: 0
