@@ -88,7 +88,42 @@ public class SpeechToText : MonoBehaviour
         }
     }
 
-    
+    public void sendText()
+    {
+        StartCoroutine(GetText());
+    }
+
+    IEnumerator GetText()
+    {
+        WWWForm form = new WWWForm();
+
+        form.AddField("myField", outputText.text);
+        //form.AddField("selection", selection);
+
+        Debug.Log(form.data);
+
+        string jsonStringTrial = JsonUtility.ToJson(form);
+
+        Debug.Log(jsonStringTrial);
+
+        UnityWebRequest www = UnityWebRequest.Post("localhost:5000", form);
+        www.SetRequestHeader("Content-Type", "application/json");
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            // Show results as text
+            Debug.Log(www.downloadHandler.text);
+            TextToSpeech.Instance.ConvertTextToSpeech(www.downloadHandler.text);
+
+            // Or retrieve results as binary data
+            byte[] results = www.downloadHandler.data;
+        }
+    }
 
     void Start()
     {
