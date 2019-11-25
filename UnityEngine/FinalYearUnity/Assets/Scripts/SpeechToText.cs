@@ -48,14 +48,17 @@ public class SpeechToText : MonoBehaviour
         string API_Key = System.IO.File.ReadAllText("../../API_Key.txt");
 
         var config = SpeechConfig.FromSubscription(API_Key, "westeurope");
-
+        Debug.Log("Button click1");
         // Create a new instance of a SpeechRecognizer and pass api configuration.
         using (var recognizer = new SpeechRecognizer(config))
         {
+            Debug.Log("Button click2");
+
             lock (threadLocker)
             {
                 waitingForReco = true;
             }
+
 
             // Starts speech recognition, and returns after a single utterance is recognized. The end of a
             // single utterance is determined by listening for silence at the end or until a maximum of 15
@@ -127,6 +130,18 @@ public class SpeechToText : MonoBehaviour
         }
 #endif
 
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Debug.Log("Clicked");
+            ButtonClick();
+        }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Debug.Log("Send");
+            sendText();
+        }
+
         lock (threadLocker)
         {
             if (startRecordButton != null)
@@ -148,6 +163,9 @@ public class SpeechToText : MonoBehaviour
 
     IEnumerator GetText()
     {
+
+        Debug.Log("OUTPUT TEXT: " + outputText.text);
+
         WWWForm form = new WWWForm();
 
         form.AddField("myField", outputText.text);
