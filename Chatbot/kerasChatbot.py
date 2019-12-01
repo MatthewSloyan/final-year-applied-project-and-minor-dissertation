@@ -77,4 +77,5 @@ def predictResponse():
     return response
 
 if __name__ == "__main__":
-    app.run(debug = False, threaded = False)
+    app.run(host = "192.168.1.7",debug = False, threaded = False)
+#host = "192.168.1.7",

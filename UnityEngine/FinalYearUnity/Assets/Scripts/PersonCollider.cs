@@ -17,7 +17,8 @@ public class PersonCollider : MonoBehaviour
         if (col.gameObject.CompareTag("person"))
         {
             Debug.Log("awake");
-
+            var renderer = col.gameObject.GetComponent<Renderer>();
+            renderer.material.SetColor("_Color", Color.blue);
             SpeechToText.IsPersonActive = true;
             
             speech.ButtonClick();
@@ -28,6 +29,8 @@ public class PersonCollider : MonoBehaviour
     {
         if (col.gameObject.CompareTag("person"))
         {
+            var renderer = col.gameObject.GetComponent<Renderer>();
+            renderer.material.SetColor("_Color", Color.white);
             SpeechToText.IsPersonActive = false;
             Debug.Log("exit");
         }
