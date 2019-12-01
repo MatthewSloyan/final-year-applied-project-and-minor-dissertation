@@ -49,6 +49,7 @@ public class SpeechToText : MonoBehaviour
         // Required to manifest microphone permission, cf.
         // https://docs.unity3d.com/Manual/android-manifest.html
         private Microphone mic;
+        private string message;
     #endif
 
     // On button click set up and convert speech to text.

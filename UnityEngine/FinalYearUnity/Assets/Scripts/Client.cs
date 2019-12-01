@@ -28,7 +28,7 @@ public class Client : MonoBehaviour
         //string jsonStringTrial = JsonUtility.ToJson(form);
         //Debug.Log(jsonStringTrial);
 
-        UnityWebRequest www = UnityWebRequest.Post("localhost:5000", form);
+        UnityWebRequest www = UnityWebRequest.Post("192.167.1.7:5000", form);
         www.SetRequestHeader("Content-Type", "application/json");
         yield return www.SendWebRequest();
 
