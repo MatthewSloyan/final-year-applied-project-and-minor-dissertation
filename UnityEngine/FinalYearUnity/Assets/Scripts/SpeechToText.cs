@@ -28,23 +28,35 @@ public class SpeechToText : MonoBehaviour
     private object threadLocker = new object();
     private bool waitingForReco;
     private static bool listenSuccess;
+    private static bool micPermissionGranted = false;
 
     private static string messageToSend;
     private static string outputMessage;
-    private static bool micPermissionGranted = false;
+
+    // Check if person is active E.g Being looked at.
+    private static bool isPersonActive = false;
+    public static bool IsPersonActive
+    {
+        get { return isPersonActive; }
+        set { isPersonActive = value; }
+    }
+
+    //private Client client;
 
     #endregion
 
     #if PLATFORM_ANDROID || PLATFORM_IOS
-    // Required to manifest microphone permission, cf.
-    // https://docs.unity3d.com/Manual/android-manifest.html
-    private Microphone mic;
+        // Required to manifest microphone permission, cf.
+        // https://docs.unity3d.com/Manual/android-manifest.html
+        private Microphone mic;
     #endif
-    
+
     // On button click set up and convert speech to text.
+    // Code adapted from: https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstarts/speech-to-text-from-microphone?tabs=dotnet%2Cx-android%2Clinux%2Candroid&pivots=programming-language-more
     public async void ButtonClick()
     {
-        if (micPermissionGranted)
+        // Check if mic permission is granted or if the player is within range of a person.
+        if (micPermissionGranted && isPersonActive)
         {
             // Display to the user that the person is listening.
             outputMessage = "Listening. Please say something!";
@@ -55,7 +67,6 @@ public class SpeechToText : MonoBehaviour
             string API_Key = System.IO.File.ReadAllText("../../API_Key.txt");
 
             var config = SpeechConfig.FromSubscription(API_Key, "westeurope");
-            Debug.Log("Button click1");
 
             // Create a new instance of a SpeechRecognizer and pass api configuration.
             using (var recognizer = new SpeechRecognizer(config))
@@ -74,17 +85,16 @@ public class SpeechToText : MonoBehaviour
                 var result = await recognizer.RecognizeOnceAsync().ConfigureAwait(false);
 
                 // Checks result, for success, errors or cancellation.
-                // If sucess send to server for response.
                 string newMessage = string.Empty;
                 if (result.Reason == ResultReason.RecognizedSpeech)
                 {
                     newMessage = result.Text;
-                    //Debug.Log("Test: " + newMessage);
 
+                    // Set independant variables for sending the message to the server.
                     listenSuccess = true;
                     messageToSend = newMessage;
-                    //outputText.text = newMessage;
-                    //sendText();
+
+                    // Tried to call sendText() here but couldn't get it working.
                 }
                 else if (result.Reason == ResultReason.NoMatch)
                 {
@@ -106,13 +116,15 @@ public class SpeechToText : MonoBehaviour
         }
         else
         {
-            outputMessage = "Please allow permission to use the microphone.";
+            outputMessage = "Please allow permission to use the microphone, or move closer to person.";
         }
     }
 
     // On start up get permission from microphone, and add listener to button.
     void Start()
     {
+        //client = new Client();
+
         // Get the UI text.
         outputText = GameObject.Find("DictationText").GetComponent<Text>();
 
@@ -153,30 +165,29 @@ public class SpeechToText : MonoBehaviour
                 message = "Click button to recognize speech";
             }
         #endif
-
-        Debug.Log("Before Success");
-
+        
+        // Check 
         if (listenSuccess && messageToSend != "")
         {
-            Debug.Log(messageToSend);
+            // Send result to client code below, this will be abstracted with time.
             sendText();
+            //client.sendText(messageToSend);
 
-            Debug.Log("Success");
             listenSuccess = false;
             messageToSend = "";
         }
 
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            Debug.Log("Clicked");
-            ButtonClick();
-        }
+        //if (Input.GetKeyDown(KeyCode.F))
+        //{
+        //    Debug.Log("Clicked");
+        //    ButtonClick();
+        //}
 
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            Debug.Log("Send");
-            sendText();
-        }
+        //if (Input.GetKeyDown(KeyCode.G))
+        //{
+        //    Debug.Log("Send");
+        //    client.sendText(messageToSend);
+        //}
 
         lock (threadLocker)
         {
@@ -191,7 +202,7 @@ public class SpeechToText : MonoBehaviour
         }
     }
 
-    // Called when 
+    // Called when listening is a sucess.
     public void sendText()
     {
         StartCoroutine(GetText());

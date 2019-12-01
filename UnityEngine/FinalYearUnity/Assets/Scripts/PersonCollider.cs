@@ -17,6 +17,8 @@ public class PersonCollider : MonoBehaviour
         if (col.gameObject.CompareTag("person"))
         {
             Debug.Log("awake");
+
+            SpeechToText.IsPersonActive = true;
             
             speech.ButtonClick();
         }
@@ -26,6 +28,7 @@ public class PersonCollider : MonoBehaviour
     {
         if (col.gameObject.CompareTag("person"))
         {
+            SpeechToText.IsPersonActive = false;
             Debug.Log("exit");
         }
     }
