@@ -12,6 +12,8 @@ public class TextToSpeech : MonoBehaviour
 
     private SpeechConfig speechConfig;
     private SpeechSynthesizer synthesizer;
+
+    private SpeechToText speech;
     #endregion
 
     // Singleton design pattern to get instance of class
@@ -23,6 +25,12 @@ public class TextToSpeech : MonoBehaviour
         {
             Instance = this;
         }
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        speech = new SpeechToText();
     }
 
     public void ConvertTextToSpeech(string inputText)
@@ -70,6 +78,9 @@ public class TextToSpeech : MonoBehaviour
                 audioSource.clip = audioClip;
                 audioSource.Play();
 
+                //Start the coroutine we define below named ExampleCoroutine.
+                StartCoroutine(WaitTillFinished());
+
                 Debug.Log("Speech synthesis success!");
             }
             else if (result.Reason == ResultReason.Canceled)
@@ -78,5 +89,14 @@ public class TextToSpeech : MonoBehaviour
                 Debug.Log($"CANCELED:\nReason=[{cancellation.Reason}]\nErrorDetails=[{cancellation.ErrorDetails}]");
             }
         }
+    }
+
+    IEnumerator WaitTillFinished()
+    {
+        //yield on a new YieldInstruction that waits for 3 seconds.
+        yield return new WaitForSeconds(2);
+
+        // Start listening again on sucess.
+        speech.ButtonClick();
     }
 }
