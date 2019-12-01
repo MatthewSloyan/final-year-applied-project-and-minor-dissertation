@@ -4,35 +4,30 @@ using UnityEngine;
 
 public class PersonCollider : MonoBehaviour
 {
-
+    SpeechToText speech;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        speech = new SpeechToText();
     }
-
 
     void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.CompareTag("person"))
         {
-            
             Debug.Log("awake");
+            
+            speech.ButtonClick();
         }
-
-
-        
     }
 
     private void OnTriggerExit(Collider col)
     {
         if (col.gameObject.CompareTag("person"))
         {
-
             Debug.Log("exit");
         }
-
     }
     // Update is called once per frame
     void Update()
