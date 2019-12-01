@@ -27,8 +27,10 @@ public class SpeechToText : MonoBehaviour
 
     private object threadLocker = new object();
     private bool waitingForReco;
+    private static bool listenSuccess;
 
-    private static string message;
+    private static string messageToSend;
+    private static string outputMessage;
     private static bool micPermissionGranted = false;
 
     #endregion
@@ -38,15 +40,14 @@ public class SpeechToText : MonoBehaviour
     // https://docs.unity3d.com/Manual/android-manifest.html
     private Microphone mic;
     #endif
-
+    
     // On button click set up and convert speech to text.
     public async void ButtonClick()
     {
         if (micPermissionGranted)
         {
             // Display to the user that the person is listening.
-            message = "Listening.";
-            Debug.Log("Permision");
+            outputMessage = "Listening. Please say something!";
 
             // Creates an instance of a speech config with specified subscription key and service region.
             // For security this is read in from a text file and is not included on Github. 
@@ -59,7 +60,8 @@ public class SpeechToText : MonoBehaviour
             // Create a new instance of a SpeechRecognizer and pass api configuration.
             using (var recognizer = new SpeechRecognizer(config))
             {
-                Debug.Log("Button click2");
+                listenSuccess = false;
+                messageToSend = "";
 
                 lock (threadLocker)
                 {
@@ -71,11 +73,18 @@ public class SpeechToText : MonoBehaviour
                 // seconds of audio is processed.  The task returns the recognition text as result.
                 var result = await recognizer.RecognizeOnceAsync().ConfigureAwait(false);
 
-                // Checks result.
+                // Checks result, for success, errors or cancellation.
+                // If sucess send to server for response.
                 string newMessage = string.Empty;
                 if (result.Reason == ResultReason.RecognizedSpeech)
                 {
                     newMessage = result.Text;
+                    //Debug.Log("Test: " + newMessage);
+
+                    listenSuccess = true;
+                    messageToSend = newMessage;
+                    //outputText.text = newMessage;
+                    //sendText();
                 }
                 else if (result.Reason == ResultReason.NoMatch)
                 {
@@ -90,14 +99,14 @@ public class SpeechToText : MonoBehaviour
                 lock (threadLocker)
                 {
                     // Message is displayed to user.
-                    message = newMessage;
+                    outputMessage = newMessage;
                     waitingForReco = false;
                 }
             }
         }
         else
         {
-            message = "Please allow permission to use the microphone.";
+            outputMessage = "Please allow permission to use the microphone.";
         }
     }
 
@@ -122,7 +131,7 @@ public class SpeechToText : MonoBehaviour
             }
         #else
             micPermissionGranted = true;
-            message = "Interact with a person to chat.";
+            outputMessage = "Interact with a person to chat.";
         #endif
 
         startRecordButton.onClick.AddListener(ButtonClick);
@@ -145,6 +154,17 @@ public class SpeechToText : MonoBehaviour
             }
         #endif
 
+        Debug.Log("Before Success");
+
+        if (listenSuccess)
+        {
+            Debug.Log(messageToSend);
+            sendText();
+
+            Debug.Log("Success");
+            listenSuccess = false;
+        }
+
         if (Input.GetKeyDown(KeyCode.F))
         {
             Debug.Log("Clicked");
@@ -165,12 +185,12 @@ public class SpeechToText : MonoBehaviour
             }
             if (outputText != null)
             {
-                outputText.text = message;
+                outputText.text = outputMessage;
             }
         }
     }
 
-    // Called when send to server button is selected.
+    // Called when 
     public void sendText()
     {
         StartCoroutine(GetText());
@@ -178,18 +198,13 @@ public class SpeechToText : MonoBehaviour
 
     IEnumerator GetText()
     {
-        Debug.Log("OUTPUT TEXT: " + outputText.text);
-
         WWWForm form = new WWWForm();
-
-        form.AddField("myField", outputText.text);
+        form.AddField("myField", messageToSend);
         //form.AddField("selection", selection);
 
-        Debug.Log(form.data);
-
-        string jsonStringTrial = JsonUtility.ToJson(form);
-
-        Debug.Log(jsonStringTrial);
+        //Debug.Log(form.data);
+        //string jsonStringTrial = JsonUtility.ToJson(form);
+        //Debug.Log(jsonStringTrial);
 
         UnityWebRequest www = UnityWebRequest.Post("localhost:5000", form);
         www.SetRequestHeader("Content-Type", "application/json");
@@ -203,15 +218,16 @@ public class SpeechToText : MonoBehaviour
         {
             // Show results as text
             Debug.Log(www.downloadHandler.text);
+
+            // Send result to TextToSpeech to output audio.
             TextToSpeech.Instance.ConvertTextToSpeech(www.downloadHandler.text);
 
             // Or retrieve results as binary data
-            byte[] results = www.downloadHandler.data;
+            //byte[] results = www.downloadHandler.data;
         }
     }
 
-    //This method is required by the IComparable
-    //interface. 
+    //This method is required by the IComparable interface. 
     public class RequestS
     {
         public string s;
