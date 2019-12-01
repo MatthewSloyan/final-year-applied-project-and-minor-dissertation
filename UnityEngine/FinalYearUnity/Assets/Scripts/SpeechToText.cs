@@ -156,13 +156,14 @@ public class SpeechToText : MonoBehaviour
 
         Debug.Log("Before Success");
 
-        if (listenSuccess)
+        if (listenSuccess && messageToSend != "")
         {
             Debug.Log(messageToSend);
             sendText();
 
             Debug.Log("Success");
             listenSuccess = false;
+            messageToSend = "";
         }
 
         if (Input.GetKeyDown(KeyCode.F))
