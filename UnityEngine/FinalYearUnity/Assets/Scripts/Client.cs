@@ -9,24 +9,16 @@ using UnityEngine.Networking;
 
 public class Client : MonoBehaviour
 {
-    // Singleton design pattern to get instance of class
-    //public static Client Instance { get; private set; }
-
-    //private void Awake()
-    //{
-    //    if (Instance == null)
-    //    {
-    //        Instance = this;
-    //    }
-    //}
+    private string userInput;
 
     // Called when 
     public void sendText(string userInput)
     {
-        StartCoroutine(GetText(userInput));
+        this.userInput = userInput;
+        StartCoroutine(GetText());
     }
 
-    IEnumerator GetText(string userInput)
+    IEnumerator GetText()
     {
         WWWForm form = new WWWForm();
         form.AddField("myField", userInput);

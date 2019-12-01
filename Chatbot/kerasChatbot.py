@@ -69,6 +69,7 @@ def predictResponse():
     s = s.split('=')[1]
 
     s = s.replace("%20"," ")
+    s = s.replace("%3f","")
     print(s)
 
     response = chat(str(s), 0)

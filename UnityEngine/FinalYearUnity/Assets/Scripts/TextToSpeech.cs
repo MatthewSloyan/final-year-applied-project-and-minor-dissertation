@@ -78,7 +78,8 @@ public class TextToSpeech : MonoBehaviour
                 audioSource.clip = audioClip;
                 audioSource.Play();
 
-                //Start the coroutine we define below named ExampleCoroutine.
+                //Start the coroutine we define below named WaitTillFinished.
+                // Code adapted from: https://docs.unity3d.com/ScriptReference/WaitForSeconds.html
                 StartCoroutine(WaitTillFinished());
 
                 Debug.Log("Speech synthesis success!");
@@ -94,9 +95,9 @@ public class TextToSpeech : MonoBehaviour
     IEnumerator WaitTillFinished()
     {
         //yield on a new YieldInstruction that waits for 3 seconds.
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(2.5f);
 
-        // Start listening again on sucess.
+        // Start listening for speech again on sucess.
         speech.ButtonClick();
     }
 }
