@@ -9,33 +9,32 @@ using UnityEngine.Networking;
 
 public class Client : MonoBehaviour
 {
+    // Singleton design pattern to get instance of class
+    //public static Client Instance { get; private set; }
 
-    public class RequestS
+    //private void Awake()
+    //{
+    //    if (Instance == null)
+    //    {
+    //        Instance = this;
+    //    }
+    //}
+
+    // Called when 
+    public void sendText(string userInput)
     {
-        public string s;
-
-        public RequestS(string sentence)
-        {
-            s = sentence;
-        }
-
-        //This method is required by the IComparable
-        //interface. 
+        StartCoroutine(GetText(userInput));
     }
 
-    void Start()
-    {
-        StartCoroutine(GetText());
-    }
-
-    IEnumerator GetText()
+    IEnumerator GetText(string userInput)
     {
         WWWForm form = new WWWForm();
-        form.AddField("myField", "hello");
+        form.AddField("myField", userInput);
+        //form.AddField("selection", selection);
 
-        string jsonStringTrial = JsonUtility.ToJson(form);
-
-        Debug.Log(jsonStringTrial);
+        //Debug.Log(form.data);
+        //string jsonStringTrial = JsonUtility.ToJson(form);
+        //Debug.Log(jsonStringTrial);
 
         UnityWebRequest www = UnityWebRequest.Post("localhost:5000", form);
         www.SetRequestHeader("Content-Type", "application/json");
@@ -50,10 +49,23 @@ public class Client : MonoBehaviour
             // Show results as text
             Debug.Log(www.downloadHandler.text);
 
+            // Send result to TextToSpeech to output audio.
+            TextToSpeech.Instance.ConvertTextToSpeech(www.downloadHandler.text);
+
             // Or retrieve results as binary data
-            byte[] results = www.downloadHandler.data;
+            //byte[] results = www.downloadHandler.data;
         }
     }
 
+    //This method is required by the IComparable interface. 
+    public class RequestS
+    {
+        public string s;
+
+        public RequestS(string sentence)
+        {
+            s = sentence;
+        }
+    }
 }
 
