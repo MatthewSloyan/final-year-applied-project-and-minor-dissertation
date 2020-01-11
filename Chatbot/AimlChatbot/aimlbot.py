@@ -1,6 +1,4 @@
-from flask import Flask, json, jsonify, render_template, request
-import numpy as np
-import random
+from flask import Flask, request
 import aiml
 import os
 
@@ -10,7 +8,11 @@ kernel.respond("load aiml b")
 
 app = Flask(__name__)
 
-@app.route('/', methods=['POST'])
+@app.route('/')
+def index():
+    return "<h1>Welcome!!</h1>"
+
+@app.route('/request', methods=['POST'])
 def predictResponse():
     jsonData = request.data
 
@@ -35,5 +37,5 @@ def predictResponse():
     return response
 
 if __name__ == "__main__":
-    app.run(debug = False, threaded = False)
+    app.run(threaded=True, port=5000)
 #host = "192.168.1.7",

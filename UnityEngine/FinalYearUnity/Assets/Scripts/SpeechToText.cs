@@ -219,7 +219,8 @@ public class SpeechToText : MonoBehaviour
         //string jsonStringTrial = JsonUtility.ToJson(form);
         //Debug.Log(jsonStringTrial);
 
-        UnityWebRequest www = UnityWebRequest.Post("localhost:5000", form);
+        //UnityWebRequest www = UnityWebRequest.Post("localhost:5000", form);
+        UnityWebRequest www = UnityWebRequest.Post("https://final-year-project-chatbot.herokuapp.com/request", form);
         www.SetRequestHeader("Content-Type", "application/json");
         yield return www.SendWebRequest();
 
