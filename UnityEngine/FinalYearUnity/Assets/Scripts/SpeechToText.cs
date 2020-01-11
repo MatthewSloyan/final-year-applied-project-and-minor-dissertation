@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using Microsoft.CognitiveServices.Speech;
 using System.Collections;
 using UnityEngine.Networking;
+using System.IO;
 
 #if PLATFORM_ANDROID
 using UnityEngine.Android;
@@ -30,7 +31,7 @@ public class SpeechToText : MonoBehaviour
     private static bool listenSuccess;
     private static bool micPermissionGranted = false;
 
-    private static string messageToSend;
+    private static string messageToSend = "Hello";
     private static string outputMessage;
 
     // Check if person is active E.g Being looked at.
@@ -64,16 +65,26 @@ public class SpeechToText : MonoBehaviour
 
             // Creates an instance of a speech config with specified subscription key and service region.
             // For security this is read in from a text file and is not included on Github. 
-            // API_Key.txt is stored in the root directory of the project
+            // API_Key.txt is stored in the resources folder of the project.
             string API_Key = System.IO.File.ReadAllText("../../API_Key.txt");
 
             var config = SpeechConfig.FromSubscription(API_Key, "westeurope");
+            //string path = "Assets/Resources/API_Key.txt.txt";
+
+            ////Read the text from directly from the test.txt file
+            //StreamReader reader = new StreamReader(path);
+            //outputMessage = reader.ReadToEnd();
+
+            //var config = SpeechConfig.FromSubscription(reader.ReadToEnd(), "westeurope");
+            //reader.Close();
 
             // Create a new instance of a SpeechRecognizer and pass api configuration.
             using (var recognizer = new SpeechRecognizer(config))
             {
                 listenSuccess = false;
                 messageToSend = "";
+
+                //outputMessage = "Test";
 
                 lock (threadLocker)
                 {
@@ -89,6 +100,7 @@ public class SpeechToText : MonoBehaviour
                 string newMessage = string.Empty;
                 if (result.Reason == ResultReason.RecognizedSpeech)
                 {
+                    //outputMessage = "Test2";
                     newMessage = result.Text;
 
                     // Set independant variables for sending the message to the server.
@@ -125,6 +137,8 @@ public class SpeechToText : MonoBehaviour
     void Start()
     {
         //client = new Client();
+        //sendText();
+        //outputMessage = "Sent";
 
         // Get the UI text.
         outputText = GameObject.Find("DictationText").GetComponent<Text>();
@@ -213,6 +227,7 @@ public class SpeechToText : MonoBehaviour
     {
         WWWForm form = new WWWForm();
         form.AddField("myField", messageToSend);
+        //outputMessage = "Sending " + messageToSend;
         //form.AddField("selection", selection);
 
         //Debug.Log(form.data);
@@ -232,6 +247,7 @@ public class SpeechToText : MonoBehaviour
         {
             // Show results as text
             Debug.Log(www.downloadHandler.text);
+            //outputMessage = "Recieved " + www.downloadHandler.text;
 
             // Send result to TextToSpeech to output audio.
             TextToSpeech.Instance.ConvertTextToSpeech(www.downloadHandler.text);
