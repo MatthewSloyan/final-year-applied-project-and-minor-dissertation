@@ -7,14 +7,13 @@ using UnityEngine.UI;
 public class TextToSpeech : MonoBehaviour
 {
     #region == Private Variables == 
-    public AudioSource audioSource;
-    //private AudioSource audioSource;
-    //private AudioClip audioClip;
+    [SerializeField]
+    private AudioSource audioSource;
 
     private SpeechConfig speechConfig;
     private SpeechSynthesizer synthesizer;
 
-    private Test speech;
+    private SpeechToText speech;
     #endregion
 
     // Singleton design pattern to get instance of class
@@ -31,7 +30,7 @@ public class TextToSpeech : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        speech = Test.Instance;
+        speech = SpeechToText.Instance;
     }
 
     public void ConvertTextToSpeech(string inputText)
@@ -96,7 +95,7 @@ public class TextToSpeech : MonoBehaviour
         yield return new WaitForSeconds(2.5f);
 
         // Start listening for speech again on sucess.
-        speech.ButtonClick();
+        speech.convertSpeechToText();
     }
 
     void OnDestroy()

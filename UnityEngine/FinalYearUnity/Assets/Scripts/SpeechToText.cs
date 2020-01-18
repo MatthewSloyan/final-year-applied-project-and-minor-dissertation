@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿//
+// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
+//
+using UnityEngine;
 using UnityEngine.UI;
 using Microsoft.CognitiveServices.Speech;
 using System.Collections;
 using UnityEngine.Networking;
-using System.IO;
-
 #if PLATFORM_ANDROID
 using UnityEngine.Android;
 #endif
@@ -15,24 +17,35 @@ using System.Collections;
 
 public class SpeechToText : MonoBehaviour
 {
-    #region == Private Variables == 
-    
-    //[SerializeField]
-    //private Button startRecordButton;
-   
+    #region == Singleton ==
+    // Singleton design pattern to get instance of class
+    public static SpeechToText Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
+    #endregion
+
+    #region == Private variables ==
+    // Hook up the two properties below with a Text and Button object in your UI.
+    [SerializeField]
     private Text outputText;
 
     // Will be used to swap scenarios on the fly.
     [SerializeField]
     private int selection = 0;
-
+    
     private object threadLocker = new object();
     private bool waitingForReco;
-    private static bool listenSuccess;
-    private static bool micPermissionGranted = false;
-
+    private string message;
     private static string messageToSend;
-    private static string outputMessage;
+
+    private static bool listenSuccess = false;
+    private bool micPermissionGranted = false;
 
     // Check if person is active E.g Being looked at.
     private static bool isPersonActive = false;
@@ -41,101 +54,91 @@ public class SpeechToText : MonoBehaviour
         get { return isPersonActive; }
         set { isPersonActive = value; }
     }
-
-    //private Client client;
-
     #endregion
 
 #if PLATFORM_ANDROID || PLATFORM_IOS
     // Required to manifest microphone permission, cf.
     // https://docs.unity3d.com/Manual/android-manifest.html
     private Microphone mic;
-    private string message;
 #endif
 
-    // On button click set up and convert speech to text.
+    // Set up and convert speech to text.
     // Code adapted from: https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstarts/speech-to-text-from-microphone?tabs=dotnet%2Cx-android%2Clinux%2Candroid&pivots=programming-language-more
-    public async void ButtonClick()
+    public async void convertSpeechToText()
     {
         // Check if mic permission is granted or if the player is within range of a person.
         if (micPermissionGranted && isPersonActive)
         {
             // Display to the user that the person is listening.
-            outputMessage = "Listening. Please say something!";
+            message = "Listening. Please say something!";
 
             // Creates an instance of a speech config with specified subscription key and service region.
             // For security this is read in from a text file and is not included on Github. 
             // API_Key.txt is stored in the resources folder of the project.
-            string API_Key = System.IO.File.ReadAllText("../../API_Key.txt");
+            // For now just using free trial key.
+            //string API_Key = System.IO.File.ReadAllText("../../API_Key.txt");
 
-            var config = SpeechConfig.FromSubscription("a2f75e30125b4f099012eaa7f9a5c840", "westeurope");
-            //string path = "Assets/Resources/API_Key.txt.txt";
+            // Creates an instance of a speech config with specified subscription key and service region.
+            var config = SpeechConfig.FromSubscription("722faee502a24ebeb53cf34a58e22e7d", "westus");
 
-            ////Read the text from directly from the test.txt file
-            //StreamReader reader = new StreamReader(path);
-            //outputMessage = reader.ReadToEnd();
-
-            //var config = SpeechConfig.FromSubscription(reader.ReadToEnd(), "westeurope");
-            //reader.Close();
-
-            // Create a new instance of a SpeechRecognizer and pass api configuration.
             using (var recognizer = new SpeechRecognizer(config))
             {
                 listenSuccess = false;
                 messageToSend = "";
 
-                //outputMessage = "Test";
+                lock (threadLocker)
+                {
+                    waitingForReco = true;
+                }
 
                 // Starts speech recognition, and returns after a single utterance is recognized. The end of a
                 // single utterance is determined by listening for silence at the end or until a maximum of 15
                 // seconds of audio is processed.  The task returns the recognition text as result.
                 var result = await recognizer.RecognizeOnceAsync().ConfigureAwait(false);
 
-                // Checks result, for success, errors or cancellation.
+                // Checks result.
                 string newMessage = string.Empty;
                 if (result.Reason == ResultReason.RecognizedSpeech)
                 {
-                    //outputMessage = "Test2";
-                    outputMessage = result.Text;
+                    newMessage = result.Text;
 
                     // Set independant variables for sending the message to the server.
                     listenSuccess = true;
-                    messageToSend = outputMessage;
+                    messageToSend = newMessage;
 
                     // Tried to call sendText() here but couldn't get it working.
                 }
                 else if (result.Reason == ResultReason.NoMatch)
                 {
-                    outputMessage = "NOMATCH: Speech could not be recognized.";
+                    newMessage = "NOMATCH: Speech could not be recognized.";
                 }
                 else if (result.Reason == ResultReason.Canceled)
                 {
                     var cancellation = CancellationDetails.FromResult(result);
-                    outputMessage = $"CANCELED: Reason={cancellation.Reason} ErrorDetails={cancellation.ErrorDetails}";
+                    newMessage = $"CANCELED: Reason={cancellation.Reason} ErrorDetails={cancellation.ErrorDetails}";
+                }
+
+                lock (threadLocker)
+                {
+                    message = newMessage;
+                    waitingForReco = false;
                 }
             }
         }
         else
         {
-            outputMessage = "Please allow permission to use the microphone, or move closer to person.";
+            // Display original message if player moves away.
+            message = "Interact with a person to start a chat.";
         }
     }
 
     // On start up get permission from microphone, and add listener to button.
     void Start()
     {
-        //client = new Client();
-        //sendText();
-        //outputMessage = "Sent";
-
-        // Get the UI text.
-        //TextToSpeech.Instance.ConvertTextToSpeech("Hello, how are you!");
-        outputText = GameObject.Find("DictationText").GetComponent<Text>();
-
 #if PLATFORM_ANDROID
         // Request to use the microphone, cf.
         // https://docs.unity3d.com/Manual/android-RequestingPermissions.html
-        outputMessage = "Waiting for mic permission";
+        message = "Waiting for mic permission";
         if (!Permission.HasUserAuthorizedPermission(Permission.Microphone))
         {
             Permission.RequestUserPermission(Permission.Microphone);
@@ -147,66 +150,47 @@ public class SpeechToText : MonoBehaviour
         }
 #else
         micPermissionGranted = true;
-        outputMessage = "Interact with a person to chat.";
+        message = "Click button to recognize speech";
 #endif
-
-        //startRecordButton.onClick.AddListener(ButtonClick);
     }
 
-    // On frame update check for permission from microphone, and if button is pressed record speech.
+    // On frame update check for permission from microphone, and if speech is being recognised.
     void Update()
     {
 #if PLATFORM_ANDROID
         if (!micPermissionGranted && Permission.HasUserAuthorizedPermission(Permission.Microphone))
         {
             micPermissionGranted = true;
-            outputMessage = "Click button to recognize speech";
+            message = "Interact with a person to start a chat.";
         }
 #elif PLATFORM_IOS
         if (!micPermissionGranted && Application.HasUserAuthorization(UserAuthorization.Microphone))
         {
             micPermissionGranted = true;
-            outputMessage = "Click button to recognize speech";
+            message = "Click button to recognize speech";
         }
 #endif
 
-        // Check 
+        // Check is listen was success and if there's a message to send.
         if (listenSuccess && messageToSend != "")
         {
             // Send result to client code below, this will be abstracted with time.
             sendText();
-            //client.sendText(messageToSend);
 
             listenSuccess = false;
             messageToSend = "";
         }
 
-        //if (Input.GetKeyDown(KeyCode.F))
-        //{
-        //    Debug.Log("Clicked");
-        //    ButtonClick();
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.G))
-        //{
-        //    Debug.Log("Send");
-        //    client.sendText(messageToSend);
-        //}
-
         lock (threadLocker)
         {
-            //if (startRecordButton != null)
-            //{
-            //    startRecordButton.interactable = micPermissionGranted;
-            //}
             if (outputText != null)
             {
-                outputText.text = outputMessage;
+                outputText.text = message;
             }
         }
     }
 
-    // Called when listening is a sucess.
+    // Called when listening is a sucess, and sends text to server to be output as audio.
     public void sendText()
     {
         StartCoroutine(GetText());
@@ -216,12 +200,6 @@ public class SpeechToText : MonoBehaviour
     {
         WWWForm form = new WWWForm();
         form.AddField("myField", messageToSend);
-        //outputMessage = "Sending " + messageToSend;
-        //form.AddField("selection", selection);
-
-        //Debug.Log(form.data);
-        //string jsonStringTrial = JsonUtility.ToJson(form);
-        //Debug.Log(jsonStringTrial);
 
         //UnityWebRequest www = UnityWebRequest.Post("localhost:5000", form);
         UnityWebRequest www = UnityWebRequest.Post("https://final-year-project-chatbot.herokuapp.com/request", form);
@@ -236,13 +214,9 @@ public class SpeechToText : MonoBehaviour
         {
             // Show results as text
             Debug.Log(www.downloadHandler.text);
-            //outputMessage = "Recieved " + www.downloadHandler.text;
 
             // Send result to TextToSpeech to output audio.
             TextToSpeech.Instance.ConvertTextToSpeech(www.downloadHandler.text);
-
-            // Or retrieve results as binary data
-            //byte[] results = www.downloadHandler.data;
         }
     }
 

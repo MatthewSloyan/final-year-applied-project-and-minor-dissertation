@@ -618,7 +618,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outputText: {fileID: 2071310651}
-  startRecoButton: {fileID: 675499233}
   selection: 0
 --- !u!114 &369933333
 MonoBehaviour:
@@ -938,7 +937,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &675499233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2000,6 +1999,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae40e25f868debe429a108a3fc4cc9e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 1660160753}
 --- !u!82 &1660160753
 AudioSource:
   m_ObjectHideFlags: 0
