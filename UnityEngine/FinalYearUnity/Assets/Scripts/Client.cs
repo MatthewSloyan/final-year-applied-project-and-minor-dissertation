@@ -11,7 +11,7 @@ public class Client : MonoBehaviour
 {
     private string userInput;
 
-    // Called when 
+    // Called when listening is a sucess, and sends text to server to be output as audio.
     public void sendText(string userInput)
     {
         this.userInput = userInput;
@@ -22,13 +22,9 @@ public class Client : MonoBehaviour
     {
         WWWForm form = new WWWForm();
         form.AddField("myField", userInput);
-        //form.AddField("selection", selection);
 
-        //Debug.Log(form.data);
-        //string jsonStringTrial = JsonUtility.ToJson(form);
-        //Debug.Log(jsonStringTrial);
-
-        UnityWebRequest www = UnityWebRequest.Post("192.167.1.7:5000", form);
+        //UnityWebRequest www = UnityWebRequest.Post("localhost:5000", form);
+        UnityWebRequest www = UnityWebRequest.Post("https://final-year-project-chatbot.herokuapp.com/request", form);
         www.SetRequestHeader("Content-Type", "application/json");
         yield return www.SendWebRequest();
 
@@ -43,9 +39,6 @@ public class Client : MonoBehaviour
 
             // Send result to TextToSpeech to output audio.
             TextToSpeech.Instance.ConvertTextToSpeech(www.downloadHandler.text);
-
-            // Or retrieve results as binary data
-            //byte[] results = www.downloadHandler.data;
         }
     }
 
