@@ -7,13 +7,14 @@ using UnityEngine.UI;
 public class TextToSpeech : MonoBehaviour
 {
     #region == Private Variables == 
-    private AudioSource audioSource;
-    private AudioClip audioClip;
+    public AudioSource audioSource;
+    //private AudioSource audioSource;
+    //private AudioClip audioClip;
 
     private SpeechConfig speechConfig;
     private SpeechSynthesizer synthesizer;
 
-    private SpeechToText speech;
+    private Test speech;
     #endregion
 
     // Singleton design pattern to get instance of class
@@ -30,7 +31,7 @@ public class TextToSpeech : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        speech = new SpeechToText();
+        speech = Test.Instance;
     }
 
     public void ConvertTextToSpeech(string inputText)
@@ -40,13 +41,13 @@ public class TextToSpeech : MonoBehaviour
         // API_Key.txt is stored in the root directory of the project
         string API_Key = System.IO.File.ReadAllText("../../API_Key.txt");
 
-        speechConfig = SpeechConfig.FromSubscription(API_Key, "westeurope");
+        speechConfig = SpeechConfig.FromSubscription("722faee502a24ebeb53cf34a58e22e7d", "westus");
 
         // The default format is Riff16Khz16BitMonoPcm.
         // We are playing the audio in memory as audio clip, which doesn't require riff header.
         // So we need to set the format to Raw16Khz16BitMonoPcm.
         speechConfig.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Raw16Khz16BitMonoPcm);
-        speechConfig.SpeechSynthesisVoiceName = "en-US-JessaNeural";
+        //speechConfig.SpeechSynthesisVoiceName = "en-US-JessaNeural";
 
         // Creates a speech synthesizer.
         // Make sure to dispose the synthesizer after use!
@@ -55,12 +56,12 @@ public class TextToSpeech : MonoBehaviour
         // Starts speech synthesis, and returns after a single utterance is synthesized.
         using (var result = synthesizer.SpeakTextAsync(inputText).Result)
         {
-            // Checks result of synthesizer.
+            // Checks result.
             if (result.Reason == ResultReason.SynthesizingAudioCompleted)
             {
                 // Native playback is not supported on Unity yet (currently only supported on Windows/Linux Desktop).
-                // Use the Unity API to play audio by looping through the bytes.
-                // Code adapted from: https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstarts/text-to-speech?tabs=dotnet%2Clinux%2Candroid&pivots=programming-language-csharp
+                // Use the Unity API to play audio here as a short term solution.
+                // Native playback support will be added in the future release.
                 var sampleCount = result.AudioData.Length / 2;
                 var audioData = new float[sampleCount];
                 for (var i = 0; i < sampleCount; ++i)
@@ -68,22 +69,19 @@ public class TextToSpeech : MonoBehaviour
                     audioData[i] = (short)(result.AudioData[i * 2 + 1] << 8 | result.AudioData[i * 2]) / 32768.0F;
                 }
 
-                // Create an AudioClip using the audioData
                 // The output audio format is 16K 16bit mono
-                audioClip = AudioClip.Create("SynthesizedAudio", sampleCount, 1, 16000, false);
+                var audioClip = AudioClip.Create("SynthesizedAudio", sampleCount, 1, 16000, false);
                 audioClip.SetData(audioData, 0);
-
-                // Get the AudioSource component and play clip
-                audioSource = GetComponent<AudioSource>();
                 audioSource.clip = audioClip;
                 audioSource.Play();
+                
+                Debug.Log("Speech synthesis success!");
 
                 //Start the coroutine we define below named WaitTillFinished.
                 // Code adapted from: https://docs.unity3d.com/ScriptReference/WaitForSeconds.html
                 StartCoroutine(WaitTillFinished());
-
-                Debug.Log("Speech synthesis success!");
             }
+
             else if (result.Reason == ResultReason.Canceled)
             {
                 var cancellation = SpeechSynthesisCancellationDetails.FromResult(result);
@@ -99,5 +97,10 @@ public class TextToSpeech : MonoBehaviour
 
         // Start listening for speech again on sucess.
         speech.ButtonClick();
+    }
+
+    void OnDestroy()
+    {
+        synthesizer.Dispose();
     }
 }

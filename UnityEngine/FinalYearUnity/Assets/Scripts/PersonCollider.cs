@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PersonCollider : MonoBehaviour
 {
-    SpeechToText speech;
+    Test speech;
 
     // Start is called before the first frame update
     void Start()
     {
-        speech = new SpeechToText();
+        speech = Test.Instance;
     }
 
     void OnTriggerEnter(Collider col)
@@ -19,7 +19,7 @@ public class PersonCollider : MonoBehaviour
             Debug.Log("awake");
             var renderer = col.gameObject.GetComponent<Renderer>();
             renderer.material.SetColor("_Color", Color.blue);
-            SpeechToText.IsPersonActive = true;
+            Test.IsPersonActive = true;
             
             speech.ButtonClick();
         }
@@ -31,7 +31,7 @@ public class PersonCollider : MonoBehaviour
         {
             var renderer = col.gameObject.GetComponent<Renderer>();
             renderer.material.SetColor("_Color", Color.white);
-            SpeechToText.IsPersonActive = false;
+            Test.IsPersonActive = false;
             Debug.Log("exit");
         }
     }
