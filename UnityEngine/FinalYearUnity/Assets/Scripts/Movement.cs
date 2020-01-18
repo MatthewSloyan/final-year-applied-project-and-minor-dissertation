@@ -32,6 +32,4 @@ public class Movement : MonoBehaviour
             rb.velocity = new Vector3(0, 0, -1) * speed;
         }
     }
-
-
 }
