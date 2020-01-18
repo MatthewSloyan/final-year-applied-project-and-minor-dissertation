@@ -10,6 +10,9 @@ public class TextToSpeech : MonoBehaviour
     [SerializeField]
     private AudioSource audioSource;
 
+    [SerializeField]
+    private int voiceOption;
+
     private SpeechConfig speechConfig;
     private SpeechSynthesizer synthesizer;
 
@@ -38,18 +41,38 @@ public class TextToSpeech : MonoBehaviour
         // Creates an instance of a speech config with specified subscription key and service region.
         // For security this is read in from a text file and is not included on Github. 
         // API_Key.txt is stored in the root directory of the project
+        // For now just using free trial key.
         string API_Key = System.IO.File.ReadAllText("../../API_Key.txt");
 
-        speechConfig = SpeechConfig.FromSubscription("722faee502a24ebeb53cf34a58e22e7d", "westus");
+        speechConfig = SpeechConfig.FromSubscription(API_Key, "westeurope");
+        //speechConfig = SpeechConfig.FromSubscription("722faee502a24ebeb53cf34a58e22e7d", "westus");
 
         // The default format is Riff16Khz16BitMonoPcm.
         // We are playing the audio in memory as audio clip, which doesn't require riff header.
         // So we need to set the format to Raw16Khz16BitMonoPcm.
         speechConfig.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Raw16Khz16BitMonoPcm);
-        //speechConfig.SpeechSynthesisVoiceName = "en-US-JessaNeural";
+
+        // Change voice depending on option selected for multiple characters of different genders and ethnicities.
+        switch (voiceOption)
+        {
+            case 1:
+                speechConfig.SpeechSynthesisVoiceName = "en-US-JessaNeural";
+                break;
+            case 2:
+                speechConfig.SpeechSynthesisVoiceName = "en-US-GuyNeural";
+                break;
+            case 3:
+                speechConfig.SpeechSynthesisVoiceName = "en-IE-Sean";
+                break;
+            case 4:
+                speechConfig.SpeechSynthesisVoiceName = "de-DE-KatjaNeural";
+                break;
+            default:
+                speechConfig.SpeechSynthesisVoiceName = "en-US-JessaNeural";
+                break;
+        }
 
         // Creates a speech synthesizer.
-        // Make sure to dispose the synthesizer after use!
         synthesizer = new SpeechSynthesizer(speechConfig, null);
 
         // Starts speech synthesis, and returns after a single utterance is synthesized.
