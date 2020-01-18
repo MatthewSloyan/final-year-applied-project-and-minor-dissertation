@@ -174,8 +174,11 @@ public class SpeechToText : MonoBehaviour
         // Check is listen was success and if there's a message to send.
         if (listenSuccess && messageToSend != "")
         {
-            // Send result to client code below, this will be abstracted with time.
-            sendText();
+            // Send result to client class.
+            // Couldn't get this working initial but fixed by adapting the following.
+            // https://docs.unity3d.com/ScriptReference/GameObject.AddComponent.html
+            Client c = gameObject.AddComponent(typeof(Client)) as Client;
+            c.sendText(messageToSend);
 
             listenSuccess = false;
             messageToSend = "";
@@ -187,47 +190,6 @@ public class SpeechToText : MonoBehaviour
             {
                 outputText.text = message;
             }
-        }
-    }
-
-    // Called when listening is a sucess, and sends text to server to be output as audio.
-    public void sendText()
-    {
-        StartCoroutine(GetText());
-    }
-
-    IEnumerator GetText()
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("myField", messageToSend);
-
-        //UnityWebRequest www = UnityWebRequest.Post("localhost:5000", form);
-        UnityWebRequest www = UnityWebRequest.Post("https://final-year-project-chatbot.herokuapp.com/request", form);
-        www.SetRequestHeader("Content-Type", "application/json");
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            // Show results as text
-            Debug.Log(www.downloadHandler.text);
-
-            // Send result to TextToSpeech to output audio.
-            TextToSpeech.Instance.ConvertTextToSpeech(www.downloadHandler.text);
-        }
-    }
-
-    //This method is required by the IComparable interface. 
-    public class RequestS
-    {
-        public string s;
-
-        public RequestS(string sentence)
-        {
-            s = sentence;
         }
     }
 }
