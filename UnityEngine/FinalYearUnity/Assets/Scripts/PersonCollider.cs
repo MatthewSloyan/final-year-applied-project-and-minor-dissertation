@@ -21,7 +21,7 @@ public class PersonCollider : MonoBehaviour
             renderer.material.SetColor("_Color", Color.blue);
             SpeechToText.IsPersonActive = true;
 
-            speech.convertSpeechToText();
+            speech.convertSpeechToText(col.gameObject.GetComponent<NPC>().GetSessionID());
         }
     }
 
