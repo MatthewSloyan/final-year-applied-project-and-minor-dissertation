@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,23 +16,32 @@ public class SatisfactionMeter : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.O))
         {
-            //gameObject.transform.localEulerAngles.z <= 76
-            if (satifaction > 1)
-            {
-                transform.Rotate(0f, 0f, 38);
-                satifaction--;
-                Debug.Log(satifaction);
-            }
+            IncreaseSatifaction();
         }
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            if (satifaction < 5)
-            {
-                transform.Rotate(0f, 0f, -38);
-                satifaction++;
-                Debug.Log(satifaction);
-            }
+            DecreaseSatifaction();
+        }
+    }
+
+    public void IncreaseSatifaction()
+    {
+        if (satifaction > 1)
+        {
+            transform.Rotate(0f, 0f, 38);
+            satifaction--;
+            Debug.Log(satifaction);
+        }
+    }
+
+    private void DecreaseSatifaction()
+    {
+        if (satifaction < 5)
+        {
+            transform.Rotate(0f, 0f, -38);
+            satifaction++;
+            Debug.Log(satifaction);
         }
     }
 }

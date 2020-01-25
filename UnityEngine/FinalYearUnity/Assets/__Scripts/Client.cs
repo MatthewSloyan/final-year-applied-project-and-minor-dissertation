@@ -11,6 +11,7 @@ public class Client : MonoBehaviour
 {
     private string userInput;
     private int sessionId;
+
     // Called when listening is a sucess, and sends text to server to be output as audio.
     public void sendText(string userInput,int sessionId)
     {
