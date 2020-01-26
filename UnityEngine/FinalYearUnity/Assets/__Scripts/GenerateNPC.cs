@@ -16,7 +16,7 @@ public class GenerateNPC : MonoBehaviour
         // List of all NPCS in the game to write scores to file.
         List<NPCS> list = new List<NPCS>();
         
-        for (int i = -8; i < -4; i += 2)
+        for (int i = -8; i < 0; i += 2)
         {
             //container.transform.parent = npc.transform;
             //
