@@ -16,6 +16,10 @@ public class TextToSpeech : MonoBehaviour
     private SpeechConfig speechConfig;
     private SpeechSynthesizer synthesizer;
 
+    private object threadLocker = new object();
+    private bool waitingForSpeak;
+    //private string message;
+
     private SpeechToText speech;
     #endregion
 
@@ -72,6 +76,11 @@ public class TextToSpeech : MonoBehaviour
                 break;
         }
 
+        lock (threadLocker)
+        {
+            waitingForSpeak = true;
+        }
+
         // Creates a speech synthesizer.
         synthesizer = new SpeechSynthesizer(speechConfig, null);
 
@@ -110,6 +119,11 @@ public class TextToSpeech : MonoBehaviour
                 Debug.Log($"CANCELED:\nReason=[{cancellation.Reason}]\nErrorDetails=[{cancellation.ErrorDetails}]");
             }
         }
+
+        lock (threadLocker)
+        {
+            waitingForSpeak = false;
+        }
     }
 
     IEnumerator WaitTillFinished()
@@ -120,6 +134,22 @@ public class TextToSpeech : MonoBehaviour
         // Start listening for speech again on sucess.
         speech.convertSpeechToText(speech.GetSessionID());
     }
+
+    //void Update()
+    //{
+    //    lock (threadLocker)
+    //    {
+    //        if (speakButton != null)
+    //        {
+    //            speakButton.interactable = !waitingForSpeak;
+    //        }
+
+    //        if (outputText != null)
+    //        {
+    //            outputText.text = message;
+    //        }
+    //    }
+    //}
 
     void OnDestroy()
     {
