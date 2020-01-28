@@ -28,7 +28,8 @@ public class Client : MonoBehaviour
         form.AddField("sessionId", sessionId);
 
         //UnityWebRequest www = UnityWebRequest.Post("localhost:5000/request", form);
-        UnityWebRequest www = UnityWebRequest.Post("https://final-year-project-chatbot.herokuapp.com/request", form);
+        //UnityWebRequest www = UnityWebRequest.Post("https://final-year-project-chatbot.herokuapp.com/request", form);
+        UnityWebRequest www = UnityWebRequest.Post("http://aaronchannon1.pythonanywhere.com/request", form);
         www.SetRequestHeader("Content-Type", "application/json");
         yield return www.SendWebRequest();
 
