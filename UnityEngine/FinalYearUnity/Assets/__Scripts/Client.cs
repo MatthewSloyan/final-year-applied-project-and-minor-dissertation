@@ -39,11 +39,17 @@ public class Client : MonoBehaviour
         }
         else
         {
-            // Show results as text
-            Debug.Log(www.downloadHandler.text);
+            string result = www.downloadHandler.text;
 
-            // Send result to TextToSpeech to output audio.
-            TextToSpeech.Instance.ConvertTextToSpeech(www.downloadHandler.text);
+            try
+            {
+                string[] results = result.Split('=');
+                TextToSpeech.Instance.ConvertTextToSpeech(results[0]);
+            }
+            catch
+            {
+                TextToSpeech.Instance.ConvertTextToSpeech(result);
+            }
 
             // Send result to TextToSpeech to output audio.
             //TextToSpeech t = gameObject.AddComponent(typeof(TextToSpeech)) as TextToSpeech;
