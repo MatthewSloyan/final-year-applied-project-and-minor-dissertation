@@ -21,6 +21,9 @@ public class PersonCollider : MonoBehaviour
             renderer.material.SetColor("_Color", Color.blue);
             SpeechToText.IsPersonActive = true;
 
+            GameObject temp = col.gameObject.transform.Find("SatisfactionMeterContainer(Clone)").gameObject;
+            temp.SetActive(true);
+
             speech.convertSpeechToText(col.gameObject.GetComponent<NPC>().GetSessionID());
         }
     }
@@ -33,6 +36,9 @@ public class PersonCollider : MonoBehaviour
             renderer.material.SetColor("_Color", Color.white);
             SpeechToText.IsPersonActive = false;
             Debug.Log("exit");
+
+            GameObject temp = col.gameObject.transform.Find("SatisfactionMeterContainer(Clone)").gameObject;
+            temp.SetActive(false);
         }
     }
 }
