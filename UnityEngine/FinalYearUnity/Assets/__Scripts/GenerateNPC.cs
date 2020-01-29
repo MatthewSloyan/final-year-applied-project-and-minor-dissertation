@@ -5,6 +5,7 @@ using UnityEngine;
 public class GenerateNPC : MonoBehaviour
 {
     public GameObject npc;
+    public GameObject satisfactionMeter;
     private GameObject container;
 
     // This script will simply instantiate the Prefab when the game starts.
@@ -22,6 +23,12 @@ public class GenerateNPC : MonoBehaviour
             //
             GameObject copy = Instantiate(npc, new Vector3(5, 1, i), Quaternion.identity);
             copy.transform.parent = container.transform;
+
+            // Instaniate satisfaction meter for every npc.
+            GameObject sm = Instantiate(satisfactionMeter, new Vector3(6, 2.3f, i), Quaternion.identity);
+            sm.transform.parent = container.transform;
+
+            //sm.SetActive(false);
 
             // Create a new NPCS object to add to list.
             NPCS person = new NPCS();
