@@ -47,6 +47,33 @@ public class Client : MonoBehaviour
             {
                 string[] results = result.Split('=');
                 TextToSpeech.Instance.ConvertTextToSpeech(results[0]);
+
+                Debug.Log(results[1]);
+
+                GameObject container = GameObject.Find("container");
+
+                //Array to hold all child obj
+                //GameObject[] allChildren = new GameObject[container.transform.childCount];
+
+                // Loop through all children in container.
+                // Code adapted from: https://stackoverflow.com/questions/46358717/how-to-loop-through-and-destroy-all-children-of-a-game-object-in-unity
+                foreach (Transform child in container.transform)
+                {
+                    NPC npc = child.GetComponent<NPC>();
+
+                    Debug.Log(npc.sessionId);
+
+                    if (npc.sessionId == sessionId) {
+                        SatisfactionMeter satisfactionMeter = child.GetComponentInChildren<SatisfactionMeter>();
+
+                        Debug.Log("Found");
+
+                        if (results[1] == "0")
+                            satisfactionMeter.IncreaseSatifaction();
+                        else if (results[1] == "2")
+                            satisfactionMeter.DecreaseSatifaction();
+                    }
+                }
             }
             catch
             {
