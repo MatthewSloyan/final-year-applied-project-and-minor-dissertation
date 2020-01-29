@@ -47,4 +47,27 @@
       </template>
    </category>
 
+
+
+    <!-- POLITE/VALID TICKET -->
+    <category>
+       <pattern>POLITE</pattern>
+       <template>Here you go!=2</template> <!-- 2 -->
+    </category>
+
+
+    <!-- NEUTRAL/TICKET -->
+
+    <category>
+       <pattern>NEUTRAL</pattern>
+       <template>
+        <random>
+            <li>Here=1</li>
+            <li>Yeah=1</li>
+            <li>Here it is=1</li>
+        </random></template>
+    </category>
+
+
+
 </aiml>
