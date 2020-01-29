@@ -35,7 +35,7 @@ public class SatisfactionMeter : MonoBehaviour
         }
     }
 
-    private void DecreaseSatifaction()
+    public void DecreaseSatifaction()
     {
         if (satifaction < 5)
         {

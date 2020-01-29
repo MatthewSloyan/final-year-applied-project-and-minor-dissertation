@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
-
-    public int sessionId;
+    public int sessionId { get; set; }
 
     private void Start()
     {

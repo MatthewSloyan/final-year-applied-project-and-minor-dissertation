@@ -18,7 +18,7 @@ public class ScoreManager : MonoBehaviour
     }
     
     // Test method, will be implemented properly.
-    private void UpdateScore(int scoreValue)
+    private void UpdateScore(int sessionId, int scoreValue)
     {
         ScoreFileManager scoreFileManager = new ScoreFileManager();
 
