@@ -15,21 +15,36 @@
         </template>
     </category>
     
+<category>
+      <pattern>DO YOU HAVE A TICKET</pattern>
+      <template>
+         <random>
+            <li> <srai>rude</srai></li> <!-- 0 -->
+            <li> <srai>neutral</srai></li> <!-- 1 -->
+            <li> <srai>polite</srai></li> <!-- 2 -->
+         </random>
+      </template>
+   </category>
+
+  <category>
+      <pattern>TICKETS</pattern>
+      <template>
+        Be more polite=0 <!-- 0 -->
+      </template>
+   </category>
+
     <category>
-        <pattern>ONE TIME I *</pattern>
-        <template>
-            <random>
-                <li>Go on.</li>
-                <li>How old are you?</li>
-                <li>Be more specific.</li>
-                <li>I did not know that.</li>
-                <li>Are you telling the truth?</li>
-                <li>I don't know what that means.</li>
-                <li>Try to tell me that another way.</li>
-                <li>Are you talking about an animal, vegetable or mineral?</li>
-                <li>What is it?</li>
-            </random>
-        </template>
-    </category>
+      <pattern>* TICKET PLEASE</pattern>
+      <template>
+        <srai>polite</srai>
+      </template>
+   </category>
+
+   <category>
+      <pattern>* TICKETS PLEASE</pattern>
+      <template>
+        <srai>polite</srai>
+      </template>
+   </category>
 
 </aiml>

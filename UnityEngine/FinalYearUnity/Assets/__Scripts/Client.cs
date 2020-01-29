@@ -15,6 +15,7 @@ public class Client : MonoBehaviour
     // Called when listening is a sucess, and sends text to server to be output as audio.
     public void sendText(string userInput,int sessionId)
     {
+
         this.userInput = userInput;
         this.sessionId = sessionId;
         Debug.Log("NPC's SessionId: " + sessionId);
@@ -23,6 +24,7 @@ public class Client : MonoBehaviour
 
     IEnumerator GetText()
     {
+
         WWWForm form = new WWWForm();
         form.AddField("myField", userInput);
         form.AddField("sessionId", sessionId);
