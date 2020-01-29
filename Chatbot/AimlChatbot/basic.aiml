@@ -68,6 +68,45 @@
         </random></template>
     </category>
 
+    <!-- RUDE/NO TICKET -->
+    <category>
+       <pattern>RUDE</pattern>
+       <template>No! Piss off!=0</template> <!-- 0 -->
+    </category>
 
+   <category>
+      <pattern>CAN I PLEASE SEE YOUR TICKET</pattern>
+      <template>
+        <random>
+            <li>I said no=0</li>
+            <li>Okay=1</li>
+        </random>
+
+      </template>
+   </category>
+
+
+    <!-- ENDING -->
+    <category>
+      <pattern>THANK YOU</pattern>
+      <template>
+        Your Welcome!=2
+      </template>
+   </category>
+
+
+    <!-- CATCHALL -->
+   <category>
+    <pattern>*</pattern>
+        <template>
+         <random>
+            <li> Can you repeat that?=1</li>
+            <li> what?=1</li>
+            <li> I don't understand=1</li>
+            <li>Pardon?=1</li>
+            <li>Excuse me?=1</li>
+         </random>
+      </template>
+    </category>
 
 </aiml>
