@@ -16,16 +16,16 @@ public class SatisfactionMeter : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.O))
         {
-            IncreaseSatifaction();
+            DecreaseSatifaction();
         }
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            DecreaseSatifaction();
+            IncreaseSatifaction();
         }
     }
 
-    public void IncreaseSatifaction()
+    public void DecreaseSatifaction()
     {
         if (satifaction > 1)
         {
@@ -35,7 +35,7 @@ public class SatisfactionMeter : MonoBehaviour
         }
     }
 
-    public void DecreaseSatifaction()
+    public void IncreaseSatifaction()
     {
         if (satifaction < 5)
         {
