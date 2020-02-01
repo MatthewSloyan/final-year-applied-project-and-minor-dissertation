@@ -8,20 +8,22 @@ public class ScoreManager
 {
     private int sessionId;
     private int scoreValue;
-
-    public ScoreManager(int sessionId, int scoreValue)
+    private string userInput;
+    private string npcResponse;
+    
+    public ScoreManager(int sessionId, int scoreValue, string userInput, string npcResponse)
     {
         this.sessionId = sessionId;
         this.scoreValue = scoreValue;
+        this.userInput = userInput;
+        this.npcResponse = npcResponse;
     }
 
     // Test method, will be implemented properly.
     public void UpdateScore()
     {
         UpdateSatisfactionMeter();
-
-        if (scoreValue == 0 || scoreValue == 2)
-            UpdateScoreFile();
+        UpdateScoreFile();
     }
     
     private void UpdateSatisfactionMeter()
@@ -58,18 +60,31 @@ public class ScoreManager
         // Convert string to object. Object returned has the updated score.
         Game game = UpdateGameScore(new Utilities().ToObject<Game>(json));
 
-        List<NPCS> list = new List<NPCS>();
+        List<NPCList> list = new List<NPCList>();
         list = game.npcs;
 
         // Loop through list of NPCS to find correct one and update score.
-        foreach (NPCS obj in list)
+        foreach (NPCList obj in list)
         {
             if (obj.sessionId == sessionId)
             {
+                // Add conversation to existing list in object.
+                obj.conversations.Add(userInput);
+                obj.conversations.Add(npcResponse);
+
+                Debug.Log(userInput);
+
+                // Increment or decrement score.
                 if (scoreValue == 0)
+                {
                     obj.score--;
+                    Debug.Log(obj.score);
+                }
                 else if (scoreValue == 2)
+                {
                     obj.score++;
+                    Debug.Log(obj.score);
+                }
                 break;
             }
         }

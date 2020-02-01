@@ -14,7 +14,7 @@ public class Client : MonoBehaviour
     private string voiceName;
 
     // Called when listening is a sucess, and sends text to server to be output as audio.
-    public void sendText(string userInput,int sessionId, string voiceName)
+    public void sendText(string userInput, int sessionId, string voiceName)
     {
         this.userInput = userInput;
         this.sessionId = sessionId;
@@ -43,19 +43,19 @@ public class Client : MonoBehaviour
         }
         else
         {
-            string result = www.downloadHandler.text;
+            string reponse = www.downloadHandler.text;
 
             try
             {
-                string[] results = result.Split('=');
+                string[] reponses = reponse.Split('=');
 
-                TextToSpeech.Instance.ConvertTextToSpeech(results[0], voiceName);
+                TextToSpeech.Instance.ConvertTextToSpeech(reponses[0], voiceName);
 
-                new ScoreManager(sessionId, Int32.Parse(results[1])).UpdateScore();
+                new ScoreManager(sessionId, Int32.Parse(reponses[1]), userInput, reponses[0]).UpdateScore();
             }
             catch
             {
-                TextToSpeech.Instance.ConvertTextToSpeech(result, voiceName);
+                TextToSpeech.Instance.ConvertTextToSpeech(reponse, voiceName);
             }
         }
     }

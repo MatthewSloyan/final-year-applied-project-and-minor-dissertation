@@ -9,15 +9,14 @@ public class NPC : MonoBehaviour
     private int sessionId;
     private string voiceName;
 
-    private void Start()
+    public void SetSessionId()
     {
         sessionId = UnityEngine.Random.Range(1, 10000);
-        SetVoice();
     }
 
-    private void SetVoice()
+    public void SetVoice()
     {
-        string[] voices = { "en-US-JessaNeural", "en-US-GuyNeural", "en-IE-Sean", "de-DE-KatjaNeural", "en-US-JessaNeural" };
+        string[] voices = { "en-US-JessaNeural", "en-US-GuyNeural", "en-IE-Sean", "de-DE-KatjaNeural" };
 
         int rand = UnityEngine.Random.Range(1, voices.Length);
         voiceName = voices[rand];
