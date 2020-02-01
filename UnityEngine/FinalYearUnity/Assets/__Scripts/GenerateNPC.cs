@@ -19,8 +19,6 @@ public class GenerateNPC : MonoBehaviour
         
         for (int i = -8; i < 0; i += 2)
         {
-            //container.transform.parent = npc.transform;
-            //
             GameObject copy = Instantiate(npc, new Vector3(5, 1, i), Quaternion.identity);
             copy.transform.parent = container.transform;
 
@@ -36,14 +34,14 @@ public class GenerateNPC : MonoBehaviour
             NPCS person = new NPCS();
             person.score = 0;
             person.sessionId = copy.GetComponent<NPC>().GetSessionID();
-            person.voiceName = "en - US - JessaNeural";
+            person.voiceName = copy.GetComponent<NPC>().GetVoiceName();
 
             list.Add(person);
         }
 
         // Add list to Game object and write JSON to text file.
         Game game = new Game();
-        game.gameId = Random.Range(1, 1000);
+        game.gameId = Random.Range(1, 10000);
         game.npcs = list;
 
         new ScoreFileManager().WriteScoreFile(new Utilities().ToJsonString(game));

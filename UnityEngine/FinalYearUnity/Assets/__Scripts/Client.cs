@@ -11,13 +11,17 @@ public class Client : MonoBehaviour
 {
     private string userInput;
     private int sessionId;
+    private string voiceName;
 
     // Called when listening is a sucess, and sends text to server to be output as audio.
-    public void sendText(string userInput,int sessionId)
+    public void sendText(string userInput,int sessionId, string voiceName)
     {
         this.userInput = userInput;
         this.sessionId = sessionId;
+        this.voiceName = voiceName;
+        Debug.Log("NPC's Voice: " + voiceName);
         Debug.Log("NPC's SessionId: " + sessionId);
+
         StartCoroutine(GetText());
     }
 
@@ -44,18 +48,15 @@ public class Client : MonoBehaviour
             try
             {
                 string[] results = result.Split('=');
-                TextToSpeech.Instance.ConvertTextToSpeech(results[0]);
+
+                TextToSpeech.Instance.ConvertTextToSpeech(results[0], voiceName);
 
                 new ScoreManager(sessionId, Int32.Parse(results[1])).UpdateScore();
             }
             catch
             {
-                TextToSpeech.Instance.ConvertTextToSpeech(result);
+                TextToSpeech.Instance.ConvertTextToSpeech(result, voiceName);
             }
-
-            // Send result to TextToSpeech to output audio.
-            //TextToSpeech t = gameObject.AddComponent(typeof(TextToSpeech)) as TextToSpeech;
-            //t.ConvertTextToSpeech(www.downloadHandler.text);
         }
     }
 

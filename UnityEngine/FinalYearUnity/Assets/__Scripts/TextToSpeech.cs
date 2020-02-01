@@ -40,7 +40,7 @@ public class TextToSpeech : MonoBehaviour
         speech = SpeechToText.Instance;
     }
 
-    public void ConvertTextToSpeech(string inputText)
+    public void ConvertTextToSpeech(string inputText, string voiceName)
     {
         // Creates an instance of a speech config with specified subscription key and service region.
         // For security this is read in from a text file and is not included on Github. 
@@ -57,24 +57,26 @@ public class TextToSpeech : MonoBehaviour
         speechConfig.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Raw16Khz16BitMonoPcm);
 
         // Change voice depending on option selected for multiple characters of different genders and ethnicities.
-        switch (voiceOption)
-        {
-            case 1:
-                speechConfig.SpeechSynthesisVoiceName = "en-US-JessaNeural";
-                break;
-            case 2:
-                speechConfig.SpeechSynthesisVoiceName = "en-US-GuyNeural";
-                break;
-            case 3:
-                speechConfig.SpeechSynthesisVoiceName = "en-IE-Sean";
-                break;
-            case 4:
-                speechConfig.SpeechSynthesisVoiceName = "de-DE-KatjaNeural";
-                break;
-            default:
-                speechConfig.SpeechSynthesisVoiceName = "en-US-JessaNeural";
-                break;
-        }
+        speechConfig.SpeechSynthesisVoiceName = voiceName;
+
+        //switch (voiceOption)
+        //{
+        //    case 1:
+        //        speechConfig.SpeechSynthesisVoiceName = "en-US-JessaNeural";
+        //        break;
+        //    case 2:
+        //        speechConfig.SpeechSynthesisVoiceName = "en-US-GuyNeural";
+        //        break;
+        //    case 3:
+        //        speechConfig.SpeechSynthesisVoiceName = "en-IE-Sean";
+        //        break;
+        //    case 4:
+        //        speechConfig.SpeechSynthesisVoiceName = "de-DE-KatjaNeural";
+        //        break;
+        //    default:
+        //        speechConfig.SpeechSynthesisVoiceName = "en-US-JessaNeural";
+        //        break;
+        //}
 
         lock (threadLocker)
         {
@@ -132,7 +134,7 @@ public class TextToSpeech : MonoBehaviour
         yield return new WaitForSeconds(2.5f);
 
         // Start listening for speech again on sucess.
-        speech.convertSpeechToText(speech.GetSessionID());
+        speech.convertSpeechToText(speech.GetSessionID(), speech.GetVoiceName());
     }
 
     //void Update()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PersonCollider : MonoBehaviour
 {
-    SpeechToText speech;
+    private SpeechToText speech;
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +24,8 @@ public class PersonCollider : MonoBehaviour
             GameObject temp = col.gameObject.transform.Find("SatisfactionMeterContainer(Clone)").gameObject;
             temp.SetActive(true);
 
-            speech.convertSpeechToText(col.gameObject.GetComponent<NPC>().GetSessionID());
+            NPC npc = col.gameObject.GetComponent<NPC>();
+            speech.convertSpeechToText(npc.GetSessionID(), npc.GetVoiceName());
         }
     }
 
