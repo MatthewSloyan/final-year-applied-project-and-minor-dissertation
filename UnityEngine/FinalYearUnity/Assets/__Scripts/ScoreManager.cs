@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ScoreManager
@@ -19,9 +20,10 @@ public class ScoreManager
     {
         UpdateSatisfactionMeter();
 
-        UpdateScoreFile();
+        if (scoreValue == 0 || scoreValue == 2)
+            UpdateScoreFile();
     }
-
+    
     private void UpdateSatisfactionMeter()
     {
         // == Update Satisfaction meter ==
@@ -50,14 +52,17 @@ public class ScoreManager
         // == Update score file ==
         ScoreFileManager scoreFileManager = new ScoreFileManager();
 
+        // Get json string from file.
         string json = scoreFileManager.LoadScoreFile();
-        Game game = new Utilities().ToObject<Game>(json);
 
-        //List<NPCS> list = new List<NPCS>();
-        //list = game.npcs;
+        // Convert string to object. Object returned has the updated score.
+        Game game = UpdateGameScore(new Utilities().ToObject<Game>(json));
+
+        List<NPCS> list = new List<NPCS>();
+        list = game.npcs;
 
         // Loop through list of NPCS to find correct one and update score.
-        foreach (NPCS obj in game.npcs)
+        foreach (NPCS obj in list)
         {
             if (obj.sessionId == sessionId)
             {
@@ -69,9 +74,23 @@ public class ScoreManager
             }
         }
 
-        //game.npcs = list;
+        game.npcs = list;
 
         // Write back out to file.
         scoreFileManager.WriteScoreFile(new Utilities().ToJsonString(game));
+    }
+
+    private Game UpdateGameScore(Game game)
+    {
+        if (scoreValue == 0)
+            game.gameScore--;
+        else if (scoreValue == 2)
+            game.gameScore++;
+
+        // Update in game board.
+        TextMeshPro tm = GameObject.Find("Score").gameObject.GetComponent<TextMeshPro>();
+        tm.text = "Score: " + game.gameScore;
+
+        return game;
     }
 }

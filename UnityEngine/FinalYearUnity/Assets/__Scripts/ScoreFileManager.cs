@@ -13,7 +13,7 @@ public class ScoreFileManager
 
     public string LoadScoreFile()
     {
-        //Debug.Log(File.ReadAllText(getPath()));
+        Debug.Log(File.ReadAllText(getPath()));
         return File.ReadAllText(getPath());
     }
 
