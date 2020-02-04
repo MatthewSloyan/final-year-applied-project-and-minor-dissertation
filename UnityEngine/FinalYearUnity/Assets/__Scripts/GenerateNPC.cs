@@ -17,7 +17,7 @@ public class GenerateNPC : MonoBehaviour
         // List of all NPCS in the game to write scores to file.
         List<NPCList> list = new List<NPCList>();
         
-        for (int i = -8; i < 0; i += 2)
+        for (int i = -8; i < 10; i += 2)
         {
             // Instaniate a new person.
             GameObject copy = Instantiate(npc, new Vector3(5, 1, i), Quaternion.identity);
@@ -39,6 +39,7 @@ public class GenerateNPC : MonoBehaviour
             NPC npcScript = copy.GetComponent<NPC>();
             // Set and get NPC data, I tried by just getting the component from the copy gameObject but the values were null.
             npcScript.SetSessionId();
+            npcScript.SetPersona();
             npcScript.SetVoice();
             person.sessionId = npcScript.GetSessionID();
             person.voiceName = npcScript.GetVoiceName();
