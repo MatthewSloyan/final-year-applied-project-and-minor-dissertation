@@ -33,6 +33,7 @@ public class Client : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("myField", userInput);
         form.AddField("sessionId", sessionId);
+        form.AddField("persona", persona);
 
         //UnityWebRequest www = UnityWebRequest.Post("localhost:5000/request", form);
         //UnityWebRequest www = UnityWebRequest.Post("https://final-year-project-chatbot.herokuapp.com/request", form);
