@@ -12,15 +12,18 @@ public class Client : MonoBehaviour
     private string userInput;
     private int sessionId;
     private string voiceName;
+    private int persona;
 
     // Called when listening is a sucess, and sends text to server to be output as audio.
-    public void sendText(string userInput, int sessionId, string voiceName)
+    public void sendText(string userInput, int sessionId, string voiceName,int persona)
     {
         this.userInput = userInput;
         this.sessionId = sessionId;
         this.voiceName = voiceName;
+        this.persona = persona;
         Debug.Log("NPC's Voice: " + voiceName);
         Debug.Log("NPC's SessionId: " + sessionId);
+        Debug.Log("NPC's persona: " + persona);
 
         StartCoroutine(GetText());
     }

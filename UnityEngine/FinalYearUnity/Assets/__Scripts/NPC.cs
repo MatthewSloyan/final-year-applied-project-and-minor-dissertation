@@ -6,10 +6,10 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
-    private int sessionId;
-    private string voiceName;
+    public int sessionId;
+    public string voiceName;
     //0= rude 1= neutral 2= polite
-    private int persona;
+    public int persona;
 
     public void SetSessionId()
     {

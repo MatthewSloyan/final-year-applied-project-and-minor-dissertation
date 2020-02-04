@@ -25,7 +25,7 @@ public class PersonCollider : MonoBehaviour
             temp.SetActive(true);
 
             NPC npc = col.gameObject.GetComponent<NPC>();
-            speech.convertSpeechToText(npc.GetSessionID(), npc.GetVoiceName());
+            speech.convertSpeechToText(npc.GetSessionID(),npc.GetPersona(), npc.GetVoiceName());
         }
     }
 
