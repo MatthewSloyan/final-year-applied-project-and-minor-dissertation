@@ -6,7 +6,7 @@ import aiml
 
 kernel = aiml.Kernel()
 kernel.learn("/home/aaronchannon1/mysite/startup.xml")
-kernel.respond("load aiml b")
+
 
 app = Flask(__name__)
 
@@ -39,6 +39,8 @@ def predictResponse():
 
     personaString = s.split('&')[2]
     persona = personaString.split('=')[1]
+
+    kernel.respond("load aiml "+persona)
 
     print("DATA:")
     print(kernel.getPredicate("usersName", sessionId))
