@@ -1,0 +1,44 @@
+\chapter{Technology Review}
+
+\section{Application}
+As outlined in our introduction the focus of this application was to provide a realistic and gamified training experience that would be useful to the user specifically in the area of conflict resolution. To succeed with this we researched areas such as..
+
+\subsection{Unity}
+\subsection{Google VR}
+\subsection{Oculus Quest}
+
+\section{Speech Services}
+As the application needed to include a dynamic chatbot we looked as some areas such Text-to-Speech (TTS) and Speech-to-Text (STT) services to achieve this. Our initial thought was to include a text input system or a multiple choice dialog tree but from testing and further research we felt it would be pre-programmed and substantially less interactive for a training environment. This spurred us to look at other areas and the possibility of taking in audio from the microphone and parsing it to text using TTS. TTS involves converting human speech to a text format so it can be read by a machine in real time. On the other hand, STT is the opposite in which text is converted to human like synthesized speech, which would be used to give our chatbot life, personality and evoke possible emotions. Below we will look at some of the technologies we reviewed and tested in these two areas.
+
+\subsection{Windows}
+All Windows devices have STT functionality built into it's Cortana virtual assistant. This allows the user to talk directly to the device and it will pick up what you said and make a decision from this. As described above we decided to use Unity as the main technology for our application which would be deployed to and Oculus Quest, so any service we tested must work with Unity and Android respectively. As The Windows STT services provided a Unity package we thought it could work well, however from testing it was quite slow at depicting speech despite being accurate. Also, the text predicted was lower case and contained no punctuation, or any useful characters such as question marks etc. which would be useful for determining context in Natural Language processing. Another unfortunate downside was that it didn't work on Android when testing so we decided to look at other options, this was due to the fact that it's developed for Windows. 
+
+\subsection{Google Cloud}
+The second speech service we looked at was Google Cloud Speech Synthesis. Compared to the inbuilt system provided by Windows this services works using an application programming interface (API) where audio data is sent to a remote server and a result is returned. Because of this a constant internet connection is required which is another issue to look at. Using the documentation provided a solution was implemented despite it not working as desired due to the fact there is no specific Unity package available. The only way to implement it to implement the DLL files in Unity as a source which worked but unfortunately not as desired. The cost to use Google's services was quite reasonable and provided a good allowance of free usage which would suffice for our needs but as it didn't work as expected we decided to test other services.
+
+\subsection{IBM Watson}
+Another service we researched was IBM Watson speech services, but with only a very limited amount of free characters (10,000) available for TTS and 250 minutes free with STT we found it to be a costly service to use. Another downside again to this service was the fact that there was no Unity package available either, so ultimately we decided to look into other service providers.
+
+\subsection{Azure}
+Much like Google Cloud services Azure works in much the same way and provides the same features in regards to multiple voices, tone, pitch etc. which would allow a realistic experience. There is also over 140 different voices provided with 9 specific Neural voices built using machine learning that are specifically designed to provide a realistic human like response. Also there is support for over 45 languages which could be used for future research to make the application available in multiple countries. Other benefits include the fact there is a Unity package available for both TTS and STT, along with Android, IOS and Windows support. Below we will look a more in-dept look at each service, it's benefits, costs and research efforts.
+
+\subsubsection{Azure Text-to-Speech}
+
+\subsubsection{Azure Speech-to-Speech}
+
+From testing, research and analysis of the benefits we decided to use Microsoft Azure services for our application.
+
+\section{Chatbot}
+\subsection{Keras}
+\subsection{AIML}
+
+\section{Back-end}
+\subsection{Node}
+\subsection{Flask}
+
+\section{Cloud Services}
+\subsection{Heroku}
+\subsection{PythonAnywhere}
+
+\section{Database}
+\subsection{MongoDB}
