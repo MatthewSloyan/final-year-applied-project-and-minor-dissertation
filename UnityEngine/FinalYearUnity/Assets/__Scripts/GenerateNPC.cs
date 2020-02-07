@@ -6,6 +6,7 @@ public class GenerateNPC : MonoBehaviour
 {
     public GameObject npc;
     public GameObject satisfactionMeter;
+    public GameObject completionRing;
     private GameObject container;
 
     // This script will simply instantiate the Prefab when the game starts.
@@ -27,6 +28,11 @@ public class GenerateNPC : MonoBehaviour
             GameObject sm = Instantiate(satisfactionMeter, new Vector3(6, 2.3f, i), Quaternion.identity);
             sm.transform.Rotate(0, 90, 0);
             sm.transform.parent = copy.transform;
+
+            // Instaniate completion indicator for player to know if a ticket has been checked or not.
+            GameObject cr = Instantiate(completionRing, new Vector3(5, 0, i), Quaternion.identity);
+            cr.transform.Rotate(90, 0, 0);
+            cr.transform.parent = copy.transform;
 
             // Set meter to false, so invisible until the player interacts with the NPC
             sm.SetActive(false);

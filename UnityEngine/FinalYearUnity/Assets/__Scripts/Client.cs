@@ -15,7 +15,7 @@ public class Client : MonoBehaviour
     private int persona;
 
     // Called when listening is a sucess, and sends text to server to be output as audio.
-    public void sendText(string userInput, int sessionId, string voiceName,int persona)
+    public void sendText(string userInput, int sessionId, string voiceName, int persona)
     {
         this.userInput = userInput;
         this.sessionId = sessionId;
