@@ -6,12 +6,21 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
-    private int sessionId;
-    private string voiceName;
+    public int sessionId;
+    public string voiceName;
+    //0= rude 1= neutral 2= polite
+    public int persona;
 
     public void SetSessionId()
     {
         sessionId = UnityEngine.Random.Range(1, 10000);
+        
+
+    }
+
+    public void SetPersona()
+    {
+        persona = UnityEngine.Random.Range(0, 3);
     }
 
     public void SetVoice()
@@ -30,5 +39,10 @@ public class NPC : MonoBehaviour
     public string GetVoiceName()
     {
         return voiceName;
+    }
+
+    public int GetPersona()
+    {
+        return persona;
     }
 }

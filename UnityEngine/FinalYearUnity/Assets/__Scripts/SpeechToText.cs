@@ -43,6 +43,7 @@ public class SpeechToText : MonoBehaviour
     private bool waitingForReco;
     private string message;
     private int sessionId;
+    private int persona;
     private string voiceName;
     private static string messageToSend;
 
@@ -66,9 +67,10 @@ public class SpeechToText : MonoBehaviour
 
     // Set up and convert speech to text.
     // Code adapted from: https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstarts/speech-to-text-from-microphone?tabs=dotnet%2Cx-android%2Clinux%2Candroid&pivots=programming-language-more
-    public async void convertSpeechToText(int sessionId, string voiceName)
+    public async void convertSpeechToText(int sessionId,int persona, string voiceName)
     {
         this.sessionId = sessionId;
+        this.persona = persona;
         this.voiceName = voiceName;
 
         // Check if mic permission is granted or if the player is within range of a person.
@@ -165,6 +167,11 @@ public class SpeechToText : MonoBehaviour
         return sessionId;
     }
 
+    public int GetPersona()
+    {
+        return persona;
+    }
+
     public string GetVoiceName()
     {
         return voiceName;
@@ -194,7 +201,7 @@ public class SpeechToText : MonoBehaviour
             // Couldn't get this working initial but fixed by adapting the following.
             // https://docs.unity3d.com/ScriptReference/GameObject.AddComponent.html
             Client c = gameObject.AddComponent(typeof(Client)) as Client;
-            c.sendText(messageToSend, sessionId, voiceName);
+            c.sendText(messageToSend, sessionId, voiceName,persona);
 
             listenSuccess = false;
             messageToSend = "";

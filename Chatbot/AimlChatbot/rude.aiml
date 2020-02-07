@@ -1,0 +1,10 @@
+<aiml version="1.0.1" encoding="UTF-8">
+    <!-- std-startup.xml -->
+    <category>
+        <pattern>HELLO</pattern>
+        <template>
+            Hello Piss off!
+        </template>
+    </category>
+
+</aiml>

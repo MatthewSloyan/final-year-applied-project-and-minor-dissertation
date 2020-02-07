@@ -134,7 +134,7 @@ public class TextToSpeech : MonoBehaviour
         yield return new WaitForSeconds(2.5f);
 
         // Start listening for speech again on sucess.
-        speech.convertSpeechToText(speech.GetSessionID(), speech.GetVoiceName());
+        speech.convertSpeechToText(speech.GetSessionID(),speech.GetPersona(), speech.GetVoiceName());
     }
 
     //void Update()
