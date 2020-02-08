@@ -40,7 +40,7 @@ public class TextToSpeech : MonoBehaviour
         speech = SpeechToText.Instance;
     }
 
-    public void ConvertTextToSpeech(string inputText, string voiceName)
+    public IEnumerator ConvertTextToSpeech(string inputText, string voiceName)
     {
         // Creates an instance of a speech config with specified subscription key and service region.
         // For security this is read in from a text file and is not included on Github. 
@@ -58,25 +58,6 @@ public class TextToSpeech : MonoBehaviour
 
         // Change voice depending on option selected for multiple characters of different genders and ethnicities.
         speechConfig.SpeechSynthesisVoiceName = voiceName;
-
-        //switch (voiceOption)
-        //{
-        //    case 1:
-        //        speechConfig.SpeechSynthesisVoiceName = "en-US-JessaNeural";
-        //        break;
-        //    case 2:
-        //        speechConfig.SpeechSynthesisVoiceName = "en-US-GuyNeural";
-        //        break;
-        //    case 3:
-        //        speechConfig.SpeechSynthesisVoiceName = "en-IE-Sean";
-        //        break;
-        //    case 4:
-        //        speechConfig.SpeechSynthesisVoiceName = "de-DE-KatjaNeural";
-        //        break;
-        //    default:
-        //        speechConfig.SpeechSynthesisVoiceName = "en-US-JessaNeural";
-        //        break;
-        //}
 
         lock (threadLocker)
         {
@@ -111,8 +92,9 @@ public class TextToSpeech : MonoBehaviour
                 Debug.Log("Speech synthesis success!");
 
                 //Start the coroutine we define below named WaitTillFinished.
+                // Removed for now as could be causing lag.
                 // Code adapted from: https://docs.unity3d.com/ScriptReference/WaitForSeconds.html
-                StartCoroutine(WaitTillFinished());
+                //StartCoroutine(WaitTillFinished());
             }
 
             else if (result.Reason == ResultReason.Canceled)
@@ -126,6 +108,8 @@ public class TextToSpeech : MonoBehaviour
         {
             waitingForSpeak = false;
         }
+
+        yield return null;
     }
 
     IEnumerator WaitTillFinished()

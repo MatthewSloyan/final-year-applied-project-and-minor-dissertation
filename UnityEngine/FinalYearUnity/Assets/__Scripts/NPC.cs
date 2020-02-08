@@ -14,8 +14,6 @@ public class NPC : MonoBehaviour
     public void SetSessionId()
     {
         sessionId = UnityEngine.Random.Range(1, 10000);
-        
-
     }
 
     public void SetPersona()

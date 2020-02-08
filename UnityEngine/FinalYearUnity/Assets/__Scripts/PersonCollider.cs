@@ -4,36 +4,35 @@ using UnityEngine;
 
 public class PersonCollider : MonoBehaviour
 {
-    private SpeechToText speech;
-    private string tempColour;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        speech = SpeechToText.Instance;
-    }
-
+    private string[] replies = { "You've already checked my ticket, piss off!", "You've already checked my ticket.", "Sorry, but you have checked my ticket."};
+    
     void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.CompareTag("person"))
         {
-            CompleteRing cr = col.gameObject.GetComponentInChildren<CompleteRing>();
-
-            // Get initial colour
-            tempColour = cr.getCurrentColour();
+            // Get the NPC script attached to NPC and start to listen for speech.
+            NPC npc = col.gameObject.GetComponent<NPC>();
 
             // Change ring colour to blue to to signify that the player can talk to the NPC.
-            cr.changeRingColour("Blue");
-
-            SpeechToText.IsPersonActive = true;
+            CompleteRing cr = col.gameObject.GetComponentInChildren<CompleteRing>();
 
             // Find satisfaction meter gameobject and set to active so it's displayed.
             GameObject temp = col.gameObject.transform.Find("SatisfactionMeterContainer(Clone)").gameObject;
             temp.SetActive(true);
 
-            // Get the NPC script attached to NPC and start to listen for speech.
-            NPC npc = col.gameObject.GetComponent<NPC>();
-            speech.convertSpeechToText(npc.GetSessionID(),npc.GetPersona(), npc.GetVoiceName());
+            SpeechToText.IsPersonActive = true;
+
+            // Check if ticket has been checked or not.
+            if (cr.getCurrentColour() == "Green")
+            {
+                StartCoroutine(TextToSpeech.Instance.ConvertTextToSpeech(replies[npc.GetPersona()], npc.GetVoiceName()));
+            }
+            else
+            {
+                cr.changeRingColour("Blue");
+
+                SpeechToText.Instance.convertSpeechToText(npc.GetSessionID(), npc.GetPersona(), npc.GetVoiceName());
+            }
         }
     }
 
