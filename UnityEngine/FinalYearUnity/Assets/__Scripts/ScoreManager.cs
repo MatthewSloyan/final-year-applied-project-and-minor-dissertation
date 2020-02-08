@@ -28,7 +28,7 @@ public class ScoreManager
     
     private void UpdateGameObjects()
     {
-        //scoreValue = 3;
+        scoreValue = 3;
 
         // == Update Satisfaction meter ==
         GameObject container = GameObject.Find("container");
@@ -44,7 +44,7 @@ public class ScoreManager
                 // If ticket has been checked then set ring to green below NPC
                 if (scoreValue == 3)
                 {
-                    child.GetComponentInChildren<CompleteRing>().ticketChecked();
+                    child.GetComponentInChildren<CompleteRing>().changeRingColour("Green");
                     break;
                 }
 

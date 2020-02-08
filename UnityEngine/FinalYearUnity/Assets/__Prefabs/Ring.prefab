@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3722204167645530194}
   - component: {fileID: 5691681620813328996}
   - component: {fileID: 2143822465203785373}
-  - component: {fileID: 4936825814144171329}
+  - component: {fileID: 8041105289788198382}
   m_Layer: 0
   m_Name: Ring
   m_TagString: Untagged
@@ -79,7 +79,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &4936825814144171329
+--- !u!114 &8041105289788198382
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,3 +92,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   green: {fileID: 2100000, guid: c5bb45d55643de64c9ec94463ee69f1d, type: 2}
+  blue: {fileID: 2100000, guid: 6449f6e7f9f7b614897e3fe9c628fb3e, type: 2}
+  red: {fileID: 2100000, guid: 4f35b103e883c5645a43032666004f00, type: 2}
