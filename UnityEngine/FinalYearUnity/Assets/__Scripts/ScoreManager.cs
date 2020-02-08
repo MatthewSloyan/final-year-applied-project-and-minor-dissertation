@@ -22,12 +22,14 @@ public class ScoreManager
     // Test method, will be implemented properly.
     public void UpdateScore()
     {
-        UpdateSatisfactionMeter();
+        UpdateGameObjects();
         UpdateScoreFile();
     }
     
-    private void UpdateSatisfactionMeter()
+    private void UpdateGameObjects()
     {
+        //scoreValue = 3;
+
         // == Update Satisfaction meter ==
         GameObject container = GameObject.Find("container");
 
@@ -39,6 +41,13 @@ public class ScoreManager
 
             if (npc.GetSessionID() == sessionId)
             {
+                // If ticket has been checked then set ring to green below NPC
+                if (scoreValue == 3)
+                {
+                    child.GetComponentInChildren<CompleteRing>().ticketChecked();
+                    break;
+                }
+
                 SatisfactionMeter satisfactionMeter = child.GetComponentInChildren<SatisfactionMeter>();
 
                 if (scoreValue == 0)
