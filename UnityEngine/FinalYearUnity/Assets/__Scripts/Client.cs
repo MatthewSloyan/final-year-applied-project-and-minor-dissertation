@@ -53,13 +53,13 @@ public class Client : MonoBehaviour
             {
                 string[] reponses = reponse.Split('=');
 
-                StartCoroutine(TextToSpeech.Instance.ConvertTextToSpeech(reponses[0], voiceName));
+                TextToSpeech.Instance.ConvertTextToSpeech(reponses[0], voiceName);
 
                 new ScoreManager(sessionId, Int32.Parse(reponses[1]), userInput, reponses[0]).UpdateScore();
             }
             catch
             { 
-                StartCoroutine(TextToSpeech.Instance.ConvertTextToSpeech(reponse, voiceName));
+                TextToSpeech.Instance.ConvertTextToSpeech(reponse, voiceName);
             }
         }
     }
