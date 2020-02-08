@@ -89,7 +89,7 @@ public class TextToSpeech : MonoBehaviour
 
         var result = task.Result;
 
-        // Checks result.
+        // Check result.
         if (result.Reason == ResultReason.SynthesizingAudioCompleted)
         {
             // Native playback is not supported on Unity yet (currently only supported on Windows/Linux Desktop).

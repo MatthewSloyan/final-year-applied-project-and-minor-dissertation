@@ -28,6 +28,7 @@ public class ScoreManager
     
     private void UpdateGameObjects()
     {
+        // Test
         scoreValue = 3;
 
         // == Update Satisfaction meter ==
@@ -94,16 +95,31 @@ public class ScoreManager
                     obj.score++;
                     Debug.Log(obj.score);
                 }
+                else if (scoreValue == 3)
+                {
+                    obj.score++;
+                    obj.complete = true;
+                    Debug.Log(obj.complete);
+                }
                 break;
             }
         }
 
         game.npcs = list;
-
+        
         // Write back out to file.
         scoreFileManager.WriteScoreFile(new Utilities().ToJsonString(game));
-    }
 
+        // Check if game is complete, E.g if all tickets have been checked.
+        bool isGameComplete = CheckGameComplete(game.npcs);
+
+        if (isGameComplete)
+        {
+            Debug.Log("Game Complete!");
+            // Display end game menu, and write data to database.
+        }
+    }
+    
     private Game UpdateGameScore(Game game)
     {
         if (scoreValue == 0)
@@ -116,5 +132,22 @@ public class ScoreManager
         tm.text = "Score: " + game.gameScore;
 
         return game;
+    }
+
+    private bool CheckGameComplete(List<NPCList> npcs)
+    {
+        bool isGameComplete = true;
+
+        // Loop through list of NPCS to check if game is complete.
+        foreach (NPCList obj in npcs)
+        {
+            if (obj.complete == false)
+            {
+                isGameComplete = false;
+                break;
+            }
+        }
+
+        return isGameComplete;
     }
 }

@@ -13,6 +13,7 @@ public class Game
 public class NPCList
 {
     public int sessionId;
+    public bool complete;
     public int score;
     public string voiceName;
     public List<string> conversations;
