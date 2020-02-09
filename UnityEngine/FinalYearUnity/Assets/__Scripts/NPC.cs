@@ -23,11 +23,23 @@ public class NPC : MonoBehaviour
 
     public void SetVoice()
     {
+        //0 = male 1= female
+        int gender = UnityEngine.Random.Range(0, 2);
+        Debug.Log("GENDER:" + gender);
+        string[] voicesMale = {"en-US-GuyNeural", "en-IE-Sean"};
+        string[] voicesFemale = { "en-US-JessaNeural", "de-DE-KatjaNeural" };
 
-        string[] voices = { "en-US-JessaNeural", "en-US-GuyNeural", "en-IE-Sean", "de-DE-KatjaNeural" };
+        if (gender == 0)
+        {
+            int rand = UnityEngine.Random.Range(0, voicesMale.Length);
+            voiceName = voicesMale[rand];
+        }
+        else if(gender == 1)
+        {
+            int rand = UnityEngine.Random.Range(0, voicesFemale.Length);
+            voiceName = voicesFemale[rand];
+        }
 
-        int rand = UnityEngine.Random.Range(1, voices.Length);
-        voiceName = voices[rand];
     }
 
     public int GetSessionID()
