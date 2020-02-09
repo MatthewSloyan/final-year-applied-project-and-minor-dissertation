@@ -22,7 +22,7 @@ public class GenerateNPC : MonoBehaviour
         for (int i = -8; i < 10; i += 2)
         {
             // Instaniate a new person.
-            GameObject copy = Instantiate(npc, new Vector3(5, 1, i), Quaternion.identity);
+            GameObject copy = Instantiate(npc, new Vector3(5, 0, i), Quaternion.Euler(0,-90,0));
             copy.transform.parent = container.transform;
 
             // Instaniate satisfaction meter for every npc, and set as child to NPC
