@@ -23,6 +23,7 @@ public class NPC : MonoBehaviour
 
     public void SetVoice()
     {
+
         string[] voices = { "en-US-JessaNeural", "en-US-GuyNeural", "en-IE-Sean", "de-DE-KatjaNeural" };
 
         int rand = UnityEngine.Random.Range(1, voices.Length);
