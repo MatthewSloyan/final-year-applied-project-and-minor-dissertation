@@ -1,10 +1,18 @@
 \chapter{Technology Review}
+This chapter looks at some of the technologies used throughout the project with a focus on why we choose them along with the benefits they possess. Also, covered is some of the technology researched and reviewed which was not used but lead us to our final implementation.
+
+\section{Overview}
 
 \section{Application}
-As outlined in our introduction the focus of this application was to provide a realistic and gamified training experience that would be useful to the user specifically in the area of conflict resolution. To succeed with this we researched areas such as..
-
 \subsection{Unity}
+\subsection{C\#}
 
+\section{Git}
+Git is an open source and free version control system which allows small or large projects to be stored and accessed efficiently. Features include commits, branching, staging and workflows. It can be connected to GitHub which allows a project to be stored remotely and for multiple people to work together seamlessly. We have used Git with GitHub to track our changes, log error and work effectively using Agile methodologies.
+
+\section{HTTP}
+
+\section{Virtual Reality (VR)}
 \subsection{Google VR}
 Lit Review..
 \subsection{Oculus Quest}
@@ -17,13 +25,13 @@ As the application needed to include a dynamic chatbot we looked as some areas s
 All Windows devices have STT functionality built into its Cortana virtual assistant. This allows the user to talk directly to the device and it will pick up what you said and decide from this. As described above we decided to use Unity as the main technology for our application which would be deployed to and Oculus Quest, so any service we tested must work with Unity and Android respectively. As the Windows STT services provided a Unity package, we thought it could work well, however from testing it was quite slow at depicting speech despite being accurate. Also, the text predicted was lower case and contained no punctuation, or any useful characters such as question marks etc. which would be useful for determining context in Natural Language processing. Another unfortunate downside was that it didn't work on Android when testing so we decided to look at other options, this was since it's developed for Windows. 
 
 \subsection{Google Cloud}
-The second speech service we looked at was Google Cloud Speech Synthesis. Compared to the inbuilt system provided by Windows this service works using an application programming interface (API) where audio data is sent to a remote server and a result is returned. Because of this a constant internet connection is required which is another issue to look at. Using the documentation provided a solution was implemented despite it not working as desired due to the fact there is no specific Unity package available. The only way to implement it to implement the DLL files in Unity as a source which worked but unfortunately not as desired. The cost to use Google's services was quite reasonable and provided a good allowance of free usage which would suffice for our needs but as it didn't work as expected we decided to test other services.
+The second speech service we looked at was Google Cloud Speech Synthesis. Compared to the inbuilt system provided by Windows this service works using an application programming interface (API) where audio data is sent to a remote server and a result is returned. Because of this a constant internet connection is required which is another issue to look at. Using the documentation provided a solution was implemented despite it not working as desired due to the fact there is no specific Unity package available. The only way to implement it to implement the DLL files in Unity as a source which worked but unfortunately not as desired. Another area where Google Cloud was quite beneficial was the fact that allowed the developer to tailor the Speech Services to their own need. Some options included the ability to change the voice of the response from TTS or changing the pitch and tone of the voice. This would be useful for depicting emotion in characters. The cost to use Google's services was also quite reasonable and provided a good allowance of free usage which would suffice for our needs but as it didn't work as expected we decided to test other services. 
 
 \subsection{IBM Watson}
 Another service we researched was IBM Watson speech services, but with only a very limited amount of free characters (10,000) available for TTS and 250 minutes free with STT we found it to be a costly service to use. Another downside again to this service was the fact that there was no Unity package available either, so ultimately, we decided to look into other service providers.
 
 \subsection{Azure}
-Much like Google Cloud services Azure works in much the same way and provides the same features regarding multiple voices, tone, pitch etc. which would allow a realistic experience. There is also over 140 different voices provided with 9 specific Neural voices built using machine learning that are specifically designed to provide a realistic human like response. Also, there is support for over 45 languages which could be used for future research to make the application available in multiple countries. Other benefits include the fact there is a Unity package available for both TTS and STT, along with Android, IOS and Windows support. Below we will look a more in-dept look at the costs for each service in relation to virtual training.
+Much like Google Cloud services Azure works in much the same way and provides the same features regarding multiple voices, tone, pitch etc. which would allow a realistic experience. There is also over 140 different voices provided with 9 specific Neural voices built using machine learning that are specifically designed to provide a realistic human like response. Also, there is support for over 45 languages which could be used for future research to make the application available in multiple countries. Other benefits include the fact there is a Unity package available for both TTS and STT, along with Android, IOS and Windows support. Another feature which improves on the inbuilt Windows STT is the service can depict punctuation and other useful characters such as question marks etc. which would be useful for Natural Language processing (NLP). Below we will look a more in-dept look at the costs for each service in relation to virtual training.
 
 \subsubsection{Costs - Azure Text-to-Speech}
 There would be 250-400 replies an hour on average, with around 12500-20000 characters used per hour (average sentence around 50 characters). Based on the above the free tier would allow up to 25 hours of training for free per month. Additional characters can be purchased for 14 EUR (1 million characters) which would allow for an additional 50 hours of training.
@@ -31,7 +39,15 @@ There would be 250-400 replies an hour on average, with around 12500-20000 chara
 \subsubsection{Costs - Azure Speech-to-Speech}
 Every reply is on average 3-10 seconds. In one hour of training, it will use around 30 minutes. Based on the above the free tier would allow for up to 10 hours of training for free per month (5 hours free). A further hour can be purchased for 0.80 EUR, which equates to 2 hours of training. So, an additional 10 hours of training would cost 4.00 EUR.
 \newline\newline
-From testing, research and analysis of the benefits we decided to use Microsoft Azure services for our application.
+From testing, research and analysis of the benefits we decided to use Microsoft Azure services for our application for the following reasons.
+
+\begin{itemize}
+  \item Azure provided the best training cost, which would be useful for our client.
+  \item Azure provided the most useful custom options in regard to multiple voices, language, pitch tone etc. which would required to scale the project in the future.
+  \item Azure STT works extremely well at depicting human speech and includes punctuation. It is also very efficient and accurate.
+  \item A Unity package is provided which would allow it to be easily deployed to a Unity environment and run efficiently.
+  \item Android and IOS are supported which would allow the service to work on the multiple VR devices reviewed such as the Oculus Quest and Google VR.
+\end{itemize}
 
 \section{Chatbot}
 \subsection{Keras}
@@ -46,15 +62,18 @@ Lit Review..
 After developing and deciding on using Flask as our back-end, we needed to host the server and deploy it in a production build so it could be accessible to devices outside of the local network. A debug server for testing in Flask can only take one request at a time so it's not scalable or secure, so a production build is required. Below is a list of the different options for deploying a Flask server.
 
 \subsection{Self-hosted Options}
-Self-hosted solution can be deployed using Web Server Gateway Interface (WSGI) containers. This specification is used to describe how a web service communicates with web applications. A few examples of WSGI containers include Gunicorn, uWSGI, Gevent and Twisted Web.
+Self-hosted solution can be deployed using Web Server Gateway Interface (WSGI) containers. This specification is used to describe how a web service communicates with web applications. A few examples of WSGI containers include Gunicorn, uWSGI, Gevent and Twisted Web. We attempted to implement a WSGI on a Windows Amazon Web Service (AWS) virtual machine (VM) but from research these types of servers are best suited to Linux machines, so we decided to look into other options.
 
 \subsection{Hosted Options - Cloud Services}
-There is various platform as a service (PaaS) solutions available to deploy a production server to, which we will look at below. PasS is a model provided by third party vendors, where the vendor hosts the hardware and software on their own virtual machines and provides access at an affordable cost, which is usually much cheaper than setting up your own machines. Below we will look at two options we assessed tested and used for development and research.
+There is various platform as a service (PaaS) solutions available to deploy a production server to, which we will look at below. PasS is a model provided by third party vendors, where the vendor hosts the hardware and software on their own virtual machines and provides access at an affordable cost, which is usually much cheaper than setting up your own machines. Below we will review two options that we assessed, tested and used for development.
 
 \subsubsection{Heroku}
-Heroku is a PasS which allows developers to build, run and deploy applications easily and efficiently to the cloud. Git version control software is used to update, modify and deploy quickly. Heroku also provides a free tier services for student so it is a cost-effective approach to allowing applications to be easily accessible around the world, which is what we required to access our server from an Oculus Quest VR device.
+Heroku is a PasS which allows developers to build, run and deploy applications easily and efficiently to the cloud. Git version control software is used to update, modify and deploy quickly. Heroku also provides a free tier services for student so it is a cost-effective approach to allowing applications to be easily accessible around the world, which is what we required to access our server from an Oculus Quest VR device. 
 
 \subsubsection{PythonAnywhere}
 
 \section{Databases}
 \subsection{MongoDB}
+
+\section{Other areas of research}
+As outlined in our introduction the focus of this application was to provide a realistic and gamified training experience that would be useful to the user specifically in the area of conflict resolution. To succeed with this we researched areas such as Digital Twins, Sara de Freitas, Michael J Sutton, Serious Fun, Gamification and Digital Training/VR Training.
