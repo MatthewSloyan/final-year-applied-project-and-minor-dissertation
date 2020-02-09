@@ -29,18 +29,22 @@ public class GenerateNPC : MonoBehaviour
         for (int i = -8; i < 10; i += 2)
         {
             // Instaniate a new person.
-            GameObject noGenderNpc = npc;
-            noGenderNpc.GetComponent<NPC>().SetVoice();
-            GameObject copy;
-            Debug.Log("VOICENAME: " + noGenderNpc.GetComponent<NPC>().GetVoiceName());
-            if (noGenderNpc.GetComponent<NPC>().GetVoiceName() == "en-US-JessaNeural" || noGenderNpc.GetComponent<NPC>().GetVoiceName() == "de-DE-KatjaNeural")
+            
+            GameObject copy = npc;
+            copy.GetComponent<NPC>().SetVoice();
+            Debug.Log("VOICENAME: " + copy.GetComponent<NPC>().GetVoiceName());
+            string npcVoice = copy.GetComponent<NPC>().GetVoiceName();
+            
+            if (copy.GetComponent<NPC>().GetVoiceName() == "en-US-JessaNeural" || copy.GetComponent<NPC>().GetVoiceName() == "de-DE-KatjaNeural")
             {
                 copy = Instantiate(npc2, new Vector3(5, 0, i), Quaternion.Euler(0, -90, 0));
+                copy.GetComponent<NPC>().SetVoice(npcVoice);
                 copy.transform.parent = container.transform;
             }
             else
             {
                 copy = Instantiate(npc1, new Vector3(5, 0, i), Quaternion.Euler(0, -90, 0));
+                copy.GetComponent<NPC>().SetVoice(npcVoice);
                 copy.transform.parent = container.transform;
             }
 
@@ -86,8 +90,8 @@ public class GenerateNPC : MonoBehaviour
         
         npcScript.SetSessionId();
         npcScript.SetPersona();
-        if (npcScript.GetVoiceName() == null)
-            npcScript.SetVoice();
+        //if (npcScript.GetVoiceName() == null)
+        //npcScript.SetVoice();
         person.sessionId = npcScript.GetSessionID();
         person.voiceName = npcScript.GetVoiceName();
 

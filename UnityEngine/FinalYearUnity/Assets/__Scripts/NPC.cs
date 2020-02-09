@@ -42,6 +42,12 @@ public class NPC : MonoBehaviour
 
     }
 
+    public void SetVoice(string voice)
+    {
+        voiceName = voice;
+
+    }
+
     public int GetSessionID()
     {
         return sessionId;
