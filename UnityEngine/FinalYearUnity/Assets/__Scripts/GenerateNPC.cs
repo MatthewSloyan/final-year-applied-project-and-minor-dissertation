@@ -8,6 +8,7 @@ public class GenerateNPC : MonoBehaviour
     public GameObject npc;
     public GameObject npc1;
     public GameObject npc2;
+    public GameObject npc3;
 
     public GameObject satisfactionMeter;
     public GameObject completionRing;
@@ -37,9 +38,20 @@ public class GenerateNPC : MonoBehaviour
             
             if (copy.GetComponent<NPC>().GetVoiceName() == "en-US-JessaNeural" || copy.GetComponent<NPC>().GetVoiceName() == "de-DE-KatjaNeural")
             {
-                copy = Instantiate(npc2, new Vector3(5, 0, i), Quaternion.Euler(0, -90, 0));
-                copy.GetComponent<NPC>().SetVoice(npcVoice);
-                copy.transform.parent = container.transform;
+                int rand = UnityEngine.Random.Range(0, 2);
+
+                if(rand == 0)
+                {
+                    copy = Instantiate(npc2, new Vector3(5, 0, i), Quaternion.Euler(0, -90, 0));
+                    copy.GetComponent<NPC>().SetVoice(npcVoice);
+                    copy.transform.parent = container.transform;
+                }else if(rand == 1)
+                {
+                    copy = Instantiate(npc3, new Vector3(5, 0, i), Quaternion.Euler(0, -90, 0));
+                    copy.GetComponent<NPC>().SetVoice(npcVoice);
+                    copy.transform.parent = container.transform;
+                }
+
             }
             else
             {
