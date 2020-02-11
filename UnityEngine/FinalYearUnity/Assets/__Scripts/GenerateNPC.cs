@@ -6,9 +6,17 @@ using UnityEngine;
 public class GenerateNPC : MonoBehaviour
 {
     public GameObject npc;
+    public GameObject npc1;
+    public GameObject npc2;
+    public GameObject npc3;
+
     public GameObject satisfactionMeter;
     public GameObject completionRing;
     private GameObject container;
+    //en-US-JessaNeural
+    // de-DE-KatjaNeural
+    //en-IE-Sean
+    //en-US-GuyNeural
 
     // This script will simply instantiate the Prefab when the game starts.
     void Start()
@@ -22,8 +30,37 @@ public class GenerateNPC : MonoBehaviour
         for (int i = -8; i < 10; i += 2)
         {
             // Instaniate a new person.
-            GameObject copy = Instantiate(npc, new Vector3(5, 0, i), Quaternion.Euler(0,-90,0));
-            copy.transform.parent = container.transform;
+            
+            GameObject copy = npc;
+            copy.GetComponent<NPC>().SetVoice();
+            Debug.Log("VOICENAME: " + copy.GetComponent<NPC>().GetVoiceName());
+            string npcVoice = copy.GetComponent<NPC>().GetVoiceName();
+            
+            if (copy.GetComponent<NPC>().GetVoiceName() == "en-US-JessaNeural" || copy.GetComponent<NPC>().GetVoiceName() == "de-DE-KatjaNeural")
+            {
+                int rand = UnityEngine.Random.Range(0, 2);
+
+                if(rand == 0)
+                {
+                    copy = Instantiate(npc2, new Vector3(5, 0, i), Quaternion.Euler(0, -90, 0));
+                    copy.GetComponent<NPC>().SetVoice(npcVoice);
+                    copy.transform.parent = container.transform;
+                }else if(rand == 1)
+                {
+                    copy = Instantiate(npc3, new Vector3(5, 0, i), Quaternion.Euler(0, -90, 0));
+                    copy.GetComponent<NPC>().SetVoice(npcVoice);
+                    copy.transform.parent = container.transform;
+                }
+
+            }
+            else
+            {
+                copy = Instantiate(npc1, new Vector3(5, 0, i), Quaternion.Euler(0, -90, 0));
+                copy.GetComponent<NPC>().SetVoice(npcVoice);
+                copy.transform.parent = container.transform;
+            }
+
+
 
             // Instaniate satisfaction meter for every npc, and set as child to NPC
             GameObject sm = Instantiate(satisfactionMeter, new Vector3(6, 2.3f, i), Quaternion.identity);
@@ -62,9 +99,11 @@ public class GenerateNPC : MonoBehaviour
         person.complete = false;
         
         // Set and get NPC data, I tried by just getting the component from the copy gameObject but the values were null.
+        
         npcScript.SetSessionId();
         npcScript.SetPersona();
-        npcScript.SetVoice();
+        //if (npcScript.GetVoiceName() == null)
+        //npcScript.SetVoice();
         person.sessionId = npcScript.GetSessionID();
         person.voiceName = npcScript.GetVoiceName();
 

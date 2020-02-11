@@ -11079,7 +11079,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 649ac66f467f48943890f7d0f9052183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npc: {fileID: 7146830892252437371, guid: 81f1c4dc15151c4408f770e47ee81707, type: 3}
+  npc: {fileID: 6079264305995340992, guid: 57e762204544e6245b3472b8090bebaa, type: 3}
+  npc1: {fileID: 7146830892252437371, guid: 81f1c4dc15151c4408f770e47ee81707, type: 3}
+  npc2: {fileID: 3981734788216588181, guid: f54e9b241dc6a1a4a96f40e4f018aab4, type: 3}
+  npc3: {fileID: 7831747151199451967, guid: 32f8cb6217fdc44419d1722b42e9ebd3, type: 3}
   satisfactionMeter: {fileID: 9167976172239917252, guid: 95ee92308774cba4da7a0aaa05a408a6,
     type: 3}
   completionRing: {fileID: 431418816693238337, guid: 9c52b7f8e187ee147899fbb702783c14,
