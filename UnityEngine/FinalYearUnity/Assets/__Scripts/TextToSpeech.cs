@@ -41,7 +41,7 @@ public class TextToSpeech : MonoBehaviour
         speech = SpeechToText.Instance;
     }
 
-    public void ConvertTextToSpeech(string inputText, string voiceName)
+    public void ConvertTextToSpeech(string inputText, string voiceName, bool ifChecked)
     {
         // Creates an instance of a speech config with specified subscription key and service region.
         // For security this is read in from a text file and is not included on Github. 
@@ -88,32 +88,26 @@ public class TextToSpeech : MonoBehaviour
         yield return new WaitUntil(() => task.IsCompleted);
 
         var result = task.Result;
-
+        
         // Check result.
         if (result.Reason == ResultReason.SynthesizingAudioCompleted)
         {
-            // Native playback is not supported on Unity yet (currently only supported on Windows/Linux Desktop).
-            // Use the Unity API to play audio here as a short term solution.
-            // Native playback support will be added in the future release.
-            var sampleCount = result.AudioData.Length / 2;
-            var audioData = new float[sampleCount];
-            for (var i = 0; i < sampleCount; ++i)
-            {
-                audioData[i] = (short)(result.AudioData[i * 2 + 1] << 8 | result.AudioData[i * 2]) / 32768.0F;
-            }
+            // Create a task to create audio data and wait till it's completed.
+            Task<float[]> audioTask = getAudioData(result);
+            yield return new WaitUntil(() => audioTask.IsCompleted);
 
+            // Synthesize the Audio and play to the speaker.
             // The output audio format is 16K 16bit mono
+            var sampleCount = result.AudioData.Length / 2;
             var audioClip = AudioClip.Create("SynthesizedAudio", sampleCount, 1, 16000, false);
-            audioClip.SetData(audioData, 0);
+            audioClip.SetData(audioTask.Result, 0);
             audioSource.clip = audioClip;
             audioSource.Play();
-
-            Debug.Log("Speech synthesis success!");
-
-            //Start the coroutine we define below named WaitTillFinished.
-            // Removed for now as could be causing lag.
-            // Code adapted from: https://docs.unity3d.com/ScriptReference/WaitForSeconds.html
-            //StartCoroutine(WaitTillFinished());
+            
+            // Wait until the audio is completed and start listening again.
+            // Code adapted from: https://answers.unity.com/questions/1111236/wait-for-audio-to-finish-and-then-load-scene.html
+            yield return new WaitWhile(() => audioSource.isPlaying);
+            speech.convertSpeechToText(speech.GetSessionID(),speech.GetPersona(), speech.GetVoiceName());
         }
 
         else if (result.Reason == ResultReason.Canceled)
@@ -122,20 +116,21 @@ public class TextToSpeech : MonoBehaviour
             Debug.Log($"CANCELED:\nReason=[{cancellation.Reason}]\nErrorDetails=[{cancellation.ErrorDetails}]");
         }
 
+        // Dispose of synthesizer correctly.
         synthesizer.Dispose();
     }
 
-    //IEnumerator WaitTillFinished()
-    //{
-    //    //yield on a new YieldInstruction that waits for 3 seconds.
-    //    yield return new WaitForSeconds(2.5f);
-
-    //    // Start listening for speech again on sucess.
-    //    speech.convertSpeechToText(speech.GetSessionID(),speech.GetPersona(), speech.GetVoiceName());
-    //}
-
-    void OnDestroy()
+    // Task method which gets 16K 16bit mono audio from the result to output to the speaker.
+    // Code is adapted from: https://stackoverflow.com/questions/57897464/unity-freezes-for-2-seconds-while-microsoft-azure-text-to-speech-processes-input
+    private Task<float[]> getAudioData(SpeechSynthesisResult result)
     {
-        synthesizer.Dispose();
+        var sampleCount = result.AudioData.Length / 2;
+        var audioData = new float[sampleCount];
+
+        for (var i = 0; i < sampleCount; ++i) {
+            audioData[i] = (short)(result.AudioData[i * 2 + 1] << 8 | result.AudioData[i * 2]) / 32768.0F;
+        }
+
+        return Task.FromResult(audioData);
     }
 }

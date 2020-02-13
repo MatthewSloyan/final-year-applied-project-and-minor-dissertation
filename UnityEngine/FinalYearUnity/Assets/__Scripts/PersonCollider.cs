@@ -25,7 +25,7 @@ public class PersonCollider : MonoBehaviour
             // Check if ticket has been checked or not.
             if (cr.getCurrentColour() == "Green")
             {
-                TextToSpeech.Instance.ConvertTextToSpeech(replies[npc.GetPersona()], npc.GetVoiceName());
+                TextToSpeech.Instance.ConvertTextToSpeech(replies[npc.GetPersona()], npc.GetVoiceName(), true);
             }
             else
             {
