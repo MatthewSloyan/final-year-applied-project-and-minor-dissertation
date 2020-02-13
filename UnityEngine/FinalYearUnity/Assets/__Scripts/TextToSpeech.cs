@@ -19,6 +19,7 @@ public class TextToSpeech : MonoBehaviour
 
     private object threadLocker = new object();
     private bool waitingForSpeak;
+    private bool ifChecked;
     //private string message;
 
     private SpeechToText speech;
@@ -43,6 +44,8 @@ public class TextToSpeech : MonoBehaviour
 
     public void ConvertTextToSpeech(string inputText, string voiceName, bool ifChecked)
     {
+        this.ifChecked = ifChecked;
+
         // Creates an instance of a speech config with specified subscription key and service region.
         // For security this is read in from a text file and is not included on Github. 
         // API_Key.txt is stored in the root directory of the project
@@ -104,10 +107,14 @@ public class TextToSpeech : MonoBehaviour
             audioSource.clip = audioClip;
             audioSource.Play();
             
-            // Wait until the audio is completed and start listening again.
-            // Code adapted from: https://answers.unity.com/questions/1111236/wait-for-audio-to-finish-and-then-load-scene.html
-            yield return new WaitWhile(() => audioSource.isPlaying);
-            speech.convertSpeechToText(speech.GetSessionID(),speech.GetPersona(), speech.GetVoiceName());
+            // true if ticket has already been checked, otherwise start listening again until ticket has been checked.
+            if (!ifChecked)
+            {
+                // Wait until the audio is completed and start listening again.
+                // Code adapted from: https://answers.unity.com/questions/1111236/wait-for-audio-to-finish-and-then-load-scene.html
+                yield return new WaitWhile(() => audioSource.isPlaying);
+                speech.convertSpeechToText(speech.GetSessionID(), speech.GetPersona(), speech.GetVoiceName());
+            }
         }
 
         else if (result.Reason == ResultReason.Canceled)
