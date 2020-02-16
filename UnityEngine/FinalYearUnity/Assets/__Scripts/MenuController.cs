@@ -52,16 +52,16 @@ public class MenuController : MonoBehaviour
         //pauseMenuUI.SetActive(false);
 
         // Start the game running again
-        Time.timeScale = 1f;
-        isGamePaused = false;
+        //Time.timeScale = 1f;
+        //isGamePaused = false;
     }
 
     // Pauses game if called
     public void PauseGame()
     {
         //pauseMenuUI.SetActive(true);
-        Time.timeScale = 0f;
-        isGamePaused = true;
+        //Time.timeScale = 0f;
+        //isGamePaused = true;
     }
 
     // Display game over screen
@@ -71,21 +71,22 @@ public class MenuController : MonoBehaviour
     }
 
     // Displays tutorial menu display.
-    public void DisplayTutorial(GameObject tutorialUI)
-    {
-        tutorialUI.SetActive(true);
-    }
+    //public void DisplayTutorial(GameObject tutorialUI)
+    //{
+    //    gameObject.SetActive(true);
+    //}
 
     // Changes tutorial page.
-    public void ChangeTutorial(GameObject tutorialUI)
+    public void ChangeTutorial(GameObject newUI)
     {
-        tutorialUI.SetActive(true);
+        gameObject.SetActive(false);
+        newUI.SetActive(true);
     }
 
     // Closes tutorial menu display.
-    public void CloseTutorial(GameObject tutorialUI)
+    public void CloseTutorial()
     {
-        tutorialUI.SetActive(false);
+        gameObject.SetActive(false);
     }
     #endregion
 
