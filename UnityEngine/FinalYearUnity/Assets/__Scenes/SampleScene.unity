@@ -8677,6 +8677,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MENU
       objectReference: {fileID: 0}
+    - target: {fileID: 174312, guid: 4b2142e070c70c64ea6cd29fa2c079ad, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 22468988, guid: 4b2142e070c70c64ea6cd29fa2c079ad, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -8687,7 +8691,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22468988, guid: 4b2142e070c70c64ea6cd29fa2c079ad, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 22468988, guid: 4b2142e070c70c64ea6cd29fa2c079ad, type: 3}
       propertyPath: m_LocalRotation.x
@@ -8695,7 +8699,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22468988, guid: 4b2142e070c70c64ea6cd29fa2c079ad, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7071068
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 22468988, guid: 4b2142e070c70c64ea6cd29fa2c079ad, type: 3}
       propertyPath: m_LocalRotation.z
@@ -8715,7 +8719,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22468988, guid: 4b2142e070c70c64ea6cd29fa2c079ad, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 22468988, guid: 4b2142e070c70c64ea6cd29fa2c079ad, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -8723,7 +8727,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22468988, guid: 4b2142e070c70c64ea6cd29fa2c079ad, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 10.94
+      value: -4.95
       objectReference: {fileID: 0}
     - target: {fileID: 22468988, guid: 4b2142e070c70c64ea6cd29fa2c079ad, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -8791,7 +8795,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11418274, guid: 4b2142e070c70c64ea6cd29fa2c079ad, type: 3}
       propertyPath: m_Text
-      value: TEST
+      value: 'TUTORIAL (Page: 1)'
+      objectReference: {fileID: 0}
+    - target: {fileID: 11499600, guid: 4b2142e070c70c64ea6cd29fa2c079ad, type: 3}
+      propertyPath: m_Text
+      value: The objective of the game is to check each passengers ticket.
+      objectReference: {fileID: 0}
+    - target: {fileID: 11465218, guid: 4b2142e070c70c64ea6cd29fa2c079ad, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11465218, guid: 4b2142e070c70c64ea6cd29fa2c079ad, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11465218, guid: 4b2142e070c70c64ea6cd29fa2c079ad, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b2142e070c70c64ea6cd29fa2c079ad, type: 3}
