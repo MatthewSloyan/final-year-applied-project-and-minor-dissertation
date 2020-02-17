@@ -30,7 +30,7 @@ public class MenuController : MonoBehaviour
     void Update()
     {
         // Get esc key input from keyboard, to pause game from keyboard entry
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             if (isGamePaused)
             {
@@ -52,39 +52,33 @@ public class MenuController : MonoBehaviour
         //pauseMenuUI.SetActive(false);
 
         // Start the game running again
-        //Time.timeScale = 1f;
-        //isGamePaused = false;
+        Time.timeScale = 1f;
+        isGamePaused = false;
     }
 
     // Pauses game if called
     public void PauseGame()
     {
         //pauseMenuUI.SetActive(true);
-        //Time.timeScale = 0f;
-        //isGamePaused = true;
+        Time.timeScale = 0f;
+        isGamePaused = true;
     }
-
-    // Display game over screen
-    public void GameOverDisplay()
+    
+    //Displays any UI gameobject.
+    public void DisplayUI(GameObject ui)
     {
-        //gameOverMenuUI.SetActive(true);
+        gameObject.SetActive(true);
     }
 
-    // Displays tutorial menu display.
-    //public void DisplayTutorial(GameObject tutorialUI)
-    //{
-    //    gameObject.SetActive(true);
-    //}
-
-    // Changes tutorial page.
-    public void ChangeTutorial(GameObject newUI)
+    // Changes UI gameobject
+    public void ChangeUI(GameObject newUI)
     {
         gameObject.SetActive(false);
         newUI.SetActive(true);
     }
 
-    // Closes tutorial menu display.
-    public void CloseTutorial()
+    // Closes any UI gameobject.
+    public void CloseUI()
     {
         gameObject.SetActive(false);
     }
