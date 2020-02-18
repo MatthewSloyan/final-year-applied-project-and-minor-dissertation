@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
     #region == Private Variables == 
     private static bool isGamePaused = false;
+    private GameObject gameOverUI;
 
     #endregion
 
@@ -23,7 +25,8 @@ public class MenuController : MonoBehaviour
 
     void Start()
     {
-
+        gameOverUI = GameObject.Find("GameOver_UI");
+        gameOverUI.SetActive(false);
     }
 
     // Update is called once per frame
@@ -81,6 +84,25 @@ public class MenuController : MonoBehaviour
     public void CloseUI()
     {
         gameObject.SetActive(false);
+    }
+
+    // Closes any UI gameobject.
+    public void GameOverUI()
+    {
+        // Turn back on menu.
+        gameOverUI.SetActive(true);
+
+        // Get json string from file.
+        string json = new ScoreFileManager().LoadScoreFile();
+
+        // Convert string to object. Object returned has the updated score.
+        Game game = new Utilities().ToObject<Game>(json);
+
+        Text t = GameObject.Find("TimeGameOver").gameObject.GetComponent<Text>();
+        t.text = game.gameTime;
+
+        Text s = GameObject.Find("ScoreGameOver").gameObject.GetComponent<Text>();
+        s.text = game.gameScore.ToString();
     }
     #endregion
 

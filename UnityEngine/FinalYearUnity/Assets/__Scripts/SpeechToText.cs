@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using Microsoft.CognitiveServices.Speech;
 using System.Collections;
 using UnityEngine.Networking;
+using TMPro;
 #if PLATFORM_ANDROID
 using UnityEngine.Android;
 #endif
@@ -212,6 +213,8 @@ public class SpeechToText : MonoBehaviour
             if (outputText != null)
             {
                 outputText.text = message;
+                TextMeshPro tm = GameObject.Find("DEBUG").gameObject.GetComponent<TextMeshPro>();
+                tm.text = message;
             }
         }
     }

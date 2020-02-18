@@ -70,6 +70,10 @@ public class ScoreManager
         // Convert string to object. Object returned has the updated score.
         Game game = UpdateGameScore(new Utilities().ToObject<Game>(json));
 
+        // Update gameTime
+        game.gameTime = GameObject.Find("Time").gameObject.GetComponent<TextMeshPro>().text;
+
+        // Create a new list to update and overwrite current list.
         List<NPCList> list = new List<NPCList>();
         list = game.npcs;
 
@@ -106,7 +110,7 @@ public class ScoreManager
         }
 
         game.npcs = list;
-        
+
         // Write back out to file.
         scoreFileManager.WriteScoreFile(new Utilities().ToJsonString(game));
 
@@ -116,7 +120,12 @@ public class ScoreManager
         if (isGameComplete)
         {
             Debug.Log("Game Complete!");
-            // Display end game menu, and write data to database.
+
+            // Display end game menu.
+            MenuController.Instance.GameOverUI();
+            //GameObject.Find("GameOver_UI").GetComponent<MenuController>().GameOverUI();
+
+            // Write to Database.
         }
     }
     
