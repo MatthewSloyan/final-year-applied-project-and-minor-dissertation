@@ -8,6 +8,7 @@ using Microsoft.CognitiveServices.Speech;
 using System.Collections;
 using UnityEngine.Networking;
 using TMPro;
+using System.IO;
 #if PLATFORM_ANDROID
 using UnityEngine.Android;
 #endif
@@ -90,6 +91,9 @@ public class SpeechToText : MonoBehaviour
             //var config = SpeechConfig.FromSubscription("722faee502a24ebeb53cf34a58e22e7d", "westus");
             var config = SpeechConfig.FromSubscription("a2f75e30125b4f099012eaa7f9a5c840", "westeurope");
 
+            // Testing
+            //config.SetProperty(PropertyId.Speech_LogFilename, "C:/Users/Matthew/Desktop/Test2.txt");
+
             using (var recognizer = new SpeechRecognizer(config))
             {
                 listenSuccess = false;
@@ -114,8 +118,6 @@ public class SpeechToText : MonoBehaviour
                     // Set independant variables for sending the message to the server.
                     listenSuccess = true;
                     messageToSend = newMessage;
-
-                    // Tried to call sendText() here but couldn't get it working.
                 }
                 else if (result.Reason == ResultReason.NoMatch)
                 {
@@ -131,6 +133,9 @@ public class SpeechToText : MonoBehaviour
                 {
                     message = newMessage;
                     waitingForReco = false;
+
+                    // Dispose of recognizer correctly.
+                    recognizer.Dispose();
                 }
             }
         }
