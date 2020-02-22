@@ -10,7 +10,8 @@ public class ScoreManager
     private int scoreValue;
     private string userInput;
     private string npcResponse;
-    
+    private static bool callOnce = false;
+
     public ScoreManager(int sessionId, int scoreValue, string userInput, string npcResponse)
     {
         this.sessionId = sessionId;
@@ -120,10 +121,15 @@ public class ScoreManager
         if (isGameComplete)
         {
             Debug.Log("Game Complete!");
+            
+            if (!callOnce)
+            {
+                callOnce = true;
 
-            // Display end game menu.
-            MenuController.Instance.GameOverUI();
-
+                // Display end game menu.
+                MenuController.Instance.GameOverUI();
+            }
+                
             // Write to Database.
         }
     }
@@ -131,9 +137,13 @@ public class ScoreManager
     private Game UpdateGameScore(Game game)
     {
         if (scoreValue == 0)
+        {
             game.gameScore--;
+        }
         else if (scoreValue == 2)
+        {
             game.gameScore++;
+        }
 
         // Update in game board.
         TextMeshPro tm = GameObject.Find("Score").gameObject.GetComponent<TextMeshPro>();
