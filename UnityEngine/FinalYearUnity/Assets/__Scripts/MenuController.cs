@@ -9,7 +9,7 @@ public class MenuController : MonoBehaviour
     #region == Private Variables == 
     private static bool isGamePaused = false;
     private GameObject gameOverUI;
-    private static GameObject pauseUI;
+    //private static GameObject pauseUI;
 
     #endregion
 
@@ -27,27 +27,27 @@ public class MenuController : MonoBehaviour
     void Start()
     {
         gameOverUI = GameObject.Find("GameOver_UI");
-        gameOverUI.SetActive(false);
+        //gameOverUI.SetActive(false);
 
-        pauseUI = GameObject.Find("PauseMenu");
-        pauseUI.SetActive(false);
+        //pauseUI = GameObject.Find("PauseMenu");
+        //pauseUI.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
         // Get esc key input from keyboard, to pause game from keyboard entry
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (isGamePaused)
-            {
-                ResumeGame();
-            }
-            else
-            {
-                PauseGame();
-            }
-        }
+        //if (Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    if (isGamePaused)
+        //    {
+        //        ResumeGame();
+        //    }
+        //    else
+        //    {
+        //        PauseGame();
+        //    }
+        //}
     }
 
     #region == Menu overlays (Pause/Gameover)
@@ -56,7 +56,7 @@ public class MenuController : MonoBehaviour
     public void ResumeGame()
     {
         // Turn off the menu UI
-        pauseUI.SetActive(false);
+        //pauseUI.SetActive(false);
 
         // Start the game running again
         Time.timeScale = 1f;
@@ -68,9 +68,9 @@ public class MenuController : MonoBehaviour
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
-        pauseUI.transform.position = new Vector3(player.transform.position.x, 1.75f, player.transform.position.z + 3);
+        //pauseUI.transform.position = new Vector3(player.transform.position.x, 1.75f, player.transform.position.z + 3);
 
-        pauseUI.SetActive(true);
+        //pauseUI.SetActive(true);
 
         Time.timeScale = 0f;
         isGamePaused = true;
@@ -99,10 +99,12 @@ public class MenuController : MonoBehaviour
     public void GameOverUI()
     {
         // Turn back on menu.
-        gameOverUI.SetActive(true);
+        //gameOverUI.SetActive(true);
 
         // Get json string from file.
         string json = new ScoreFileManager().LoadScoreFile();
+
+        Debug.Log(json);
 
         // Convert string to object. Object returned has the updated score.
         Game game = new Utilities().ToObject<Game>(json);
@@ -111,7 +113,28 @@ public class MenuController : MonoBehaviour
         t.text = game.gameTime;
 
         Text s = GameObject.Find("ScoreGameOver").gameObject.GetComponent<Text>();
-        s.text = game.gameScore.ToString();
+        s.text = "Score: " + game.gameScore.ToString();
+
+        // Scroll list
+        GameObject grid = GameObject.FindGameObjectWithTag("list");
+        float position = 0f;
+
+        foreach (var npc in game.npcs)
+        {
+            GameObject temp = Resources.Load("Container") as GameObject;
+            
+            //GameObject container = Instantiate(temp);
+            GameObject container = Instantiate(temp, new Vector3(temp.transform.position.x, temp.transform.position.y - position, temp.transform.position.z), temp.transform.rotation) as GameObject;
+
+            //Image npcImage = temp.GetComponent<Image>();
+            //Image image = Resources.Load("Images/test") as Image;
+            //npcImage.sprite = image.sprite;
+
+            container.transform.GetChild(1).transform.GetComponent<Text>().text = "Rating: " + npc.score;
+            container.transform.SetParent(grid.transform, false);
+
+            position += 45;
+        }
     }
     #endregion
 

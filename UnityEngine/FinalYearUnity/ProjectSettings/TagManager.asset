@@ -6,6 +6,7 @@ TagManager:
   tags:
   - stick
   - person
+  - list
   layers:
   - Default
   - TransparentFX

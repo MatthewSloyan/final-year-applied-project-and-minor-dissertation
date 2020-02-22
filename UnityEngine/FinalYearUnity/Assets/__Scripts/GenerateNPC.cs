@@ -27,7 +27,7 @@ public class GenerateNPC : MonoBehaviour
         // List of all NPCS in the game to write scores to file.
         List<NPCList> list = new List<NPCList>();
         
-        for (int i = -4; i < 4; i += 2)
+        for (int i = 0; i < 4; i += 2)
         {
             // Instaniate a new person.
             

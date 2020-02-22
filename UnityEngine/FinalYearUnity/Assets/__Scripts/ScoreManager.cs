@@ -123,7 +123,6 @@ public class ScoreManager
 
             // Display end game menu.
             MenuController.Instance.GameOverUI();
-            //GameObject.Find("GameOver_UI").GetComponent<MenuController>().GameOverUI();
 
             // Write to Database.
         }
