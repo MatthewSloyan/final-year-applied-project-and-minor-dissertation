@@ -9,6 +9,7 @@ public class MenuController : MonoBehaviour
     #region == Private Variables == 
     private static bool isGamePaused = false;
     private GameObject gameOverUI;
+    private static GameObject pauseUI;
 
     #endregion
 
@@ -27,13 +28,16 @@ public class MenuController : MonoBehaviour
     {
         gameOverUI = GameObject.Find("GameOver_UI");
         gameOverUI.SetActive(false);
+
+        pauseUI = GameObject.Find("PauseMenu");
+        pauseUI.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
         // Get esc key input from keyboard, to pause game from keyboard entry
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (isGamePaused)
             {
@@ -52,7 +56,7 @@ public class MenuController : MonoBehaviour
     public void ResumeGame()
     {
         // Turn off the menu UI
-        //pauseMenuUI.SetActive(false);
+        pauseUI.SetActive(false);
 
         // Start the game running again
         Time.timeScale = 1f;
@@ -62,7 +66,12 @@ public class MenuController : MonoBehaviour
     // Pauses game if called
     public void PauseGame()
     {
-        //pauseMenuUI.SetActive(true);
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        pauseUI.transform.position = new Vector3(player.transform.position.x, 1.75f, player.transform.position.z + 3);
+
+        pauseUI.SetActive(true);
+
         Time.timeScale = 0f;
         isGamePaused = true;
     }
