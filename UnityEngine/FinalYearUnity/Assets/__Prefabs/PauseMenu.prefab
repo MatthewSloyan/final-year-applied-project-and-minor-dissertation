@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4648257689222388595}
   - component: {fileID: 835967796092303726}
   - component: {fileID: 3989130525948541223}
+  - component: {fileID: 5400874849435257213}
   m_Layer: 5
   m_Name: PauseMenu
   m_TagString: Untagged
@@ -130,6 +131,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7ca09d821e4be54d9f125adc66e7a8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5400874849435257213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4648257689216418843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7a04f09404408347be7dba659541b08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4648257689216431201
@@ -250,7 +263,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4648257689222452409}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3989130525948541223}
+        m_MethodName: CloseUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4648257689216431961
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,7 +519,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.3, y: 0}
   m_AnchorMax: {x: 0.7, y: 1}
-  m_AnchoredPosition: {x: 17, y: 19}
+  m_AnchoredPosition: {x: -0.0068359375, y: 19}
   m_SizeDelta: {x: 539.2, y: -375}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4648257689236753833

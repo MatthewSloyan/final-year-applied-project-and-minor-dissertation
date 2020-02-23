@@ -6,76 +6,8 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
-    #region == Private Variables == 
-    private static bool isGamePaused = false;
-    private GameObject gameOverUI;
-    private static GameObject pauseUI;
+    #region == Menu overlays ==
 
-    #endregion
-
-    // Singleton design pattern to get instance of class in PlayerCollider.cs
-    public static MenuController Instance { get; private set; }
-
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-    }
-
-    void Start()
-    {
-        gameOverUI = GameObject.Find("GameOver_UI");
-        //gameOverUI.SetActive(false);
-
-        pauseUI = GameObject.Find("PauseMenu");
-        pauseUI.SetActive(false);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // Get esc key input from keyboard, to pause game from keyboard entry
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (isGamePaused)
-            {
-                ResumeGame();
-            }
-            else
-            {
-                PauseGame();
-            }
-        }
-    }
-
-    #region == Menu overlays (Pause/Gameover)
-
-    // Resumes game if called
-    public void ResumeGame()
-    {
-        // Turn off the menu UI
-        pauseUI.SetActive(false);
-
-        // Start the game running again
-        Time.timeScale = 1f;
-        isGamePaused = false;
-    }
-
-    // Pauses game if called
-    public void PauseGame()
-    {
-        pauseUI.SetActive(true);
-
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-
-        pauseUI.transform.position = new Vector3(player.transform.position.x, 1.75f, player.transform.position.z + 3);
-
-        Time.timeScale = 0f;
-        isGamePaused = true;
-    }
-    
     //Displays any UI gameobject.
     public void DisplayUI(GameObject ui)
     {
@@ -94,69 +26,6 @@ public class MenuController : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-
-    // Closes any UI gameobject.
-    public void GameOverUI()
-    {
-        // Turn back on menu.
-        //gameOverUI.SetActive(true);
-
-        // Get json string from file.
-        string json = new ScoreFileManager().LoadScoreFile();
-
-        Debug.Log(json);
-
-        // Convert string to object. Object returned has the updated score.
-        Game game = new Utilities().ToObject<Game>(json);
-
-        Text t = GameObject.Find("TimeGameOver").gameObject.GetComponent<Text>();
-        t.text = game.gameTime;
-
-        Text s = GameObject.Find("ScoreGameOver").gameObject.GetComponent<Text>();
-        s.text = "Score: " + game.gameScore.ToString();
-
-        // Scroll list
-        GameObject grid = GameObject.FindGameObjectWithTag("list");
-        float position = 0f;
-
-        foreach (var npc in game.npcs)
-        {
-            GameObject temp = Resources.Load("Container") as GameObject;
-            GameObject container = Instantiate(temp, new Vector3(temp.transform.position.x, temp.transform.position.y - position, temp.transform.position.z), temp.transform.rotation) as GameObject;
-
-            // Get the filename depending on the voice.
-            string fileName;
-
-            switch (npc.voiceName)
-            {
-                case "en-US-GuyNeural":
-                    fileName = "male_1.png";
-                    break;
-                case "en-IE-Sean":
-                    fileName = "male_1.png";
-                    break;
-                case "en-US-JessaNeural":
-                    fileName = "female_1.png";
-                    break;
-                case "de-DE-KatjaNeural":
-                    fileName = "female_2.png";
-                    break;
-                default:
-                    fileName = "default";
-                    break;
-            }
-
-            Debug.Log(fileName);
-
-            Sprite image = Resources.Load("Images/" + fileName) as Sprite;
-            container.transform.GetChild(0).GetComponent<Image>().sprite = image;
-
-            container.transform.GetChild(1).transform.GetComponent<Text>().text = "Rating: " + npc.score;
-            container.transform.SetParent(grid.transform, false);
-
-            position += 45;
-        }
-    }
     #endregion
 
     #region == Navigation methods == 
@@ -167,7 +36,7 @@ public class MenuController : MonoBehaviour
         // Reload current scene abd un pause game.
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Time.timeScale = 1f;
-        isGamePaused = false;
+        PauseMenu.IsGamePaused = false;
     }
 
     // Quit the game.
