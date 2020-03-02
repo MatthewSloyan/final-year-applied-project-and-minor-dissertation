@@ -91,22 +91,22 @@ public class GenerateNPC : MonoBehaviour
         //new ScoreFileManager().WriteScoreFile(new Utilities().ToJsonString(game));
     }
 
-    //private NPCList InitialiseNPCObject(NPC npcScript)
-    //{
-    //    // Create a new NPC List object to add data to, this is then added to the game object outside the loop.
-    //    NPCList person = new NPCList();
-    //    person.score = 0;
-    //    person.complete = false;
-        
-    //    // Set and get NPC data, I tried by just getting the component from the copy gameObject but the values were null.
-        
-    //    npcScript.SetSessionId();
-    //    npcScript.SetPersona();
-    //    //if (npcScript.GetVoiceName() == null)
-    //    //npcScript.SetVoice();
-    //    person.sessionId = npcScript.GetSessionID();
-    //    person.voiceName = npcScript.GetVoiceName();
+    private NPCList InitialiseNPCObject(NPC npcScript)
+    {
+        // Create a new NPC List object to add data to, this is then added to the game object outside the loop.
+        NPCList person = new NPCList();
+        person.score = 0;
+        person.complete = false;
 
-    //    return person;
-    //}
+        // Set and get NPC data, I tried by just getting the component from the copy gameObject but the values were null.
+
+        npcScript.SetSessionId();
+        npcScript.SetPersona();
+        //if (npcScript.GetVoiceName() == null)
+        //npcScript.SetVoice();
+        person.sessionId = npcScript.GetSessionID();
+        person.voiceName = npcScript.GetVoiceName();
+
+        return person;
+    }
 }
