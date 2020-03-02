@@ -62,7 +62,7 @@ public class Client : MonoBehaviour
 
                 TextToSpeech.Instance.ConvertTextToSpeech(reponses[0], voiceName, false);
 
-                //new ScoreManager(sessionId, Int32.Parse(reponses[1]), userInput, reponses[0]).UpdateScore();
+                new ScoreManager(sessionId, Int32.Parse(reponses[1]), userInput, reponses[0]).UpdateScore();
             }
             catch
             { 
