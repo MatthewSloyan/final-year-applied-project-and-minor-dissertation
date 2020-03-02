@@ -25,7 +25,7 @@ public class GenerateNPC : MonoBehaviour
         container = new GameObject("container");
 
         // List of all NPCS in the game to write scores to file.
-        //List<NPCList> list = new List<NPCList>();
+        List<NPCList> list = new List<NPCList>();
         
         for (int i = 0; i < 4; i += 2)
         {
@@ -79,16 +79,16 @@ public class GenerateNPC : MonoBehaviour
             NPC npcScript = copy.GetComponent<NPC>();
 
             // Initialise and add new NPC to list to be writen to file.
-            //list.Add(InitialiseNPCObject(npcScript));
+            list.Add(InitialiseNPCObject(npcScript));
         }
 
         // Add list to Game object and write JSON to text file.
-        //Game game = new Game();
-        //game.gameId = UnityEngine.Random.Range(1, 10000);
-        //game.npcs = list;
+        Game game = new Game();
+        game.gameId = UnityEngine.Random.Range(1, 10000);
+        game.npcs = list;
 
-        // Write object to file as JSON.
-        //new ScoreFileManager().WriteScoreFile(new Utilities().ToJsonString(game));
+        //Write object to file as JSON.
+        new ScoreFileManager().WriteScoreFile(new Utilities().ToJsonString(game));
     }
 
     private NPCList InitialiseNPCObject(NPC npcScript)

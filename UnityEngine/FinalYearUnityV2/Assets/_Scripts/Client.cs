@@ -23,9 +23,9 @@ public class Client : MonoBehaviour
         //this.persona = persona;
 
         this.userInput = userInput;
-        this.sessionId = 2231;
-        this.voiceName = "en-US-JessaNeural";
-        this.persona = 2;
+        this.sessionId = sessionId;
+        this.voiceName = voiceName;
+        this.persona = persona;
         Debug.Log("USER TEXT: " + userInput);
         Debug.Log("NPC's Voice: " + voiceName);
         Debug.Log("NPC's SessionId: " + sessionId);

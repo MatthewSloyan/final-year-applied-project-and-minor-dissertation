@@ -221,7 +221,7 @@ public class SpeechToText : MonoBehaviour
             // https://docs.unity3d.com/ScriptReference/GameObject.AddComponent.html
 
             Client c = gameObject.AddComponent(typeof(Client)) as Client;
-            c.sendText(messageToSend, sessionId, voiceName, persona);
+            c.sendText(messageToSend, GetSessionID(), GetVoiceName(), GetPersona());
             listenSuccess = false;
             messageToSend = "";
             
