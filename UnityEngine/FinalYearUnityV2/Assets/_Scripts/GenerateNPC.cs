@@ -27,7 +27,7 @@ public class GenerateNPC : MonoBehaviour
         // List of all NPCS in the game to write scores to file.
         List<NPCList> list = new List<NPCList>();
         
-        for (int i = 0; i < 4; i += 2)
+        for (int i = 0; i < 10; i += 2)
         {
             // Instaniate a new person.
             
@@ -36,29 +36,29 @@ public class GenerateNPC : MonoBehaviour
             Debug.Log("VOICENAME: " + copy.GetComponent<NPC>().GetVoiceName());
             string npcVoice = copy.GetComponent<NPC>().GetVoiceName();
             
-            if (copy.GetComponent<NPC>().GetVoiceName() == "en-US-JessaNeural" || copy.GetComponent<NPC>().GetVoiceName() == "de-DE-KatjaNeural")
-            {
-                int rand = UnityEngine.Random.Range(0, 2);
+            //if (copy.GetComponent<NPC>().GetVoiceName() == "en-US-JessaNeural" || copy.GetComponent<NPC>().GetVoiceName() == "de-DE-KatjaNeural")
+            //{
+            //    int rand = UnityEngine.Random.Range(0, 2);
 
-                if(rand == 0)
-                {
-                    copy = Instantiate(npc2, new Vector3(5, 0, i), Quaternion.Euler(0, -90, 0));
-                    copy.GetComponent<NPC>().SetVoice(npcVoice);
-                    copy.transform.parent = container.transform;
-                }else if(rand == 1)
-                {
-                    copy = Instantiate(npc3, new Vector3(5, 0, i), Quaternion.Euler(0, -90, 0));
-                    copy.GetComponent<NPC>().SetVoice(npcVoice);
-                    copy.transform.parent = container.transform;
-                }
+            //    if(rand == 0)
+            //    {
+            //        copy = Instantiate(npc2, new Vector3(5, 0, i), Quaternion.Euler(0, -90, 0));
+            //        copy.GetComponent<NPC>().SetVoice(npcVoice);
+            //        copy.transform.parent = container.transform;
+            //    }else if(rand == 1)
+            //    {
+            //        copy = Instantiate(npc3, new Vector3(5, 0, i), Quaternion.Euler(0, -90, 0));
+            //        copy.GetComponent<NPC>().SetVoice(npcVoice);
+            //        copy.transform.parent = container.transform;
+            //    }
 
-            }
-            else
-            {
-                copy = Instantiate(npc1, new Vector3(5, 0, i), Quaternion.Euler(0, -90, 0));
-                copy.GetComponent<NPC>().SetVoice(npcVoice);
-                copy.transform.parent = container.transform;
-            }
+            //}
+            //else
+            //{
+            copy = Instantiate(npc1, new Vector3(5, 0, i), Quaternion.Euler(0, -90, 0));
+            copy.GetComponent<NPC>().SetVoice(npcVoice);
+            copy.transform.parent = container.transform;
+            //}
 
 
 

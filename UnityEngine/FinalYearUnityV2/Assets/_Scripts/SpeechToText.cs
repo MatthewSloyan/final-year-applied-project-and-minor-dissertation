@@ -74,9 +74,13 @@ public class SpeechToText : MonoBehaviour
     public async void convertSpeechToText(int id, int persona, string voice)
     {
 
-        this.sessionId = sessionId;
+        this.sessionId = id;
         this.persona = persona;
-        this.voiceName = voiceName;
+        this.voiceName = voice;
+
+        //Debug.Log("ID: " + id);
+        //Debug.Log("Persona: "+persona);
+        //Debug.Log("Voice: "+voice);
 
         Debug.Log("In method");
         // Check if mic permission is granted or if the player is within range of a person.

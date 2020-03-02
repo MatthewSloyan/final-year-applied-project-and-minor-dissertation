@@ -26,10 +26,10 @@ public class Client : MonoBehaviour
         this.sessionId = sessionId;
         this.voiceName = voiceName;
         this.persona = persona;
-        Debug.Log("USER TEXT: " + userInput);
-        Debug.Log("NPC's Voice: " + voiceName);
-        Debug.Log("NPC's SessionId: " + sessionId);
-        Debug.Log("NPC's persona: " + persona);
+        //Debug.Log("USER TEXT: " + userInput);
+        //Debug.Log("NPC's Voice: " + voiceName);
+        //Debug.Log("NPC's SessionId: " + sessionId);
+        //Debug.Log("NPC's persona: " + persona);
         Debug.Log("IN CLIENT");
 
         StartCoroutine(GetText());
