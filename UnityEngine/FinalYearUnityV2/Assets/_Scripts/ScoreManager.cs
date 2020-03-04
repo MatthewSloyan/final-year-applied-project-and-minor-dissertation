@@ -127,7 +127,7 @@ public class ScoreManager
                 callOnce = true;
 
                 // Display end game menu.
-                GameObject.Find("GameOver_UI").gameObject.GetComponent<GameOverMenu>().GameOverUI();
+                //GameObject.Find("GameOver_UI").gameObject.GetComponent<GameOverMenu>().GameOverUI();
             }
                 
             // Write to Database.

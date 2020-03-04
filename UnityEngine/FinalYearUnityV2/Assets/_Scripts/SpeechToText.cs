@@ -98,7 +98,7 @@ public class SpeechToText : MonoBehaviour
 
             // Creates an instance of a speech config with specified subscription key and service region.
             //var config = SpeechConfig.FromSubscription("722faee502a24ebeb53cf34a58e22e7d", "westus");
-            var config = SpeechConfig.FromSubscription("a2f75e30125b4f099012eaa7f9a5c840", "westeurope");
+            var config = SpeechConfig.FromSubscription("698bedad9cae4eecbc88738a19c4d03c", "westeurope");
 
             // Testing
             //config.SetProperty(PropertyId.Speech_LogFilename, "C:/Users/Matthew/Desktop/Test2.txt");
