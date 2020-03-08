@@ -113,7 +113,8 @@ public class ScoreManager
         game.npcs = list;
 
         // Write back out to file.
-        scoreFileManager.WriteScoreFile(new Utilities().ToJsonString(game));
+        json = new Utilities().ToJsonString(game);
+        scoreFileManager.WriteScoreFile(json);
 
         // Check if game is complete, E.g if all tickets have been checked.
         bool isGameComplete = CheckGameComplete(game.npcs);
@@ -128,9 +129,10 @@ public class ScoreManager
 
                 // Display end game menu.
                 GameObject.Find("GameOver_UI").gameObject.GetComponent<GameOverMenu>().GameOverUI();
-            }
                 
-            // Write to Database.
+                // Write to Database.
+                GameObject.Find("Plane").GetComponent<DatabaseManager>().writeToDatabase(json);
+            }
         }
     }
     
