@@ -13,6 +13,11 @@ public class GenerateNPC : MonoBehaviour
     public GameObject satisfactionMeter;
     public GameObject completionRing;
     private GameObject container;
+
+    private GameObject NPCSpawnersContainer;
+
+    private Transform[] NPCSpawners;
+
     //en-US-JessaNeural
     // de-DE-KatjaNeural
     //en-IE-Sean
@@ -21,65 +26,77 @@ public class GenerateNPC : MonoBehaviour
     // This script will simply instantiate the Prefab when the game starts.
     void Start()
     {
+
+        NPCSpawnersContainer = GameObject.Find("npc_spawners");
+
+        NPCSpawners = NPCSpawnersContainer.GetComponentsInChildren<Transform>();
+
         // Empty game object container
         container = new GameObject("container");
+
+
+
 
         // List of all NPCS in the game to write scores to file.
         List<NPCList> list = new List<NPCList>();
         
-        for (int i = 0; i < 4; i += 2)
+        for (int i = 0; i < NPCSpawners.Length; i++)
         {
             // Instaniate a new person.
             
-            GameObject copy = npc;
-            copy.GetComponent<NPC>().SetVoice();
-            Debug.Log("VOICENAME: " + copy.GetComponent<NPC>().GetVoiceName());
-            string npcVoice = copy.GetComponent<NPC>().GetVoiceName();
-            
-            if (copy.GetComponent<NPC>().GetVoiceName() == "en-US-JessaNeural" || copy.GetComponent<NPC>().GetVoiceName() == "de-DE-KatjaNeural")
-            {
-                int rand = UnityEngine.Random.Range(0, 2);
+            Debug.Log("Which cube: "+ NPCSpawners[i].name);
 
-                if(rand == 0)
+            if(NPCSpawners[i].name != "npc_spawners"){
+                GameObject copy = npc;
+                copy.GetComponent<NPC>().SetVoice();
+                Debug.Log("VOICENAME: " + copy.GetComponent<NPC>().GetVoiceName());
+                string npcVoice = copy.GetComponent<NPC>().GetVoiceName();
+                
+                if (copy.GetComponent<NPC>().GetVoiceName() == "en-US-JessaNeural" || copy.GetComponent<NPC>().GetVoiceName() == "de-DE-KatjaNeural")
                 {
-                    copy = Instantiate(npc2, new Vector3(5, 0, i), Quaternion.Euler(0, -90, 0));
-                    copy.GetComponent<NPC>().SetVoice(npcVoice);
-                    copy.transform.parent = container.transform;
-                }else if(rand == 1)
+                    int rand = UnityEngine.Random.Range(0, 2);
+
+                    if(rand == 0)
+                    {
+                        copy = Instantiate(npc2, new Vector3(NPCSpawners[i].position.x, 0, NPCSpawners[i].position.z), Quaternion.Euler(0, -90, 0));
+                        copy.GetComponent<NPC>().SetVoice(npcVoice);
+                        copy.transform.parent = container.transform;
+                    }else if(rand == 1)
+                    {
+                        copy = Instantiate(npc3, new Vector3(NPCSpawners[i].position.x, 0, NPCSpawners[i].position.z), Quaternion.Euler(0, -90, 0));
+                        copy.GetComponent<NPC>().SetVoice(npcVoice);
+                        copy.transform.parent = container.transform;
+                    }
+
+                }
+                else
                 {
-                    copy = Instantiate(npc3, new Vector3(5, 0, i), Quaternion.Euler(0, -90, 0));
+                    copy = Instantiate(npc1, new Vector3(NPCSpawners[i].position.x, 0, NPCSpawners[i].position.z), Quaternion.Euler(0, -90, 0));
                     copy.GetComponent<NPC>().SetVoice(npcVoice);
                     copy.transform.parent = container.transform;
                 }
 
+
+
+                // Instaniate satisfaction meter for every npc, and set as child to NPC
+                GameObject sm = Instantiate(satisfactionMeter, new Vector3(NPCSpawners[i].position.x, 2.3f, NPCSpawners[i].position.z), Quaternion.identity);
+                sm.transform.Rotate(0, 90, 0);
+                sm.transform.parent = copy.transform;
+
+                // Instaniate completion indicator for player to know if a ticket has been checked or not.
+                GameObject cr = Instantiate(completionRing, new Vector3(NPCSpawners[i].position.x, 0, NPCSpawners[i].position.z), Quaternion.identity);
+                cr.transform.Rotate(90, 0, 0);
+                cr.transform.parent = copy.transform;
+
+                // Set meter to false, so invisible until the player interacts with the NPC
+                sm.SetActive(false);
+                
+                // Get the sript from the new instaniated object.
+                NPC npcScript = copy.GetComponent<NPC>();
+
+                // Initialise and add new NPC to list to be writen to file.
+                list.Add(InitialiseNPCObject(npcScript));
             }
-            else
-            {
-                copy = Instantiate(npc1, new Vector3(5, 0, i), Quaternion.Euler(0, -90, 0));
-                copy.GetComponent<NPC>().SetVoice(npcVoice);
-                copy.transform.parent = container.transform;
-            }
-
-
-
-            // Instaniate satisfaction meter for every npc, and set as child to NPC
-            GameObject sm = Instantiate(satisfactionMeter, new Vector3(6, 2.3f, i), Quaternion.identity);
-            sm.transform.Rotate(0, 90, 0);
-            sm.transform.parent = copy.transform;
-
-            // Instaniate completion indicator for player to know if a ticket has been checked or not.
-            GameObject cr = Instantiate(completionRing, new Vector3(5, 0, i), Quaternion.identity);
-            cr.transform.Rotate(90, 0, 0);
-            cr.transform.parent = copy.transform;
-
-            // Set meter to false, so invisible until the player interacts with the NPC
-            sm.SetActive(false);
-            
-            // Get the sript from the new instaniated object.
-            NPC npcScript = copy.GetComponent<NPC>();
-
-            // Initialise and add new NPC to list to be writen to file.
-            list.Add(InitialiseNPCObject(npcScript));
         }
 
         // Add list to Game object and write JSON to text file.
