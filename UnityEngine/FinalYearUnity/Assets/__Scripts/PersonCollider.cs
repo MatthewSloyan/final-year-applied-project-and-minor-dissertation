@@ -34,6 +34,10 @@ public class PersonCollider : MonoBehaviour
                 SpeechToText.Instance.convertSpeechToText(npc.GetSessionID(), npc.GetPersona(), npc.GetVoiceName());
             }
         }
+        else if(col.gameObject.CompareTag("OnTrain")){
+            Debug.Log("OnTrain");
+            GameObject.Find("Station3").GetComponent<Animator>().SetBool("OnTrain",true);
+        }
     }
 
     private void OnTriggerExit(Collider col)
