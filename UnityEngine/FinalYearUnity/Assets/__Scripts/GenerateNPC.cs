@@ -58,12 +58,12 @@ public class GenerateNPC : MonoBehaviour
 
                     if(rand == 0)
                     {
-                        copy = Instantiate(npc2, new Vector3(NPCSpawners[i].position.x, 0, NPCSpawners[i].position.z), Quaternion.Euler(0, -90, 0));
+                        copy = Instantiate(npc2, new Vector3(NPCSpawners[i].position.x, NPCSpawners[i].position.y, NPCSpawners[i].position.z), Quaternion.Euler(0, NPCSpawners[i].rotation.eulerAngles.y, 0));
                         copy.GetComponent<NPC>().SetVoice(npcVoice);
                         copy.transform.parent = container.transform;
                     }else if(rand == 1)
                     {
-                        copy = Instantiate(npc3, new Vector3(NPCSpawners[i].position.x, 0, NPCSpawners[i].position.z), Quaternion.Euler(0, -90, 0));
+                        copy = Instantiate(npc3, new Vector3(NPCSpawners[i].position.x, NPCSpawners[i].position.y, NPCSpawners[i].position.z), Quaternion.Euler(0, NPCSpawners[i].rotation.eulerAngles.y, 0));
                         copy.GetComponent<NPC>().SetVoice(npcVoice);
                         copy.transform.parent = container.transform;
                     }
@@ -71,7 +71,7 @@ public class GenerateNPC : MonoBehaviour
                 }
                 else
                 {
-                    copy = Instantiate(npc1, new Vector3(NPCSpawners[i].position.x, 0, NPCSpawners[i].position.z), Quaternion.Euler(0, -90, 0));
+                    copy = Instantiate(npc1, new Vector3(NPCSpawners[i].position.x, NPCSpawners[i].position.y, NPCSpawners[i].position.z), Quaternion.Euler(0, NPCSpawners[i].rotation.eulerAngles.y, 0));
                     copy.GetComponent<NPC>().SetVoice(npcVoice);
                     copy.transform.parent = container.transform;
                 }
