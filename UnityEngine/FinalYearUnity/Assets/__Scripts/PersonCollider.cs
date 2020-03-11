@@ -36,7 +36,7 @@ public class PersonCollider : MonoBehaviour
         }
         else if(col.gameObject.CompareTag("OnTrain")){
             Debug.Log("OnTrain");
-            GameObject.Find("Station3").GetComponent<Animator>().SetBool("OnTrain",true);
+            GameObject.Find("StationContainer").GetComponent<Animator>().SetBool("OnTrain",true);
         }
     }
 
