@@ -131,6 +131,7 @@ public class ScoreManager
                 GameObject.Find("GameOver_UI").gameObject.GetComponent<GameOverMenu>().GameOverUI();
                 
                 // Write to Database.
+                Debug.Log("Test");
                 GameObject.Find("Plane").GetComponent<DatabaseManager>().writeToDatabase(json);
             }
         }

@@ -53,7 +53,6 @@ def predictResponse():
     sent = sent.replace("%20"," ")
     sent = sent.replace("%3f","")
 
-    #response = kernel.respond(sent,sessionId)
     response = kernel.respond(sent,sessionId)
 
     print(response)
@@ -62,11 +61,22 @@ def predictResponse():
 
 @app.route('/api/results', methods=['PUT'])
 def uploadResult():
-    # Get json from request and collection mongo.
-    jsonData = request.get_json()['gameId']
-    #results = mongo.db.results
+    # Get collection from database.
+    results = mongo.db.results
 
-    print(jsonData)
+    # Get json from request.
+    gameId = request.get_json()['gameId']
+    gameScore = request.get_json()['gameScore']
+    gameTime = request.get_json()['gameTime']
+    npcs = request.get_json()['npcs']
+
+    # Write json object to MongoDB database.
+    results.insert({
+        'gameId': gameId,
+        'gameScore': gameScore,
+        'gameTime': gameTime,
+        'npcs': npcs
+    })
 
     return jsonify(data="Result sucessfully uploaded.")
 

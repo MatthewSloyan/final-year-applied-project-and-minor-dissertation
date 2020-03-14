@@ -8,32 +8,27 @@ public class DatabaseManager : MonoBehaviour
 
     public void writeToDatabase(string json)
     {
+        this.json = json;
         Debug.Log(json);
         StartCoroutine(Upload());
     }
 
     IEnumerator Upload()
     {
-        WWWForm form = new WWWForm();
-        form.AddField("myField", json);
+        // Fixed issue with sending JSON through web request. It seems it can't be sent using a POST, so PUT is required.
+        // Code adapted from: https://forum.unity.com/threads/posting-json-through-unitywebrequest.476254/
+        UnityWebRequest www = UnityWebRequest.Put("localhost:5000/api/results", json);
 
-        //UnityWebRequest www = UnityWebRequest.Post("localhost:5000/request", form);
-        //UnityWebRequest www = UnityWebRequest.Post("https://final-year-project-chatbot.herokuapp.com/request", form);
-        //UnityWebRequest www = UnityWebRequest.Post("http://aaronchannon1.pythonanywhere.com/request", form);
+        www.SetRequestHeader("Content-Type", "application/json");
+        yield return www.SendWebRequest();
 
-        using (UnityWebRequest www = UnityWebRequest.Post("localhost:5000/api/result", form))
+        if (www.isNetworkError || www.isHttpError)
         {
-            www.SetRequestHeader("Content-Type", "application/json");
-            yield return www.SendWebRequest();
-
-            if (www.isNetworkError || www.isHttpError)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                Debug.Log("Form upload complete!");
-            }
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log(www.downloadHandler.text);
         }
     }
 }
