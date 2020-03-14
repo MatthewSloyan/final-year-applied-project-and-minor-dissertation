@@ -1,15 +1,13 @@
 from flask import Flask, jsonify, request, json
 from flask_pymongo import PyMongo
-from flask_cors import CORS
 import aiml
-app = Flask(__name__)
 
-# MONGODB
+# Setup connection to MongoDB database
+# https://flask-pymongo.readthedocs.io/en/latest/
+app = Flask(__name__)
 app.config['MONGO_DBNAME'] = 'final-year-project'
 app.config['MONGO_URI'] = 'mongodb://admin:admin1234@ds039457.mlab.com:39457/final-year-project?retryWrites=false'
-
 mongo = PyMongo(app)
-CORS(app)
 
 # AIML
 kernel = aiml.Kernel()
@@ -62,11 +60,11 @@ def predictResponse():
 
     return response
 
-@app.route('/api/results', methods=['POST'])
+@app.route('/api/results', methods=['PUT'])
 def uploadResult():
     # Get json from request and collection mongo.
-    jsonData = request.data
-    results = mongo.db.results
+    jsonData = request.get_json()['gameId']
+    #results = mongo.db.results
 
     print(jsonData)
 
