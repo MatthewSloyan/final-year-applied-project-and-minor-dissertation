@@ -69,7 +69,7 @@ public class SpeechToText : MonoBehaviour
 
     // Set up and convert speech to text.
     // Code adapted from: https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstarts/speech-to-text-from-microphone?tabs=dotnet%2Cx-android%2Clinux%2Candroid&pivots=programming-language-more
-    public async void convertSpeechToText(int sessionId,int persona, string voiceName)
+    public async void convertSpeechToText(int sessionId, int persona, string voiceName)
     {
         this.sessionId = sessionId;
         this.persona = persona;
@@ -203,11 +203,17 @@ public class SpeechToText : MonoBehaviour
         // Check is listen was success and if there's a message to send.
         if (listenSuccess && messageToSend != "")
         {
+            // Implement for now, will use one object.
+            AIMLRequest request = new AIMLRequest();
+            request.sessionId = sessionId;
+            request.persona = persona;
+            request.userInput = messageToSend;
+
             // Send result to client class.
             // Couldn't get this working initial but fixed by adapting the following.
             // https://docs.unity3d.com/ScriptReference/GameObject.AddComponent.html
             Client c = gameObject.AddComponent(typeof(Client)) as Client;
-            c.sendText(messageToSend, sessionId, voiceName,persona);
+            c.sendText(request, voiceName);
 
             listenSuccess = false;
             messageToSend = "";

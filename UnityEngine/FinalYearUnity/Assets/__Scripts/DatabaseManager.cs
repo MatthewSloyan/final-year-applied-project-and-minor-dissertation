@@ -9,7 +9,6 @@ public class DatabaseManager : MonoBehaviour
     public void writeToDatabase(string json)
     {
         this.json = json;
-        Debug.Log(json);
         StartCoroutine(Upload());
     }
 
