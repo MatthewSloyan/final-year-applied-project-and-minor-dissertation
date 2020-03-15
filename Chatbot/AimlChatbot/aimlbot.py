@@ -13,8 +13,6 @@ mongo = PyMongo(app)
 kernel = aiml.Kernel()
 kernel.learn("/home/aaronchannon1/mysite/startup.xml")
 
-app = Flask(__name__)
-
 @app.route('/')
 def index():
     return "<h1>Welcome!!</h1>"

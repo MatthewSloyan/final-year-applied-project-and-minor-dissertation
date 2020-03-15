@@ -16,7 +16,8 @@ public class DatabaseManager : MonoBehaviour
     {
         // Fixed issue with sending JSON through web request. It seems it can't be sent using a POST, so PUT is required.
         // Code adapted from: https://forum.unity.com/threads/posting-json-through-unitywebrequest.476254/
-        UnityWebRequest www = UnityWebRequest.Put("localhost:5000/api/results", json);
+        //UnityWebRequest www = UnityWebRequest.Put("localhost:5000/api/results", json);
+        UnityWebRequest www = UnityWebRequest.Put("http://aaronchannon1.pythonanywhere.com/api/results", json);
 
         www.SetRequestHeader("Content-Type", "application/json");
         yield return www.SendWebRequest();
