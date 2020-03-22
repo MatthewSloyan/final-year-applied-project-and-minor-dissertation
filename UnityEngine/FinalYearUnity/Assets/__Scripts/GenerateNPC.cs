@@ -79,12 +79,12 @@ public class GenerateNPC : MonoBehaviour
 
 
                 // Instaniate satisfaction meter for every npc, and set as child to NPC
-                GameObject sm = Instantiate(satisfactionMeter, new Vector3(NPCSpawners[i].position.x, 2.3f, NPCSpawners[i].position.z), Quaternion.identity);
-                sm.transform.Rotate(0, 90, 0);
+                GameObject sm = Instantiate(satisfactionMeter, new Vector3(NPCSpawners[i].position.x, 3f, NPCSpawners[i].position.z - 0.4f), Quaternion.identity);
+                sm.transform.Rotate(0, 180, 0);
                 sm.transform.parent = copy.transform;
 
                 // Instaniate completion indicator for player to know if a ticket has been checked or not.
-                GameObject cr = Instantiate(completionRing, new Vector3(NPCSpawners[i].position.x, 0, NPCSpawners[i].position.z), Quaternion.identity);
+                GameObject cr = Instantiate(completionRing, new Vector3(NPCSpawners[i].position.x, 0.6f, NPCSpawners[i].position.z), Quaternion.identity);
                 cr.transform.Rotate(90, 0, 0);
                 cr.transform.parent = copy.transform;
 
