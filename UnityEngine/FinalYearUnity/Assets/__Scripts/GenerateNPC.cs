@@ -75,9 +75,7 @@ public class GenerateNPC : MonoBehaviour
                     copy.GetComponent<NPC>().SetVoice(npcVoice);
                     copy.transform.parent = container.transform;
                 }
-
-
-
+                
                 // Instaniate satisfaction meter for every npc, and set as child to NPC
                 GameObject sm = Instantiate(satisfactionMeter, new Vector3(NPCSpawners[i].position.x, 3f, NPCSpawners[i].position.z - 0.4f), Quaternion.identity);
                 sm.transform.Rotate(0, 180, 0);
