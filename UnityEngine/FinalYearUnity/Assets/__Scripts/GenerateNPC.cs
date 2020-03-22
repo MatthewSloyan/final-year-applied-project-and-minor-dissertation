@@ -26,7 +26,6 @@ public class GenerateNPC : MonoBehaviour
     // This script will simply instantiate the Prefab when the game starts.
     void Start()
     {
-
         NPCSpawnersContainer = GameObject.Find("npc_spawners");
 
         NPCSpawners = NPCSpawnersContainer.GetComponentsInChildren<Transform>();
@@ -34,16 +33,12 @@ public class GenerateNPC : MonoBehaviour
         // Empty game object container
         container = new GameObject("container");
 
-
-
-
         // List of all NPCS in the game to write scores to file.
         List<NPCList> list = new List<NPCList>();
         
         for (int i = 0; i < NPCSpawners.Length; i++)
         {
             // Instaniate a new person.
-            
             Debug.Log("Which cube: "+ NPCSpawners[i].name);
 
             if(NPCSpawners[i].name != "npc_spawners"){
@@ -67,7 +62,6 @@ public class GenerateNPC : MonoBehaviour
                         copy.GetComponent<NPC>().SetVoice(npcVoice);
                         copy.transform.parent = container.transform;
                     }
-
                 }
                 else
                 {
@@ -75,24 +69,27 @@ public class GenerateNPC : MonoBehaviour
                     copy.GetComponent<NPC>().SetVoice(npcVoice);
                     copy.transform.parent = container.transform;
                 }
-                
-                // Instaniate satisfaction meter for every npc, and set as child to NPC
-                GameObject sm = Instantiate(satisfactionMeter, new Vector3(NPCSpawners[i].position.x, 3f, NPCSpawners[i].position.z - 0.4f), Quaternion.identity);
-                sm.transform.Rotate(0, 180, 0);
-                sm.transform.parent = copy.transform;
 
                 // Instaniate completion indicator for player to know if a ticket has been checked or not.
-                // Also, check which way the NPC is facing to determine where to place ring.
+                // Also, instaniate satisfaction meter for every npc, and set as child to NPC
+                // Check which way the NPC is facing to determine where to place ring and meter.
                 GameObject cr;
+                GameObject sm;
                 if (NPCSpawners[i].rotation.eulerAngles.y == 90){
                     cr = Instantiate(completionRing, new Vector3(NPCSpawners[i].position.x + 0.8f, 0.6f, NPCSpawners[i].position.z), Quaternion.identity);
+                    sm = Instantiate(satisfactionMeter, new Vector3(NPCSpawners[i].position.x + 0.7f, 2.5f, NPCSpawners[i].position.z - 0.5f), Quaternion.identity);
                 }
                 else
                 {
                     cr = Instantiate(completionRing, new Vector3(NPCSpawners[i].position.x - 0.8f, 0.6f, NPCSpawners[i].position.z), Quaternion.identity);
+                    sm = Instantiate(satisfactionMeter, new Vector3(NPCSpawners[i].position.x - 0.7f, 2.5f, NPCSpawners[i].position.z - 0.5f), Quaternion.identity);
                 }
+
+                // Rotate both ring and meter correctly and set parent container.
                 cr.transform.Rotate(90, 0, 0);
                 cr.transform.parent = copy.transform;
+                sm.transform.Rotate(0, 180, 0);
+                sm.transform.parent = copy.transform;
 
                 // Set meter to false, so invisible until the player interacts with the NPC
                 sm.SetActive(false);
