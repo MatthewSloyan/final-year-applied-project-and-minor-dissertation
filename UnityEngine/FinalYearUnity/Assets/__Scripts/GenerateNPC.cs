@@ -82,7 +82,15 @@ public class GenerateNPC : MonoBehaviour
                 sm.transform.parent = copy.transform;
 
                 // Instaniate completion indicator for player to know if a ticket has been checked or not.
-                GameObject cr = Instantiate(completionRing, new Vector3(NPCSpawners[i].position.x, 0.6f, NPCSpawners[i].position.z), Quaternion.identity);
+                // Also, check which way the NPC is facing to determine where to place ring.
+                GameObject cr;
+                if (NPCSpawners[i].rotation.eulerAngles.y == 90){
+                    cr = Instantiate(completionRing, new Vector3(NPCSpawners[i].position.x + 0.8f, 0.6f, NPCSpawners[i].position.z), Quaternion.identity);
+                }
+                else
+                {
+                    cr = Instantiate(completionRing, new Vector3(NPCSpawners[i].position.x - 0.8f, 0.6f, NPCSpawners[i].position.z), Quaternion.identity);
+                }
                 cr.transform.Rotate(90, 0, 0);
                 cr.transform.parent = copy.transform;
 
