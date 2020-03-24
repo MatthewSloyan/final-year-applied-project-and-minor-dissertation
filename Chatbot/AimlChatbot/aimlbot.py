@@ -1,21 +1,17 @@
 from flask import Flask, jsonify, request, json
 from flask_pymongo import PyMongo
-from flask_cors import CORS
 import aiml
-app = Flask(__name__)
 
-# MONGODB
+# Setup connection to MongoDB database
+# https://flask-pymongo.readthedocs.io/en/latest/
+app = Flask(__name__)
 app.config['MONGO_DBNAME'] = 'final-year-project'
 app.config['MONGO_URI'] = 'mongodb://admin:admin1234@ds039457.mlab.com:39457/final-year-project?retryWrites=false'
-
 mongo = PyMongo(app)
-CORS(app)
 
 # AIML
 kernel = aiml.Kernel()
 kernel.learn("/home/aaronchannon1/mysite/startup.xml")
-
-app = Flask(__name__)
 
 @app.route('/')
 def index():
@@ -23,52 +19,44 @@ def index():
 
 @app.route('/request', methods=['POST'])
 def predictResponse():
-    jsonData = request.data
+    # Get json from request.
+    sessionId = request.get_json()['sessionId']
+    persona = request.get_json()['persona']
+    userInput = request.get_json()['userInput']
+    print(sessionId)
+    print(persona)
+    print(userInput)
 
-    #sessionData = kernel.getSessionData(sessionId)
-
-    print(jsonData)
-    #data = json.loads(jsonData)
-    s = ''
-
-    for i in jsonData:
-        s = s + chr(i)
-
-    sentenceString = s.split('&')[0]
-    sent = sentenceString.split('=')[1]
-
-    sessionString = s.split('&')[1]
-    sessionId = sessionString.split('=')[1]
-
-    personaString = s.split('&')[2]
-    persona = personaString.split('=')[1]
-
-    kernel.respond("load aiml "+persona)
+    # Load specific aiml file depending on persona.
+    kernel.respond("load aiml " + str(persona))
 
     print("DATA:")
     print(kernel.getPredicate("usersName", sessionId))
 
-    print(sent)
-    print(sessionId)
-    print(persona)
-
-    sent = sent.replace("%20"," ")
-    sent = sent.replace("%3f","")
-
-    #response = kernel.respond(sent,sessionId)
-    response = kernel.respond(sent,sessionId)
-
+    # Predict reponse for specific session using user input.
+    response = kernel.respond(userInput, sessionId)
     print(response)
 
     return response
 
-@app.route('/api/results', methods=['POST'])
+@app.route('/api/results', methods=['PUT'])
 def uploadResult():
-    # Get json from request and collection mongo.
-    jsonData = request.data
+    # Get collection from database.
     results = mongo.db.results
 
-    print(jsonData)
+    # Get json from request.
+    gameId = request.get_json()['gameId']
+    gameScore = request.get_json()['gameScore']
+    gameTime = request.get_json()['gameTime']
+    npcs = request.get_json()['npcs']
+
+    # Write json object to MongoDB database.
+    results.insert({
+        'gameId': gameId,
+        'gameScore': gameScore,
+        'gameTime': gameTime,
+        'npcs': npcs
+    })
 
     return jsonify(data="Result sucessfully uploaded.")
 
