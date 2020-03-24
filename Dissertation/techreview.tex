@@ -50,9 +50,82 @@ From testing, research and analysis of the benefits we decided to use Microsoft 
 \end{itemize}
 
 \section{Chatbot}
+It was a given that a we needed to create a chat-bot so this was one of the first areas we started to research. We looked at all the chat-bots created in the past and they all followed a trend. This trend was that they either used machine learning or AIML also known as Artificial Intelligence Markup Language. Before deciding on one from the beginning we tested both technologies to see which was suited best to our requirements. All we needed the bot to do at the start was take in an input and return an accurate and relevant response. Before implementing Speech-to-Text and Text-to-Speech we worked with the most simple for of conveying dialog which was strings of text. We got this working with both the AIML and machine learning
+approach. Below are the two technologies in more detail and why when chose AIML.
+
 \subsection{Keras}
+
 \subsection{AIML}
-Lit Review..
+%https://www.tutorialspoint.com/aiml/aiml_tutorial.pdf
+Artificial Intelligence Markup Language (AIML) is markup language that allows you to create a set of conversation rules. These rules contain various tags and symbols that allow you to generate outputs or responses based on the input. AIML's tags are similar to another markup language called Extensible Markup Language(XML). The reason these markup languages are so similar is due to the fact that AIML is derived from XML. The main reason we chose AIML over the Keras approach was for the simple reason that we needed to store session data. This would have been very difficult to do using keras and would have forced us to do a lot of string manipulation to try and extract the relevant data from the input. AIML had built in tags and methods that allowed us to save various bits of data that we could store on a session by session basis. This was essential to the project and that is why we fundamentally chose AIML over Keras.
+\newline
+
+Below is a table of the tags that are most used in AIML and a description of what they do:
+\newline
+\begin{tabular}{ |p{3cm}|p{10cm}|  }
+\hline
+\multicolumn{2}{|c|}{AIML TAGS} \\
+\hline
+Tag & Description \\
+\hline
+$<$ aiml $>$ & Defines the beginning and end of a AIML document. \\
+\hline
+$<$ category $>$ & Defines the unit of knowledge in a bot's knowledge base. \\
+\hline
+$<$ pattern $>$ & Defines the pattern to match what a user may input to a bot. \\
+\hline
+$<$ template $>$ & Defines the response of a bot to user's input. \\
+\hline
+$<$ star $>$ & Used to match wild card * character(s) in the $<$pattern$>$ Tag. \\
+\hline
+$<$ srai $>$ & Multipurpose tag, used to call/match the other categories. \\
+\hline
+$<$ random $>$ & Used $<$random$>$to get random responses. \\
+\hline
+$<$ li $>$ & Used to represent multiple responses. \\
+\hline
+$<$ set $>$ & Used to set value in an AIML variable. \\
+\hline
+$<$ get $>$ & Used to get value stored in an AIML variable. \\
+\hline
+$<$ that $>$ & Used in AIML to respond based on the context. \\
+\hline
+$<$ topic $>$ & Used in AIML to store a context so that later conversation can be done based on
+that context. \\
+\hline
+$<$ think $>$ & Used in AIML to store a variable without notifying the user. \\
+\hline
+$<$ condition $>$ & Similar to switch statements in programming language. It helps the bot to respond
+to matching input.\\
+
+
+
+\hline
+\end{tabular}
+\newline
+\newline
+
+Below is a snippet of the simplest input and output that can be made in AIML. When the user says "HELLO BOT" AIML looks for patterns that contain this string. If the pattern is found, the bot replies with the contents of the template tags which is "Hello User!". However, if the input is not found in the patterns, you can have a catagory that acts as a catch all using the "*" symbol which will become the default response if no other input was found which in this case would be "Sorry, I do not understand...".
+
+\begin{lstlisting}[language=XML]
+<aiml version="1.0.1" encoding="UTF-8"?>
+    <category>
+    <pattern> HELLO BOT </pattern>
+        <template>
+            Hello User!
+        </template>
+    </category>
+    
+    <category>
+    <pattern> * </pattern>
+        <template>
+            Sorry, I do not understand...
+        </template>
+    </category>
+</aiml>
+
+\end{lstlisting}
+
 
 \section{Back-end}
 \subsection{Node}
@@ -68,9 +141,10 @@ Self-hosted solution can be deployed using Web Server Gateway Interface (WSGI) c
 There is various platform as a service (PaaS) solutions available to deploy a production server to, which we will look at below. PasS is a model provided by third party vendors, where the vendor hosts the hardware and software on their own virtual machines and provides access at an affordable cost, which is usually much cheaper than setting up your own machines. Below we will review two options that we assessed, tested and used for development.
 
 \subsubsection{Heroku}
-Heroku is a PasS which allows developers to build, run and deploy applications easily and efficiently to the cloud. Git version control software is used to update, modify and deploy quickly. Heroku also provides a free tier services for student so it is a cost-effective approach to allowing applications to be easily accessible around the world, which is what we required to access our server from an Oculus Quest VR device. 
+Heroku is a PasS which allows developers to build, run and deploy applications easily and efficiently to the cloud. Git version control software is used to update, modify and deploy quickly. Heroku also provides a free tier services for student so it is a cost-effective approach to allowing applications to be easily accessible around the world, which is what we required to access our server from an Oculus Quest VR device. There was a few downsides to Heroku though. The first one being an issue with AIML. AIML allows you to store session data/variables which would enable you to save names and other data relevant to each NPC. Heroku had a problem storing this session data making it very difficult to save the states if all the different NPCs/bots in the application so we had to find a different deployment service. Another issue we found was that Heroku would timeout quickly if there was no incoming requests. This made the initial request slow to respond because you would have to wait for Heroku to launch the server.
 
 \subsubsection{PythonAnywhere}
+PythonAnywhere is what we decided to use after testing all the above services. It is very similar to Heroku as it allow developers to build, run and deploy their applications on the cloud. However, it differs in a few ways. The free tier of PythonAnywhere allowed the server to stay live for 3 months at a time making initial requests to the flask server much quicker. You could also opt for a paid tier which keeps it live based on a certain amount of usage but the free tier was perfect for testing. Another way that it differs from Heroku is that there is no Git version control instead using an online IDE on their site which allows you to edit all your files from anywhere on any device. Finally the main reason we choose PythonAnywhere, it did not have the issue with saved AIML sessions that Heroku did. This was a deal breaker for us because we needed these sessions for the bots and without them it would have been very difficult to save the states for the bots. 
 
 \section{Databases}
 \subsection{MongoDB}
