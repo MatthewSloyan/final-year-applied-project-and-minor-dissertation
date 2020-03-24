@@ -1,16 +1,31 @@
 \chapter{Technology Review}
-This chapter looks at some of the technologies used throughout the project with a focus on why we choose them along with the benefits they possess. Also, covered is some of the technology researched and reviewed which was not used but lead us to our final implementation.
-
 \section{Overview}
+This chapter looks at some of the technologies used throughout the project with a focus on why we choose them along with the benefits they possess. Also, covered is some of the technology researched and reviewed which was not used but lead us to our final implementation. The technologies include:
+
+\begin{itemize}
+    \item What 3D Engine to use?
+    \item What Speech Service?
+    \item What technology to create a chat-bot?
+    \item What Back-end?
+\end{itemize}
 
 \section{Application}
-\subsection{Unity}
-\subsection{C\#}
+We knew knew we would need some form of gaming engine for the application itself. This would be the part for the project that the user would actually interact with. There are number of free gaming engines that we could have used however, we chose the Unity Engine as it is very well documented and powerful enough for our needs.
 
-\section{Git}
-Git is an open source and free version control system which allows small or large projects to be stored and accessed efficiently. Features include commits, branching, staging and workflows. It can be connected to GitHub which allows a project to be stored remotely and for multiple people to work together seamlessly. We have used Git with GitHub to track our changes, log error and work effectively using Agile methodologies.
+\subsection{Unity}
+This is the part of the application is where the user interacts with. After briefly looking at other game engines we chose unity it for below reasons:
+
+\begin{itemize}
+  \item Unity uses C\#. The reason this is good is because C\# is very versatile and supports many different programming styles. It can be used to created objects, make network requests and it is also Unity's default scripting language.
+  \item It was apparent that 3D models and animations would be key to improving the experience of the application. Unity allowed us to add 3D models ease. Unity also has a built in animator that allows you to animate these models by key-framing them and moving them as desired. All of this was very important to create a realistic training experience for the user.
+  \item Another aspect that was important was to be able to connect to our back-end Flask server. Unity has built in HTTP support allowing us to send necessary JSON data from the Speech-to-Text service to the server to be processed and a response sent back.
+  \item As mentioned Speech-to-Text (STT) and Text-to-Speech (TTS) is another important feature that was needed to enhance the realism for the user. After some research we found out that a lot the STT and TTS services support Unity and supply their own packages for the engine, giving us options for when we decided on which STT and TTS service we were going to choose.
+\end{itemize}
+
+% Packages for STT & TTS
 
 \section{HTTP}
+HTTP or HyperText Transfer Protocol is a protocol used by the world wide web to send messages to from a client to a server or vice verse. It also defines how these messages are structured to inform the server or web browser what actions to take upon receiving a request. The reason we chose this approach is because for one Unity has libraries that handle incoming and outgoing HTTP requests. Also it Flask uses HTTP making it very easy to communicate with our back-end server.
 
 \section{Virtual Reality (VR)}
 \subsection{Google VR}
@@ -54,6 +69,35 @@ It was a given that a we needed to create a chat-bot so this was one of the firs
 approach. Below are the two technologies in more detail and why when chose AIML.
 
 \subsection{Keras}
+Keras is a deep learning library that allows you to create neural networks quickly with very little implementation. It also has a dedicated library for python which would run seamlessly on our flask server meaning we could make requests to the neural network using HTTP. To train the model, we processed a JSON intents file that included objects that looked like this:
+
+\begin{lstlisting}[language=JSON]
+{"intents": [
+    {"tag": "greeting",
+     "patterns": ["Hi.", "Is anyone there?", "Hello.", "Good day"
+        , "Whats up?"],
+     "responses": ["Hello!", "Good to see you again!", "Hi there
+        , how can I help?"],
+     "context_set": ""
+    },
+    {"tag": "greetingResponse",
+      "patterns": ["I am great thanks!", "Great, thank you!"
+        , "Not too bad!"],
+      "responses": ["That's good to hear.", "I'm glad."],
+      "context_set": ""
+     }
+    ]
+}
+\end{lstlisting}
+
+The pre-processing mapped certain words to the tag. For example in the above snippet you can see the tag "greeting", and one of the patterns is "Is anyone there?". What the pre-processing does is it creates a bag for words related to the tag removing any unnecessary words like "Is" in the case. Then it trains the model using this tag and that bag of words. It also has a list of responses that added to the output of the neural network. After training the model keras loaded it and it was ready for use. Pre-processing would have to be done for every input to. This was done using the the method of creating a bag for words. Then that bag of words was used as an input to predict an output/response. The neural network was very accurate however it had some issues:
+
+\begin{itemize}
+  \item The model would have to be rebuilt every time more responses where appended to the intents file making it tedious and bulky to maintain.
+  \item There was no simple way for creating independent sessions for each bot. This was a feature that we really needed as we knew the application would have many different instances of the bot and that progress/state needed to be saved and there was no simple way of doing it.
+\end{itemize}
+
+Initially the we thought the safest approach in creating a chat-bot would be to use a neural network however, after doing some testing and a working build using keras we found out that it was not the right route to take.
 
 \subsection{AIML}
 %https://www.tutorialspoint.com/aiml/aiml_tutorial.pdf
@@ -97,9 +141,6 @@ $<$ think $>$ & Used in AIML to store a variable without notifying the user. \\
 \hline
 $<$ condition $>$ & Similar to switch statements in programming language. It helps the bot to respond
 to matching input.\\
-
-
-
 \hline
 \end{tabular}
 \newline
@@ -126,10 +167,28 @@ Below is a snippet of the simplest input and output that can be made in AIML. Wh
 
 \end{lstlisting}
 
+With the AIML file set up all we had to do was access it through our flask server. We were fortunate that python has an AIML library that handles reading the file and saving the state for the chat-bots. Saving the states of every bot was essential for this project that is why we picked AIML.
+
+
 
 \section{Back-end}
 \subsection{Node}
+
 \subsection{Flask}
+Flask is a web framework that allows you to build web applications with ease. Flask is actually classed as micro-framework meaning it has very little dependencies to external library. This means Flask is extremely light-weight therefore, very efficient. Because we were working with STT and TTS efficiency was key. We needed to be able to generate responses as quickly as possible to give the illusion that you were having an actual in person conversation with the bot. Flask had this capability along with it being simple to set up so that is why we used it to host the back-end of this application. Below is a snippet of python code to set up a simple working server:
+
+\begin{lstlisting}[language=PYTHON]
+from flask import Flask
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "Hello World!"
+
+if __name__ == "__main__":
+    app.run()
+
+\end{lstlisting}
 
 \section{Back-end - Deployment}
 After developing and deciding on using Flask as our back-end, we needed to host the server and deploy it in a production build so it could be accessible to devices outside of the local network. A debug server for testing in Flask can only take one request at a time so it's not scalable or secure, so a production build is required. Below is a list of the different options for deploying a Flask server.
@@ -144,7 +203,7 @@ There is various platform as a service (PaaS) solutions available to deploy a pr
 Heroku is a PasS which allows developers to build, run and deploy applications easily and efficiently to the cloud. Git version control software is used to update, modify and deploy quickly. Heroku also provides a free tier services for student so it is a cost-effective approach to allowing applications to be easily accessible around the world, which is what we required to access our server from an Oculus Quest VR device. There was a few downsides to Heroku though. The first one being an issue with AIML. AIML allows you to store session data/variables which would enable you to save names and other data relevant to each NPC. Heroku had a problem storing this session data making it very difficult to save the states if all the different NPCs/bots in the application so we had to find a different deployment service. Another issue we found was that Heroku would timeout quickly if there was no incoming requests. This made the initial request slow to respond because you would have to wait for Heroku to launch the server.
 
 \subsubsection{PythonAnywhere}
-PythonAnywhere is what we decided to use after testing all the above services. It is very similar to Heroku as it allow developers to build, run and deploy their applications on the cloud. However, it differs in a few ways. The free tier of PythonAnywhere allowed the server to stay live for 3 months at a time making initial requests to the flask server much quicker. You could also opt for a paid tier which keeps it live based on a certain amount of usage but the free tier was perfect for testing. Another way that it differs from Heroku is that there is no Git version control instead using an online IDE on their site which allows you to edit all your files from anywhere on any device. Finally the main reason we choose PythonAnywhere, it did not have the issue with saved AIML sessions that Heroku did. This was a deal breaker for us because we needed these sessions for the bots and without them it would have been very difficult to save the states for the bots. 
+PythonAnywhere is what we decided to use after testing Heroku. It is very similar to Heroku as it allow developers to build, run and deploy their applications on the cloud. However, it differs in a few ways. The free tier of PythonAnywhere allowed the server to stay live for 3 months at a time making initial requests to the flask server much quicker. You could also opt for a paid tier which keeps it live based on a certain amount of usage but the free tier was perfect for testing. Another way that it differs from Heroku is that there is no Git version control instead using an online IDE on their site which allows you to edit all your files from anywhere on any device. Finally the main reason we choose PythonAnywhere, it did not have the issue with saved AIML sessions that Heroku did. This was a deal breaker for us because we needed these sessions for the bots and without them it would have been very difficult to save the states for the bots. 
 
 \section{Databases}
 \subsection{MongoDB}
