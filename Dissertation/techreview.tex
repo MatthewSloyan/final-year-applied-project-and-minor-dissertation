@@ -27,11 +27,50 @@ This is the part of the application is where the user interacts with. After brie
 \section{HTTP}
 HTTP or HyperText Transfer Protocol is a protocol used by the world wide web to send messages to from a client to a server or vice verse. It also defines how these messages are structured to inform the server or web browser what actions to take upon receiving a request. The reason we chose this approach is because for one Unity has libraries that handle incoming and outgoing HTTP requests. Also it Flask uses HTTP making it very easy to communicate with our back-end server.
 
+\section{JSON}
+JavaScript Object Notation (JSON) is a widely used data interchange format for sending human readable messages across a network. It consists of attribute value pairs and array types which can be seen below in this simple example describing a person.
+
+\begin{lstlisting}[language=JSON]
+{
+  "firstName": "John",
+  "lastName": "Smith",
+  "age": 27,
+  "address": {
+    "streetAddress": "21 2nd Street",
+    "city": "New York",
+    "state": "NY"
+  },
+  "phoneNumbers": [
+    {
+      "type": "home",
+      "number": "212 555-1234"
+    },
+    {
+      "type": "office",
+      "number": "646 555-4567"
+    }
+  ],
+  "children": [],
+  "spouse": null
+}
+\end{lstlisting}
+
 \section{Virtual Reality (VR)}
-\subsection{Google VR}
-Lit Review..
+As one of the main goals outlined in the project was to create an immersive training experience for the end user, we felt we just couldn't get that level required from a conventional screen and controls. With this in mind we researched new technologies and deciding on using Virtual Reality (VR) to achieve this. VR can be sometimes mixed up with Augmented reality (AR). AR involves displaying virtual objects in a real-world environment, usually displayed on a mobile phone display through a camera. This had been implemented in some training experiences we looked at but wouldn't have met our initial goals or scenarios provided. However, a VR environment consists of a virtual three-dimensional (3D) space that a user can interact with objects and move around. \cite{isdale1998virtual}. This 3D space is encapsulated in a head-mounted display (HMD) or headset that the user can wear. Inside the headset, the user can become immersed and feel they are experiencing the real or the next best thing which was exactly what we required. \cite{isdale1998virtual}. 
+
+\subsection{Google Cardboard}
+Even though VR seemed like the solution for our immersive experience we still wanted to test it to ensure it was worth the time and investment. A solution to this was Google Cardboard (GC). GC is an affordable, simple to use cardboard frame that holds your smartphone device. The user then holds the cardboard headset up to their eyes to experience VR videos and games. The cardboard frame retails for 15 EUR so it relatively cheap and it works with most phones. However, the college provided test units for us to try. Also, Google provide a Unity SDK for development which was useful to us when building and deploying the Android build. From our initial tests we found the technology to be quite impressive and immersive but with low resolution on our phones it could be improved. Another downside is that there is no controller to move the player around so a teleport movement functionality would have to be implemented which would break immersion.
+
 \subsection{Oculus Quest}
-Lit Review..
+The second VR device we looked at was the Oculus Quest. The Oculus Quest is an all in one VR headset that runs a modified version of the Android operating system (OS). It is built on Android 4.4 (KitKat) but can support up to Android 7.1 (Nougat). This device is considerably more expensive than the Google Cardboard retailing at 599 EUR for the 128GB model but serves several distinct advantages which are listed below.
+
+\begin{itemize}
+    \item Two 1440 x 1600-pixel screens with a refresh rate of 72 Hz, which provides a clearer and more realistic viewing experience.
+    \item Runs on Android so previous builds for Google Cardboard work.
+    \item Touch controller support, so the player can see their hands in the virtual environment and move the player.
+    \item Unity support for Oculus Quest.
+    \item More comfortable to wear for longer periods of time due to dedicated strap.
+\end{itemize}
 
 \section{Speech Services}
 As the application needed to include a dynamic chatbot we looked as some areas such Text-to-Speech (TTS) and Speech-to-Text (STT) services to achieve this. Our initial thought was to include a text input system or a multiple choice dialog tree but from testing and further research we felt it would be pre-programmed and substantially less interactive for a training environment. This spurred us to look at other areas and the possibility of taking in audio from the microphone and parsing it to text using TTS. TTS involves converting human speech to a text format so it can be read by a machine in real time. On the other hand, STT is the opposite in which text is converted to human like synthesized speech, which would be used to give our chatbot life, personality and evoke possible emotions. Below we will look at some of the technologies we reviewed and tested in these two areas.
@@ -51,7 +90,7 @@ Much like Google Cloud services Azure works in much the same way and provides th
 \subsubsection{Costs - Azure Text-to-Speech}
 There would be 250-400 replies an hour on average, with around 12500-20000 characters used per hour (average sentence around 50 characters). Based on the above the free tier would allow up to 25 hours of training for free per month. Additional characters can be purchased for 14 EUR (1 million characters) which would allow for an additional 50 hours of training.
 
-\subsubsection{Costs - Azure Speech-to-Speech}
+\subsubsection{Costs - Azure Speech-to-Text}
 Every reply is on average 3-10 seconds. In one hour of training, it will use around 30 minutes. Based on the above the free tier would allow for up to 10 hours of training for free per month (5 hours free). A further hour can be purchased for 0.80 EUR, which equates to 2 hours of training. So, an additional 10 hours of training would cost 4.00 EUR.
 \newline\newline
 From testing, research and analysis of the benefits we decided to use Microsoft Azure services for our application for the following reasons.
@@ -169,10 +208,11 @@ Below is a snippet of the simplest input and output that can be made in AIML. Wh
 
 With the AIML file set up all we had to do was access it through our flask server. We were fortunate that python has an AIML library that handles reading the file and saving the state for the chat-bots. Saving the states of every bot was essential for this project that is why we picked AIML.
 
-
-
 \section{Back-end}
+To create a fully fledged application we needed a suitable back-end technology to handle the requests from the Unity application over HTTP.
+
 \subsection{Node}
+Node.js is an open-source server-side platform that runs and executes using JavaScript. It allows the developer to easily build a fast and scalable network server to run a website, make HTTP requests to etc. From initial tests we had it running a simple Python file as our chatbot had to be built in Python due to its nature, but that was problematic for Node.js so we investigated other options.
 
 \subsection{Flask}
 Flask is a web framework that allows you to build web applications with ease. Flask is actually classed as micro-framework meaning it has very little dependencies to external library. This means Flask is extremely light-weight therefore, very efficient. Because we were working with STT and TTS efficiency was key. We needed to be able to generate responses as quickly as possible to give the illusion that you were having an actual in person conversation with the bot. Flask had this capability along with it being simple to set up so that is why we used it to host the back-end of this application. Below is a snippet of python code to set up a simple working server:
@@ -206,7 +246,36 @@ Heroku is a PasS which allows developers to build, run and deploy applications e
 PythonAnywhere is what we decided to use after testing Heroku. It is very similar to Heroku as it allow developers to build, run and deploy their applications on the cloud. However, it differs in a few ways. The free tier of PythonAnywhere allowed the server to stay live for 3 months at a time making initial requests to the flask server much quicker. You could also opt for a paid tier which keeps it live based on a certain amount of usage but the free tier was perfect for testing. Another way that it differs from Heroku is that there is no Git version control instead using an online IDE on their site which allows you to edit all your files from anywhere on any device. Finally the main reason we choose PythonAnywhere, it did not have the issue with saved AIML sessions that Heroku did. This was a deal breaker for us because we needed these sessions for the bots and without them it would have been very difficult to save the states for the bots. 
 
 \section{Databases}
+The results of the training simulation needed to be stored somewhere so they could be studied by the testing centre at a later date, so we began to look into possible options to achieve this. For this project we have chosen MongoDB as our database storage technology.
+
 \subsection{MongoDB}
+MongoDB is a document oriented distributed database, that allows users to store data quickly, efficiently and securely. The data stored in binary format called BSON, but it is JSON in its human readable form as seen below.
+
+\begin{lstlisting}[language=JSON]
+{
+  "_id": "5cf0029caff5056591b0ce7d",
+  "firstname": "Jane",
+  "lastname": "Wu",
+  "address": {
+    "street": "1 Circle Rd",
+    "city": "Los Angeles",
+    "state": "CA",
+    "zip": "90404"
+  },
+  "hobbies": ["surfing", "coding"]
+}
+\end{lstlisting}
+
+\subsubsection{Advantages}
+\begin{itemize}
+    \item High speed - MongoDB is a document-orientated database. It is easy to access documents by indexing. Hence, it provides a fast query response. It is estimated to be 100 times faster than a relational database.
+    \item Sharding - Allows storage of large pieces of data by distributing to several servers, this also improves read times.
+    \item Flexible - MongoDB is a schema-less database. That means we can have any type of data in a separate document. This allows us to store data of different types.
+    \item Easy environment setup - Easier to setup than a relational database. Also provides Flask plugin called PyMongo which allows easy connection to the database.
+\end{itemize}
+
+\subsection{mLab}
+mLab is a Database-as-a-Service (DAAS) for MongoDB, it is a free to use provider that allows for cloud hosting for your MongoDB database. We have decided to use this technology as we have experience using it and wanted to learn more. There are also useful Flask plugins provided which allow a connection easily to mLab.
 
 \section{Other areas of research}
 As outlined in our introduction the focus of this application was to provide a realistic and gamified training experience that would be useful to the user specifically in the area of conflict resolution. To succeed with this we researched areas such as Digital Twins, Sara de Freitas, Michael J Sutton, Serious Fun, Gamification and Digital Training/VR Training.
