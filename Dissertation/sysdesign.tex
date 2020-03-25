@@ -1,7 +1,7 @@
 \chapter{System Design}
 
 \section{Overview}
-In this section, we will illustrate the entire system in detail. We will go through all the various technologies that were finalized from the technical review, where they are located in the project structure and what role they have in creating a fluid and realistic experience for the user. In Figure~\ref{image:SystemArch} we can see the high-level design of the project. Each component has a major roll to play in creating this fluid experience and we will discuss how they where implemented now in detail.
+In this section, we will illustrate the entire system in detail. We will go through all the various technologies that were finalized from the technical review, where they are located in the project structure and what role they have in creating a fluid and realistic experience for the user. In Figure~\ref{image:SystemArch} we can see the high-level design of the project. Each component has a major role to play in creating this fluid experience and we will discuss how they were implemented in detail.
 
 \begin{figure}[h!]
 	\caption{System Architecture.}
@@ -21,7 +21,7 @@ As seen in Figure~\ref{image:SystemArch} Unity is the central component in this 
 \end{figure}
 
 \subsection{3D Models}
-Generating realistic bots with realistic models was a problem that was easily solved with the aid of a website called "http://mixamo.com/". This website has an plethora of high quality 3d character models along with animations. Once the model was imported into Unity all that was left to do was give these bots a session ID,random voice, gender based on that voice and a random persona e.g Polite,neutral and rude. These personas would aid us later in deciding which AIML file to use server-side. As seen in the below code snippet this is how we generate all these traits. The session ID is a random number between 1 and 10000. The persona is a integer between zero and three, each number meaning a different persona: 
+Generating realistic bots with realistic models was a problem that was easily solved with the aid of a website called "http://mixamo.com/". This website has an plethora of high quality 3d character models along with animations. Once the model was imported into Unity all that was left to do was give these bots a session ID, random voice, gender based on that voice and a random persona E.g. Polite, neutral and rude. These personas would aid us later in deciding which AIML file to use server-side. As seen in the below code snippet this is how we generate all these traits. The session ID is a random number between 1 and 10000. The persona is an integer between zero and three, each number meaning a different persona: 
 
 \begin{table}[!ht]
     \centering
@@ -45,6 +45,7 @@ Number & Persona \\
 
 
 \begin{lstlisting}[language=python]
+    
     public void SetSessionId()
     {
         sessionId = UnityEngine.Random.Range(1, 10000);
@@ -73,8 +74,8 @@ Number & Persona \\
     }
 \end{lstlisting}
 
-Once these traits have been generated all that is left to be done is to generate them in the virtual 3D enviroment. The solution to this can be seen in the below snippet.
-This snippet is also wrapped in a for loop to generate multiple random NPCs. There is an array of manually place GameObjects in the virtual world. These GameObjects act as spawning points for a single NPC. Based on the NPCs voice a Male or Female model is loaded then it is spawned in the position and rotation of one of the spawn points according to the index of the loop. After this process is complete we see NPCs standing in all the spawn points. This is how all the NPCs/Bots are spawned in the application.\newline
+Once these traits have been generated all that is left to be done is to generate them in the virtual 3D environment. The solution to this can be seen in the below snippet.
+This snippet is also wrapped in a for loop to generate multiple random NPCs. There is an array of manually place GameObjects in the virtual world. These GameObjects act as spawning points for a single NPC. Based on the NPCs voice a Male or Female model is loaded then it is spawned in the position and rotation of one of the spawn points according to the index of the loop. After this process is complete, we see NPCs standing in all the spawn points. This is how all the NPCs/Bots are spawned in the application.\newline
 
 \begin{lstlisting}[language=python]
     if (copy.GetComponent<NPC>().GetVoiceName() == "en-US-JessaNeural" || copy.GetComponent<NPC>().GetVoiceName() == "de-DE-KatjaNeural")
@@ -101,9 +102,8 @@ This snippet is also wrapped in a for loop to generate multiple random NPCs. The
     }
 \end{lstlisting}
 
-
 \subsection{Animation}
-Animations in our opinion were important in this application. We needed the user to feel as if they were speaking to a person. If the NPCs where static it would have ruined the realism, completely disconnecting the user from this virtual world. As mentioned earlier, we were fortunate to find a website called Mixamo. As well as realistic models it also had animations to go along side them. The process of applying the animation to the model is simple but tedious. Firstly you must add a Animator component to the model/NPC this allows you to manage your animation clips. Once this is done, animations can be added to the animator using a graph-like interface as seen in Figure~\ref{fig:anim}. Each animation is considered as a stater. If certain parameters are met you can change the state, therefore changing the animation.
+Animations in our opinion were important in this application. We needed the user to feel as if they were speaking to a person. If the NPCs where static it would have ruined the realism, completely disconnecting the user from this virtual world. As mentioned earlier, we were fortunate to find a website called Mixamo. As well as realistic models it also had animations to go alongside them. The process of applying the animation to the model is simple but tedious. Firstly, you must add an Animator component to the model/NPC this allows you to manage your animation clips. Once this is done, animations can be added to the animator using a graph-like interface as seen in Figure~\ref{fig:anim}. Each animation is considered as a state. If certain parameters are met you can change the state, therefore changing the animation.
 
 \begin{figure}[!ht]
     \centering
@@ -405,7 +405,7 @@ In order to communicate with our Flask server, we used HTTP. We did so use the U
         }
 \end{lstlisting}
 
-\section{AIML}
+\section{Chatbot - AIML}
 % NEED THIS LATER
 \begin{figure}[!h]
     \centering
@@ -437,19 +437,96 @@ def predictResponse():
     \label{fig:my_label}
 \end{figure}
 
+\section{Back-end - Flask}
+After some consideration as described in the Technical review, we decided a Flask server would be best to handle the back-end. Firstly we set up a simple Flask server that could handle a simple GET request and return some text which can be seen in Listing~\ref{lst:flask1}. It was important to create this simple GET request for testing purposes. We could just test that we could make a HTTP request and if it returned a response, we knew the server was working correctly.\newline
 
-\section{Flask}
 
-\section{PythonAnywhere}
-After creating an account the steps to hosting a flask server on PythonAnywhere pretty tedious. Especially if you did not create the Flask server from scratch on the site.
+\begin{lstlisting}[caption={Basic Flask GET request},label={lst:flask1},language=python]
+from flask import Flask, jsonify, request, json
+from flask_pymongo import PyMongo
+import aiml
+import os, requests, time
+from xml.etree import ElementTree
+
+@app.route('/')
+def index():
+    return "<h1>Welcome!!</h1>"
+    
+if __name__ == "__main__":
+    app.run(debug=True)
+\end{lstlisting}
+
+Once the simple Flask server was setup it was time to implement the AIML request. This request would contain data like the session ID, NPC person and the user input from the STT service. Because of this it had to be a PUT method as seen in Listing~\ref{lst:flask2}. We can also see in lines 4-6, the JSON data from the request being converted back into their respectable types. As mentioned in Section 4.6 here is where all the AIML code is located too. Once AIML has generated an output from the input this output is sent back to the Unity client to be converted back into speech using the Azure TTS service. 
+
+\begin{lstlisting}[caption={Flask PUT request to generate AIML response},label={lst:flask2},language=python]
+@app.route('/request', methods=['PUT'])
+def predictResponse():
+     # Get json from request.
+    sessionId = request.get_json()['sessionId']
+    persona = request.get_json()['persona']
+    userInput = request.get_json()['userInput']
+    print(sessionId)
+    print(persona)
+    print(userInput)
+
+    # Load specific aiml file depending on persona.
+    kernel.respond("load aiml " + str(persona))
+
+    print("DATA:")
+    print(kernel.getPredicate("usersName", sessionId))
+
+    # Predict reponse for specific session using user input.
+    response = kernel.respond(userInput, sessionId)
+    print(response)
+
+    return response
+\end{lstlisting}
+
+The final part of the Flask server is another PUT request that, once the training session is finished, pushes all the session's data to a Mongo database. This can be seen in Listing~\ref{lst:flask3}. Simpler to the AIML put request, all that JSON data is converted back into types. This data includes the session/game's ID, the score of the user, the time it took and all the NPCs. Once this data has being inserted into the Mongo database a response is returned stating that the insertion was successful. 
+
+\begin{lstlisting}[caption={Flask PUT request to Push Data to MongoDB},label={lst:flask3},language=python]
+@app.route('/api/results', methods=['PUT'])
+def uploadResult():
+    # Get json from request.
+    gameId = request.get_json()['gameId']
+    gameScore = request.get_json()['gameScore']
+    gameTime = request.get_json()['gameTime']
+    npcs = request.get_json()['npcs']
+
+    print(gameId)
+    print(gameScore)
+    print(npcs)
+
+    # Get collection from database.
+    result = mongo.db.results
+
+    test = result.find_one({
+        '_id': "5e6d381cd9a63706287fc7e1"
+    })
+
+    testtwo = {'email': test['gameId'] + ' success'}
+
+    # Write json object to MongoDB database.
+    result.insert({
+        'gameId': gameId,
+        'gameScore': gameScore,
+        'gameTime': gameTime,
+        'npcs': npcs
+    })
+
+    return jsonify(data="Result sucessfully uploaded.")
+\end{lstlisting}
+
+\section{Hosting - PythonAnywhere}
+After creating an account, the steps to hosting a flask server on PythonAnywhere pretty tedious. Especially if you did not create the Flask server from scratch on the site.
 
 \begin{itemize}
     \item Firstly, you create a web app. This will generate all the necessary files you need to start.
     \item Then we added all our server files to the web app fold that was generated.
-    \item Unfortunately, we had not developed the flask server on PythonAnywhere from being so we had to install all the extra libraries at once before we could even get a simple get request working. To install the relevant libraries we had to open a bash constole and pip3.7 install --user "LIB-NAME" every import we had.
+    \item Unfortunately, we had not developed the flask server on PythonAnywhere from being so we had to install all the extra libraries at once before we could even get a simple get request working. To install the relevant libraries, we had to open a bash console and pip3.7 install --user "LIB-NAME" every import we had.
     \item Then you must added every import to the WSGI config file.
 \end{itemize}
-After all this everything worked flawlessly and we were able to get predictions from the Flask server.
+After all this everything worked flawlessly, and we were able to get predictions from the Flask server.
 
 \section{Database - MongoDB}
 

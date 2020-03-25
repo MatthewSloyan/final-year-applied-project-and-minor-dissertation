@@ -1,12 +1,68 @@
 \chapter{Introduction}
-Blah...... was cited by \cite{zasloff2002antimicrobial} in ... You should refer to images and tables by their label and let latex figure out the numbering for you. E.g. we can refer to the figure on this page as Fig.\ref{image:myImageName} instead of writing "Fig.1"...
+
+\section{Application Description}
+This application is a virtual reality training simulation for ICSE security . The function of the application is to reduce training costs while training ticket inspectors on the Luas in Dublin. Currently they have to hire actors and close off a Luas route to train new inspectors and this project helps eliminate that. Once you launch the application on the virtual reality headset you are in a virtual train station. As soon as you hop on a train it disembarks then commencing the training session. The goal is to check everyone's ticket on board the train by conversing with all the non-player characters (NPCs) using your actual voice and they will reply to you using a text-to-speech engine. All the NPCs have different personalities so this is where the conflict resolution aspect of the project comes in. You may come across someone who maybe very rude and you must coerce them into giving you their ticket or you may be fortunate to talk to someone who gives you their ticket straight away. Once all the NPCs are checked you may leave the train, check your score and end the simulation. After the purchase of a virtual reality headset there is very little cost involve and the training simulation can be replayed over and over again completely removing the need to hire actors and shutdown a Luas route for an entire day.  
+
+\section{Client}
+Mark Toner who works for ICSE security, contacted our supervisor to propose a project. The project entailed creating a training simulation for ticket inspectors for the Luas in Dublin. The Problem with their current training system is that they have to hire out a large number of actors to act like passengers. Also they have to close off one of the Luas's routes to ensure the setting for the training session is as accurate as possible. The problem with this method was it is extremely costly to recreate this every time new people need training as they would have to hire actors again and close of a Luas route. So we were tasked with creating an application that was as useful in training ticket inspectors to deal with conflict resolution as it was cost effective. After meeting with Mark we came up with some application ideas. In the end we settled on a virtual reality training simulation that allowed you to speak to bots, they would interpret what you are saying and respond. Also these bots had to have different personalities or personas. The simulation had to have variance with each bot so to not make it too easy for the trainee. Some bots could be nice and some could be extremely rude. After this meeting we started research and development straight away.
+
+\section{Objectives}
+Here are the main objectives that were decided after having a meeting with our client.
+
+\begin{itemize}
+    \item To make sure that we, as developers, understood the requirements of the client to help us develop a system that the client was content with. 
+    
+    \item To research the latest technology to aid in creating an application that would not be out-dated and that it was as efficient as possible for the time.
+    
+    \item To Implement a robust system architecture what we have learnt from our research of the latest technologies.
+    
+    \item To create an application that we, as developers, were happy with but more importantly, creating a product that met the requirements of our client.
+    
+\end{itemize}
+
+\section{Scope}
+This project was from the start treated as industry standard so we knew that the scope was large however, manageable and we knew that we could meet all the requirements in the time frame that was given to us. During the course of the project we had to set up:
+\begin{itemize}
+    \item Create a virtual realistic environment for the training session to take place with life-like models and animations
+    
+    \item Speech services that would convert speech to text then text to speech in a realistic fashion.
+    
+    \item Create chat-bots that would recognise what you were saying with the aid of an artificial intelligence.
+    \item Create a back-end server where the 3D engine/client could communicate with the chat-bot.
+    
+    \item Set-up a hosting service for the server so 3D engine/client did not have to be on the same network to function.
+    
+\end{itemize}
+
+Although there was a lot here to research and implement we were confident that we would get the project done in the given time frame.
 
 
+\section{Chapter Overviews}
+Here is a brief overview of the all the following chapters. These chapters include Methodologies, Technology Review, System Design, System Evaluation and the conclusion to the entire project.
+\subsection{Methodologies}
+In chapter 2 we discuss all the various methodologies we used throughout the research and development of the project. We also mention how we interacted with our client and project supervisor. There is also a big emphasis on testing, management and the tools used to aid us in development. 
+\subsection{Technology Review}
+In chapter 3 we outline all the technologies we either used in development or that we researched and tested however did not suite our requirements. To summarise what kind of technologies we research, we looked at 3D Engines/ Gaming Engines, Speech services that would allow us to convert Speech to text and vice versa, relevant chat-bot technologies, various servers that we could use to aid us in developing an efficient back-end to process HTTP requests and finally hosting services for our back-end server. 
+\subsection{System Design}
+In chapter 4 we examine the entire implementation of the application in detail. We go through all the technologies that met our requirements from the Technology Review and what roll they played in creating our project. Code snippets are also used to aid our explanation of the implementation and to show the inner workings for each section in the application.
+\subsection{System Evaluation}
+In chapter 5 we mainly focus on the actual performance and robustness of the system which are described in the Objectives section of this chapter. We answer questions like how well does the system perform when tested. We also look at any technical limitations that we encountered during the projects life-cycle. 
+\subsection{Conclusion}
+In the final chapter we conclude this document as a whole. We highlight any findings from the system evaluations section. We also look at objectives and see how well we met them.
 
+\section{Source Code}
+The entirety of the this project can be located on GitHub. Upon clicking the link below you should be able to see the project's repository containing all source code and documentation related to the project. The "Chatbot" folder contains the AIML bot's source that was used in the project and a sample bot using the Keras machine learning library. The "Research" folder contains a "Initial Research.md" file that contains all the research that was completed before starting the development stage. The "UnityEngine" folder contains the entire Unity project including all scripts and assets. Finally, there is a "README.md" file that shows all information regarding trying to run the project.
+\newline
 
-\begin{figure}[h!]
-	\caption{The image caption should be succinct but descriptive.}
-	\label{image:myImageName}
-	\centering
-	\includegraphics[width=0.9\textwidth]{gmit-building}
-\end{figure}	
+GitHub Link: https://github.com/MatthewSloyan/final-year-applied-project-and-minor-dissertation
+
+\section{Deliverables}
+Listed below are all the components to be included in the project derived from the clients requirements:
+
+\begin{itemize}
+    \item A Virtual reality application with a 3D train station environment and realistic non-player characters that you can converse with, developed using Unity3D that is to be launched on the Oculus Quest.
+    
+    \item A live Flask server hosted on PythonAnywhere so that the Unity3D can connect and access the chat bot to generate replies and return it to the user to give the illusion of a conversation.
+    
+    \item A Mongo database that contains all the data of previous training sessions so that the trainees progress or score can be reviewed to see how well they deal with conflict resolution. 
+\end{itemize}
