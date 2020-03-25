@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Utilities">
+    <Position X="29.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\__Scripts\Utilities.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TextToSpeech">
+    <Position X="19.5" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIEABAAAAiAAAAAAAAAAACAAAAACEAgAQAAAQAAAAMA=</HashCode>
+      <FileName>Assets\__Scripts\TextToSpeech.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpeechToText">
+    <Position X="15.75" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQEAgAAAigQAAAIQQgAAEAAAAgAAAQAQABAQAAAAGI=</HashCode>
+      <FileName>Assets\__Scripts\SpeechToText.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameManager">
+    <Position X="26.5" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAQAAAAAACBAAAAAAAAAAAAAAAAAAAAAAACAAAAAAQA=</HashCode>
+      <FileName>Assets\__Scripts\GameManager.cs</FileName>
+      <NewMemberFileName>Assets\__Scripts\ScoreManager.cs</NewMemberFileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScoreFileManager">
+    <Position X="29.5" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAEAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Assets\__Scripts\ScoreFileManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SatisfactionMeter">
+    <Position X="32.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQgAAgAACAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Assets\__Scripts\SatisfactionMeter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersonCollider">
+    <Position X="12.75" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAAAAAAAAAAIAAQAAAAAAAAAA=</HashCode>
+      <FileName>Assets\__Scripts\PersonCollider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PauseMenu">
+    <Position X="32.75" Y="19.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAgAACAAAAAAAACAEAAAAAAAAAAAAACAAAAAAAA=</HashCode>
+      <FileName>Assets\__Scripts\PauseMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NPC">
+    <Position X="23.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAgAAAAAAAAAIAAgAAAAAAAhAAAQAAIAgAAAAAAA=</HashCode>
+      <FileName>Assets\__Scripts\NPC.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Movement">
+    <Position X="14.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAEAAAAAAAAAAAAAQAAAAAAAAIAAAA=</HashCode>
+      <FileName>Assets\__Scripts\Movement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MenuController">
+    <Position X="30.75" Y="17" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAEAAAAAEAAAAAAIABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\__Scripts\MenuController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GenerateNPC">
+    <Position X="21.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>JAAAAA4AACAAAKAAAAAAAAAAAAAQAgAAAAAQAAAAAAA=</HashCode>
+      <FileName>Assets\__Scripts\GenerateNPC.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameOverMenu">
+    <Position X="29" Y="19.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\__Scripts\GameOverMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game">
+    <Position X="26.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAiAAgAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\__Scripts\Game.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NPCList">
+    <Position X="29.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAgIAAAAAEgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\__Scripts\Game.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FirstPersonCamera">
+    <Position X="12.5" Y="8" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="FirstPersonCamera.RotationAxes" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\__Scripts\FirstPersonCamera.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAQAABAEACAAAAAAAAmAAAAAAIACAAAAEAAAABAEABQ=</HashCode>
+      <FileName>Assets\__Scripts\FirstPersonCamera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DatabaseManager">
+    <Position X="26.5" Y="15.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAACAAAAAQA=</HashCode>
+      <FileName>Assets\__Scripts\DatabaseManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CompleteRing">
+    <Position X="32.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EEAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAIAAAAAAAAgA=</HashCode>
+      <FileName>Assets\__Scripts\CompleteRing.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client">
+    <Position X="17.75" Y="11.25" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Client.RequestS" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\__Scripts\Client.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAAAACAAAgAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Assets\__Scripts\Client.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AIMLRequest">
+    <Position X="17.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAAQQAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\__Scripts\AIMLRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
