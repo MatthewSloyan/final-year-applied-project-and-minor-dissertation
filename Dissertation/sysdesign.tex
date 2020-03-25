@@ -13,6 +13,13 @@ In this section, we will illustrate the entire system in detail. We will go thro
 \section{Unity}
 As seen in Figure~\ref{image:SystemArch} Unity is the central component in this application. It is the part that the user interacts with and the part where all the data flows in and out of. Having said that, in this section we will discuss the more graphical side of the implementation and how we did that.
 
+\begin{figure}[h!]
+	\caption{Unity Project Class Diagram.}
+	\label{image:ClassDiagram}
+	\centering
+	\includegraphics[width=1\textwidth]{Images/ClassDiagram.png}
+\end{figure}
+
 \subsection{3D Models}
 Generating realistic bots with realistic models was a problem that was easily solved with the aid of a website called "http://mixamo.com/". This website has an plethora of high quality 3d character models along with animations. Once the model was imported into Unity all that was left to do was give these bots a session ID,random voice, gender based on that voice and a random persona e.g Polite,neutral and rude. These personas would aid us later in deciding which AIML file to use server-side. As seen in the below code snippet this is how we generate all these traits. The session ID is a random number between 1 and 10000. The persona is a integer between zero and three, each number meaning a different persona: 
 
@@ -105,8 +112,269 @@ Animations in our opinion were important in this application. We needed the user
     \label{fig:anim}
 \end{figure}
 
-\section{HTTP}
-In order to communicate with our Flask server we used HTTP. We did so using the UnityEngine.Networking library. Before sending the data we created an object to store the session ID, persona and the user input from the STT service. Once this object was created it was converted to a JSON string. Then this string of json was sent, as seen in the code snippet below, to the Flask server hosted on PythonAnywhere to be processed and return a predicted response from the bot. That response is then sent to the TTS service.
+\subsection{Usability/User Experience}
+% Interactions with npcs and placement
+% Speech rather than keyboard input
+% Menus / Layout
+% If ticket is checked
+% VR controls
+% Tutorial
+
+\begin{figure}[h!]
+	\caption{Menus Class Diagram.}
+	\label{image:Menus}
+	\centering
+	\includegraphics[width=0.8\textwidth]{Images/ClassDiagram Menus.png}
+\end{figure}
+
+\subsection{Scoring System}
+As one of the main goals of this project was to create a useful training experience to train ticket inspectors in relation to conflict resolution, we decided it would need a scoring system to help both the trainee and the training centre. A simple system was devised for each interaction and was scored depending on user input and the way it's said. Table ~\ref{tab:scores} shows example of how the result is scored, based on the user input. If the user is deemed aggressive then they will get a -1 score, if they are deemed neutral their score won't change and if they are deemed positive they will gain one point to their total score. This simple system proved beneficial in early tests, so we implemented same idea with the personalities of each NPC.
+
+\begin{table}[!ht]
+    \centering
+\begin{tabular}{ |p{6cm}|p{2cm}|  }
+\hline
+\multicolumn{2}{|c|}{Interaction Scoring} \\
+\hline
+User Input & Score \\
+\hline
+Show me your ticket! & -1 \\
+\hline
+Can I see your ticket? & 0 \\
+\hline
+Can I see your ticket, please? & +1 \\
+\hline
+
+\end{tabular}
+    \caption{Scores}
+    \label{tab:scores}
+\end{table}
+
+The scoring systems works as follows as seen in Figure~\ref{image:Scoring}. Once the game is started and each NPC is being generated and template "Game" object is setup, this object contains a nested list "NPCList" which contains information about each NPC such as the conversations, current score, and sessionID. Once created it is written to a local file on the device, the decision to use file storage rather than have the object in memory was chosen for several reasons. Firstly, it allowed the file to be accessed at any time from any class easily, quickly and efficiently. It also would be stored if the game crashed, or if the user quit however results retrieval weren't implemented in the final build, however it would be something to look at for future development.
+
+\par
+\medskip
+
+The next steps occur after each successful interaction with a NPC. The GameManager is called from the Client to update the game and score. The UpdateScore() method updates the score by reading in the current file, finding the NPC and updating their current score respectively. This also handles the check if the NPC is complete E.g. if their ticket has been checked. If the NPC is on the last state a boolean "complete" will be set to true which is used to check if the training experience is complete. This is written back out to a local file as a JSON string using the Utilities class methods. The Utilities methods were designed using generics so they can handle any type for usability. The end game condition is also checked here to see if the game is complete, if so, the end game menu is displayed with the players results.
+
+\begin{figure}[h!]
+	\caption{Scoring System Class Diagram.}
+	\label{image:Scoring}
+	\centering
+	\includegraphics[width=1\textwidth]{Images/ClassDiagram Scoring.png}
+\end{figure}
+
+\subsection{Other Game Functions}
+
+\section{Azure Speech Services}
+From our research and testing efforts as laid out in the technology review Azure was chosen as the provider for the speech services due to its many benefits. This provided the voice of our human like NPC's (Non-player character) and converted the players speech to machine readable diction which is sent to the Flask server for processing. Azure provides a Unity plugin to allow access to their services, with this implemented we could access the classes required.
+
+\par
+\medskip
+
+The Speech to Text and Text to Speech functionality were the first sections to get working as it was initially decided that we would use voice commands and human speech to improve the user experience and usability rather than having the user type in their response. Using the sample Unity project provided by Microsoft as a guide we tested the implementation to learn how it works. Using this an initial prototype was built where the player could walk up to a cylinder which would turn blue on interaction. Once the collision occurs the speech engine begins listening and the result is returned from an Azure server as text output to the screen. We also developed a similar test build for Text to Speech where a user could input text into a text box which would play back their input as if it was spoken by a human voice. This was one of the bare essential goals of our project.
+
+\par
+\medskip
+
+Figure~\ref{image:SpeechServices} shows the class diagram of the whole speech services in the project. The process starts in the PersonCollider class, once the player interacts with the NPC OnTriggeredEntered is fired, which sends a request to the SpeechToText class. This begins listening and displays this to the user. Once speech is recognised it is sent to Azure for processing and a result is returned as text. This is then sent to the Client which sends a HTTP request to the server as an AIMLRequest object. Once the result is processed the text is returned with a score for the chatbot to speak and the game will be updated. The TextToSpeech class handles this asynchronously and the process restarts again once the chatbot is finished talking (TTS). We will now go into more detail of how this three elements work.
+
+\begin{figure}[h!]
+	\caption{Speech Services Class Diagram.}
+	\label{image:SpeechServices}
+	\centering
+	\includegraphics[width=0.8\textwidth]{Images/ClassDiagram STT and TTS.png}
+\end{figure}
+
+\subsection{Speech-to-Text}
+Once this class is called a connection to the Azure services is made, then with a using statement to cut down memory usage the configuration information is passed into the imported classes (SpeechRecognizer). This begins listening for a total of 15 seconds in which it will timeout and display an error to the user. If the speech recognition is successful, the message is saved and will be sent to the client on the next update. This can be seen in Listing~\ref{lst:STT}.
+
+\par
+\medskip
+
+Throughout the duration of the project the SpeechToText code was modified heavily to improve it in many ways, which is described below.
+
+\begin{itemize}
+  \item We had to implement a web client so it could contact the server via HTTP. More information can be found in the HTTP section in regard to the web client. We ran into problems trying to call the web client on result returned (Line 24 in Listing~\ref{lst:STT}) so instead a check was added to the Update method which checks if there is a message to be sent on each frame. If so then the returned result is sent to the server for processing.
+  \item We also worked on making this Speech To Text class threaded so it would let the application continue to play when waiting for a result, as seen on line 10-13 in Listing~\ref{lst:STT}.
+  \item Security was implemented by protecting the key from external access, so it is local to the device.
+  \item Singleton design pattern was used as there should only be one instance of SpeechToText and it allows easy access from other classes.
+\end{itemize}
+
+\begin{lstlisting}[caption={Speech To Text - Setup and request},label={lst:STT},language=python]
+// Creates an instance of a speech config with specified subscription key and service region.
+// API_Key for security this is read in from a text file and is not included on Github. 
+var config = SpeechConfig.FromSubscription(API_Key, "westeurope");
+
+using (var recognizer = new SpeechRecognizer(config))
+{
+    listenSuccess = false;
+    messageToSend = "";
+
+    lock (threadLocker)
+    {
+        waitingForReco = true;
+    }
+
+    // Starts speech recognition and returns after a single utterance is recognized. The end of a
+    // single utterance is determined by listening for silence at the end or until a maximum of 15
+    // seconds of audio is processed.  The task returns the recognition text as result.
+    var result = await recognizer.RecognizeOnceAsync().ConfigureAwait(false);
+
+    // Checks result.
+    string newMessage = string.Empty;
+    if (result.Reason == ResultReason.RecognizedSpeech)
+    {
+        newMessage = result.Text;
+
+        // Set independant variables for sending the message to the server.
+        listenSuccess = true;
+        messageToSend = newMessage;
+    }
+    else if (result.Reason == ResultReason.NoMatch)
+    {
+        newMessage = "NOMATCH: Speech could not be recognized.";
+    }
+    else if (result.Reason == ResultReason.Canceled)
+    {
+        var cancellation = CancellationDetails.FromResult(result);
+        newMessage = $"CANCELED: Reason={cancellation.Reason} ErrorDetails={cancellation.ErrorDetails}";
+    }
+
+    lock (threadLocker)
+    {
+        message = newMessage;
+        waitingForReco = false;
+
+        // Dispose of recognizer correctly.
+        recognizer.Dispose();
+    }
+}
+\end{lstlisting}
+
+\subsection{Text-to-Speech}
+Once this class is called a connection to the Azure services is made using the configuration information. This includes data such as the voice name which is passed from the Client. There are several voices available both male and female for different countries in the world to give a more realistic and unique experience. We choose two male and female voices from the list of Neural voices which are created using machine learning, from testing they provided the most realistic sounding voice. This can be seen in Listing~\ref{lst:TTS1}. Once setup the text is passed into the synthesizer.SpeakTextAsync() function. This is implemented using a task (Task<SpeechSynthesisResult>) so it doesn't block and wait for a response.
+
+\begin{lstlisting}[caption={Text to Speech - Setup and request},label={lst:TTS1},language=python]
+public void ConvertTextToSpeech(string inputText, string voiceName, bool ifChecked)
+{
+    this.ifChecked = ifChecked;
+
+    // For security this is read in from a text file and is not included on Github. 
+    string API_Key = System.IO.File.ReadAllText("../../API_Key.txt");
+
+    speechConfig = SpeechConfig.FromSubscription(API_Key, "westeurope");
+    
+    // The default format is Riff16Khz16BitMonoPcm.
+    // We are playing the audio in memory as audio clip, which does not require riff header.
+    // So we need to set the format to Raw16Khz16BitMonoPcm.
+    speechConfig.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Raw16Khz16BitMonoPcm);
+
+    // Change voice depending on option selected for multiple characters of different genders and ethnicities.
+    speechConfig.SpeechSynthesisVoiceName = voiceName;
+
+    lock (threadLocker)
+    {
+        waitingForSpeak = true;
+    }
+
+    // Creates a speech synthesizer.
+    synthesizer = new SpeechSynthesizer(speechConfig, null);
+
+    // Starts speech synthesis and returns after a single utterance is synthesized.
+    // There was an issue where the game would freeze at this point "synthesizer.SpeakTextAsync(inputText)" blocks until the task is complete. 
+    // To solve this, I have implemented a task which runs using a Coroutine that waits until the result from Azure is returned. 
+    // Code is adapted from: https://stackoverflow.com/questions/57897464/unity-freezes-for-2-seconds-while-microsoft-azure-text-to-speech-processes-input
+    Task<SpeechSynthesisResult> task = synthesizer.SpeakTextAsync(inputText);
+
+    StartCoroutine(RunSynthesizer(task, speechConfig, synthesizer));
+
+    lock (threadLocker)
+    {
+        waitingForSpeak = false;
+    }
+}
+\end{lstlisting}
+
+\par
+\medskip
+
+The audio response received from Azure is 16-bit mono format. The 16 bit is the bit depth, or resolution of audio. A common compact disc (CD) uses 16 bits per sample. As it's returned as bits it must be converted first to a float array to be output to the device speaker. A loop was implemented to shift the bits left on each iteration using the formula supplied in the documentation. This can be seen on line 7 in Listing~\ref{lst:TTS2}. Once completed the audio is ready for output.
+
+\begin{lstlisting}[caption={Text to Speech - Converting audio from bits to array},label={lst:TTS2},language=python]
+private Task<float[]> getAudioData(SpeechSynthesisResult result)
+    {
+        var sampleCount = result.AudioData.Length / 2;
+        var audioData = new float[sampleCount];
+
+        for (var i = 0; i < sampleCount; ++i) {
+            audioData[i] = (short)(result.AudioData[i * 2 + 1] << 8 | result.AudioData[i * 2]) / 32768.0F;
+        }
+
+        return Task.FromResult(audioData);
+    }
+}
+\end{lstlisting}
+
+The last step of the process is to output the processed audio directly to the device speaker. A clip is first created using the data and applied to the AudioSource of the NPC and then this is played as seen in Listing~\ref{lst:TTS3}. Lastly, the SpeechToText class is called again to start the NPC listening for a new user input. However, if the NPC's ticket has already been checked this step is skipped and a predefined output is spoken, E.g "Sorry, but you have already checked my ticket.".
+
+\begin{lstlisting}[caption={Text to Speech - Asynchronous Audio Processing},label={lst:TTS3},language=python]
+private IEnumerator RunSynthesizer(Task<SpeechSynthesisResult> task, SpeechConfig config, SpeechSynthesizer synthesizer)
+{
+    // Wait until the task is complete E.g Azure Text to Speech returns a result.
+    yield return new WaitUntil(() => task.IsCompleted);
+
+    var result = task.Result;
+    
+    // Check result.
+    if (result.Reason == ResultReason.SynthesizingAudioCompleted)
+    {
+        // Create a task to create audio data and wait till its completed.
+        Task<float[]> audioTask = getAudioData(result);
+        yield return new WaitUntil(() => audioTask.IsCompleted);
+
+        // Synthesize the Audio and play to the speaker.
+        // The output audio format is 16K 16bit mono
+        var sampleCount = result.AudioData.Length / 2;
+        var audioClip = AudioClip.Create("SynthesizedAudio", sampleCount, 1, 16000, false);
+        audioClip.SetData(audioTask.Result, 0);
+        audioSource.clip = audioClip;
+        audioSource.Play();
+        
+        // true if ticket has already been checked, otherwise start listening again until ticket has been checked.
+        if (!ifChecked)
+        {
+            // Wait until the audio is completed and start listening again.
+            // Code adapted from: https://answers.unity.com/questions/1111236/wait-for-audio-to-finish-and-then-load-scene.html
+            yield return new WaitWhile(() => audioSource.isPlaying);
+            speech.convertSpeechToText(speech.GetSessionID(), speech.GetPersona(), speech.GetVoiceName());
+        }
+    }
+
+    else if (result.Reason == ResultReason.Canceled)
+    {
+        var cancellation = SpeechSynthesisCancellationDetails.FromResult(result);
+        Debug.Log($"CANCELED:\nReason=[{cancellation.Reason}]\nErrorDetails=[{cancellation.ErrorDetails}]");
+    }
+
+    // Dispose of synthesizer correctly.
+    synthesizer.Dispose();
+}
+\end{lstlisting}
+
+\par
+\medskip
+
+Throughout the project the TextToText code was modified and improved. Some of these improvements are outlined below.
+
+\begin{itemize}
+  \item We encountered a problem where if the the internet connection was slow the application would hang and freeze until the result was returned. From research of the documentation it was found that Microsoft developed their sample code with this problem not fixed. This problem was outlined here \cite{stackoverflow} which led it to our attention in the documentation. If "synthesizer.SpeakTextAsync()" is called it blocks and waits for a result, which was disastrous for our project as it could hang for 2/3 seconds. To fix this a asynchronous task was implemented which would allow the application to run smoothly until the audio result was played to the user. This Task<> can be seen in Listing~\ref{lst:TTS2}.
+  \item Singleton design pattern was used as there should only be one instance of TextToSpeech and it allows easy access from other classes.
+  \item Security was implemented by protecting the API key from external access, so it is local to the device.
+\end{itemize}
+
+\subsection{HTTP Web Client}
+In order to communicate with our Flask server, we used HTTP. We did so use the UnityEngine.Networking library. Before sending the data, we created an object to store the session ID, persona and the user input from the STT service. Once this object was created it was converted to a JSON string. Then this string of json was sent, as seen in the code snippet below, to the Flask server hosted on PythonAnywhere to be processed and return a predicted response from the bot. That response is then sent to the TTS service.
 
 \begin{lstlisting}[language=python]
         string json = new Utilities().ToJsonString(request);
@@ -136,13 +404,6 @@ In order to communicate with our Flask server we used HTTP. We did so using the 
             }
         }
 \end{lstlisting}
-
-\section{Azure}
-\subsection{Azure Speech-to-Text}
-%collide with bot
-\subsection{Azure Text-to-Speech}
-
-\section{Oculus Quest}
 
 \section{AIML}
 % NEED THIS LATER
@@ -190,4 +451,31 @@ After creating an account the steps to hosting a flask server on PythonAnywhere 
 \end{itemize}
 After all this everything worked flawlessly and we were able to get predictions from the Flask server.
 
-\section{MongoDB}
+\section{Database - MongoDB}
+
+\begin{figure}[ht]
+	\caption{Database Class Diagram.}
+	\label{image:Database}
+	\centering
+	\includegraphics[width=0.8\textwidth]{Images/ClassDiagram Database.png}
+\end{figure}
+
+\section{Code Design}
+
+\subsection{Design Patterns}
+% Singleton, etc
+
+\subsection{Coupling}
+% Singleton, etc
+
+\subsection{}
+% Could be swapped out for another training scenario. Can't think of the name...
+
+\subsection{Error Handling}
+
+\subsection{Security}
+
+\section{Platforms}
+\subsection{Oculus Quest}
+\subsection{Android}
+\subsection{Windows}
