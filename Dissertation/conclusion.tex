@@ -1,2 +1,40 @@
 \chapter{Conclusion}
-Blah......
+This chapter provides a final outlook on the project, a summary of how we met our initial goals, the insights and knowledge we gained and some thoughts on possible future developments.
+
+\section{Project goals}
+From the initial project scope laid out in the Introduction chapter we have met these goals within the required time frame, and improved upon them in multiple ways.
+
+\section{How we achieved our goals}
+\begin{itemize}
+    \item Project scope and goals were achieved and exceeded. We have built a fully fledged training application that allows a user to move around a virtual environment in VR and interact with NPC's to check their ticket. All interactions are scored and data is stored securely on a database (MongoDB). A lot of work went into improving the user experience, the look and feel of the application and usefulness of training provided to the user. 
+
+    \item Using a Mixed Research Methodology allowed us to gain knowledge throughout the whole project. Also using Extreme Programming (XP) as our development methodology ensure code quality was upheld always, as a working build was always available for each meeting.
+    
+    \item We put a big emphasis on testing to utilities XP to it's full potential. With this we implemented ...
+    
+    \item We designed and developed the application to be fully modular so that new technologies, new scenarios, new languages and much more could be implemented with further development.
+
+\end{itemize}
+
+
+\section{Findings and Insights gained}
+% based on system Evaluation
+
+Throughout the project there were a number of trial and error issues that come with working with new technologies and hardware, but they all worked out due to our development methodologies. One example of such an error was when building to the Oculus Quest, the Azure Speech Services would stop working once the application was closed and opened again. This was a major problem as the application could only be used once. From research of possible solutions and checking the error logs output by the Oculus Quest we came to a solution which we had thought would fix it. The Quest was throwing an error in regard to a .dll file it couldn't find. A number of people had a similar issue on a forum post, and the suggestion was to change the Unity version. To test this we built a new basic version of the project in Unity 2018, however the error still persisted when everything was added in. Going through each addition it was found that the error was caused by an Avatar game object that was added to the VR camera. This Avatar game object allows the user to see their own personal avatar in game connected to an Oculus account. It is useful for multiplayer games but not required for our application, but it is a standard addition to the supplied VR camera that Oculus provides so we would have never found this error without going through all possible options. With this fixed we felt we could help someone that had a similar error due it's difficulty to fix, so we commented in the original forums as these people could have had the same issue but never known about it. Also, we made an issue on the official GitHub repository for Azure Speech Services so hopefully it could be useful to anyone using our same setup of technologies.
+
+\section{Future development}
+Throughout development we had multiple different ideas from either our own minds or through our supervisor meetings that weren't core to our initial project goals. However, they would be features we'd like to look at again if we were to develop the project further. Some of these ideas are as follows.
+\begin{itemize}
+    \item Implement language support for the training application. Currently the AIML chatbot can only interpret English, and response to English queries. As the training centre is based in Ireland this is what the client required. However, due to the fact Azure STT and TTS can detect and output multiple languages without intervention it would be possible to implement this feature without changing the project structure or adding many new technologies. A possible way this could be achieved is the server would convert any user input to English which would be compared with the predefined AIML diction we have developed. This conversion could be done using Google Translate API which is freely available for development.
+    
+    \item More scenarios could be implemented. For our final build we have developed a scene and tutorial focused on checking passengers tickets as outlined by our client. However, as we built the project in a modular way this could easily be expanded to included a new conflict resolution scenario for training security guards or other kinds of workers that deal with the general public. 
+    
+    \item A web application could be developed to view the results of each training session, and even compare results on a graph. This would be more suited if being used by multiple training centres and if the project was developed and sold as a product that customers could purchase. Each individual centre could create an account and display their own set of testing data, that the application provides. However for this project as we were working with a single client the application is set up to work with their business only, using a predefined ID for security purposes. However the database could easily be set up to handle multiple business ID's.
+    
+\end{itemize}
+
+\section{Final thoughts}
+\subsection{Matthew}
+This project was extremely enjoyable to work on and will serve me well in my future career as a machine learning engineer. I got to work with various new technologies such as speech services, VR technology, cloud hosting providers (Heroku) and machine learning chatbots (Keras). I also improved my current knowledge using technologies such as Unity, Python, C\#, Flask and much more. I learned a lot in regards to working in a team, which suits my work flow very well. Working each week with our supervisor and with my project partner using Extreme Programming was useful especially for meeting our deadlines as the project was in a working state after each build. The research that was undertaken throughout the whole project was extremely interesting and it was great to get an insight into some of the exciting technologies out there today. Lastly, I am very happy with how the project turned and how we met our initial goals and exceeded them.
+
+\subsection{Aaron}
