@@ -11,7 +11,7 @@ mongo = PyMongo(app)
 
 # AIML
 kernel = aiml.Kernel()
-kernel.learn("/home/aaronchannon1/mysite/startup.xml")
+kernel.learn("startup.xml")
 
 @app.route('/')
 def index():
@@ -42,7 +42,7 @@ def predictResponse():
 @app.route('/api/results', methods=['PUT'])
 def uploadResult():
     # Get collection from database.
-    results = mongo.db.results
+    results = mongo.db.test_results
 
     # Get json from request.
     gameId = request.get_json()['gameId']
@@ -51,7 +51,7 @@ def uploadResult():
     npcs = request.get_json()['npcs']
 
     # Write json object to MongoDB database.
-    results.insert({
+    results.insert_one({
         'gameId': gameId,
         'gameScore': gameScore,
         'gameTime': gameTime,
@@ -62,4 +62,3 @@ def uploadResult():
 
 if __name__ == "__main__":
     app.run(threaded=True, port=5000)
-#host = "192.168.1.7",

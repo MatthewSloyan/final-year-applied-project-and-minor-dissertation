@@ -1,0 +1,29 @@
+<aiml version="1.0.1" encoding="UTF-8">
+    <!-- std-startup.xml -->
+
+    <!-- 0 = RUDE -->
+    <!-- 1 = NEUTRAL -->
+    <!-- 2 = POLITE -->
+    <category>
+        <pattern>LOAD AIML 0</pattern>
+        <template>
+            <learn>rude.aiml</learn>
+        </template>
+    </category>
+
+    <category>
+        <pattern>LOAD AIML 1</pattern>
+        <template>
+            <learn>neutral.aiml</learn>
+        </template>
+    </category>
+
+
+    <category>
+        <pattern>LOAD AIML 2</pattern>
+        <template>
+            <learn>basic.aiml</learn>
+        </template>
+    </category>
+
+</aiml>
