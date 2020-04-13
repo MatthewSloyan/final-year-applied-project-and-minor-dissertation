@@ -8,6 +8,7 @@ TagManager:
   - person
   - list
   - OnTrain
+  - watch
   layers:
   - Default
   - TransparentFX

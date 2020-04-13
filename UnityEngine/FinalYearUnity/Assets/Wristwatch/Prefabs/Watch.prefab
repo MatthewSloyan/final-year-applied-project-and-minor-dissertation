@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 33000012828584534}
   - component: {fileID: 23000014168261348}
   - component: {fileID: 114000013382156852}
+  - component: {fileID: 1848101006}
   m_Layer: 0
   m_Name: Watch
-  m_TagString: Untagged
+  m_TagString: watch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1000010238534840}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.017314367, y: 0.017314343, z: 0.017314363}
+  m_LocalScale: {x: 0.018, y: 0.018, z: 0.018}
   m_Children:
   - {fileID: 4000012656398096}
   - {fileID: 4000011298565002}
@@ -99,6 +100,19 @@ MonoBehaviour:
   Hours: {fileID: 4000012656398096}
   Minutes: {fileID: 4000011298565002}
   Seconds: {fileID: 4000013781335498}
+--- !u!65 &1848101006
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010238534840}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.75, y: 3.21, z: 2.38}
+  m_Center: {x: 0.0000018698557, y: 0, z: -0.52}
 --- !u!1 &1000010992299330
 GameObject:
   m_ObjectHideFlags: 0
