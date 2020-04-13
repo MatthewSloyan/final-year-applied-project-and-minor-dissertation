@@ -8,10 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/__Scenes/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 0
+  - enabled: 1
     path: Assets/IGBlocks/Station03/Scene/Station03.unity
     guid: 89e39149cd1cb394488855100cfa6369
-  - enabled: 1
+  - enabled: 0
     path: Assets/IGBlocks/Station02/Scene/Station02.unity
     guid: 61f0d2faeb8c7f448a8c847fc21deaf4
   m_configObjects: {}
