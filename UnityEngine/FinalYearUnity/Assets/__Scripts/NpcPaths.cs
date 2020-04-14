@@ -52,7 +52,7 @@ public class NpcPaths : MonoBehaviour
                 //Debug.Log("Node" + lastNode);
             }
         }else{
-            if(!gameObject.name.Equals("NPC_NoDestroy") && !gameObject.name.Equals("NPC2_NoDestroy")){
+            if(!gameObject.name.Equals("NPC_NoDestroy") && !gameObject.name.Equals("NPC2_NoDestroy")&& !gameObject.name.Equals("NPC3_NoDestroy")){
                 Destroy(gameObject);
             }
             

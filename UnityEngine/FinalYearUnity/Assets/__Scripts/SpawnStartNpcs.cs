@@ -6,6 +6,7 @@ public class SpawnStartNpcs : MonoBehaviour
 {
     public GameObject NPC;
     public GameObject NPC2;
+    public GameObject NPC3;
     private GameObject npcCopy;
     IEnumerator SpawnDelay()
     {
@@ -13,13 +14,15 @@ public class SpawnStartNpcs : MonoBehaviour
 
         
         while(true){
-            int rand = Random.Range(0,2);
+            int rand = Random.Range(0,3);
             Debug.Log("RAND: " + rand);
             if(rand == 0){
                 npcCopy = NPC;
             }
             else if(rand == 1){
                 npcCopy = NPC2;
+            }else if(rand == 2){
+                npcCopy = NPC3;
             }
             Instantiate(npcCopy,gameObject.transform.position,Quaternion.Euler(0, -90, 0));
             //Debug.Log("Spawned");
