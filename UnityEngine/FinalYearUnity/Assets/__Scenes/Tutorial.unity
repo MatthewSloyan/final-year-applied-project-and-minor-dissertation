@@ -5813,6 +5813,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3559392863094227506, guid: 6c7bdd088b4f04b4a91c296f0c340f9a,
+        type: 3}
+      propertyPath: gameOverUI
+      value: 
+      objectReference: {fileID: 1945954639150123915}
+    - target: {fileID: 3559392863094227506, guid: 6c7bdd088b4f04b4a91c296f0c340f9a,
+        type: 3}
+      propertyPath: pauseUI
+      value: 
+      objectReference: {fileID: 5400874849435257212}
     - target: {fileID: 8441031197414208277, guid: 6c7bdd088b4f04b4a91c296f0c340f9a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5918,16 +5928,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3559392863094227506, guid: 6c7bdd088b4f04b4a91c296f0c340f9a,
-        type: 3}
-      propertyPath: gameOverUI
-      value: 
-      objectReference: {fileID: 1945954639150123915}
-    - target: {fileID: 3559392863094227506, guid: 6c7bdd088b4f04b4a91c296f0c340f9a,
-        type: 3}
-      propertyPath: pauseUI
-      value: 
-      objectReference: {fileID: 5400874849435257212}
     - target: {fileID: 8441031197385331257, guid: 6c7bdd088b4f04b4a91c296f0c340f9a,
         type: 3}
       propertyPath: m_Text

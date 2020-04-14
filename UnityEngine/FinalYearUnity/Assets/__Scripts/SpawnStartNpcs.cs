@@ -26,7 +26,7 @@ public class SpawnStartNpcs : MonoBehaviour
             }
             Instantiate(npcCopy,gameObject.transform.position,Quaternion.Euler(0, -90, 0));
             //Debug.Log("Spawned");
-            yield return new WaitForSecondsRealtime(1);
+            yield return new WaitForSecondsRealtime(3);
         }
 
        
