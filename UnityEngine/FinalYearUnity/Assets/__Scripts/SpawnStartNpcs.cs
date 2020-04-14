@@ -12,7 +12,7 @@ public class SpawnStartNpcs : MonoBehaviour
         while(true){
             Instantiate(npcCopy,gameObject.transform.position,Quaternion.Euler(0, -90, 0));
             Debug.Log("Spawned");
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSecondsRealtime(5);
         }
 
        

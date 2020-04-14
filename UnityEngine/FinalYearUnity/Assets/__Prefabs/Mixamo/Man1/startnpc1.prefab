@@ -1510,7 +1510,7 @@ GameObject:
   - component: {fileID: 8426458247244649712}
   - component: {fileID: 1908058259826751882}
   m_Layer: 0
-  m_Name: Ch31_nonPBR@Orc Idle
+  m_Name: startnpc1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1547,8 +1547,8 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4804095027850208995}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 934ca046bef185a458b24100834b5e51, type: 3}
-  m_Controller: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: cfad5995b7232d54bae345185474a901, type: 3}
+  m_Controller: {fileID: 9100000, guid: 74c871a82b771e649ba97539912ec7f3, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
