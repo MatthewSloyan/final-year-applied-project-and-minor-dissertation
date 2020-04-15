@@ -18,8 +18,8 @@ public class MoveStation : MonoBehaviour
         }
 
         if(onTrain == true){
-            Debug.Log("Move Train");
-
+           // Debug.Log("Move Train");
+            
             gameObject.transform.position = new Vector3(gameObject.transform.position.x + 0.25f, gameObject.transform.position.y, gameObject.transform.position.z);
 
         }

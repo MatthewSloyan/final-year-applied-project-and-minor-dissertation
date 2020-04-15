@@ -39,10 +39,17 @@ public class PersonCollider : MonoBehaviour
                 SpeechToText.Instance.convertSpeechToText(npc.GetSessionID(), npc.GetPersona(), npc.GetVoiceName());
             }
         }
-        else if(col.gameObject.CompareTag("OnTrain")){
+        
+        if(col.gameObject.CompareTag("OnTrain")){
             Debug.Log("OnTrain");
             //GameObject.Find("StationContainer").GetComponent<Animator>().SetBool("OnTrain",true);
             onTrain = true;
+        }
+        
+        if(col.gameObject.CompareTag("NextChunk")){
+            Debug.Log("Next CHunk");
+            GameObject newChunk = GameObject.Find("CityChunkContainer");
+            Instantiate(newChunk,new Vector3(col.gameObject.transform.position.x-272.5f,col.gameObject.transform.position.y-78.25f,col.gameObject.transform.position.z+24.75f),Quaternion.Euler(0, 0, 0));
         }
     }
 
