@@ -6,9 +6,14 @@ public class PersonCollider : MonoBehaviour
 {
     private string[] replies = { "You've already checked my ticket, piss off!", "You've already checked my ticket.", "Sorry, but you have checked my ticket."};
     public bool onTrain = false;
+    private bool startDeleting;
+    private Queue chunks;
 
+    private int chunkCount;
     void Start(){
-        
+        chunks = new Queue();
+        startDeleting = false;
+        chunkCount = -1;
     } 
 
     void OnTriggerEnter(Collider col)
@@ -49,7 +54,23 @@ public class PersonCollider : MonoBehaviour
         if(col.gameObject.CompareTag("NextChunk")){
             Debug.Log("Next CHunk");
             GameObject newChunk = GameObject.Find("CityChunkContainer");
-            Instantiate(newChunk,new Vector3(col.gameObject.transform.position.x-272.5f,col.gameObject.transform.position.y-78.25f,col.gameObject.transform.position.z+24.75f),Quaternion.Euler(0, 0, 0));
+            chunks.Enqueue(Instantiate(newChunk,new Vector3(col.gameObject.transform.position.x-272.5f,col.gameObject.transform.position.y-78.25f,col.gameObject.transform.position.z+24.75f),Quaternion.Euler(0, 0, 0)));
+            //Instantiate(newChunk,new Vector3(col.gameObject.transform.position.x-272.5f,col.gameObject.transform.position.y-78.25f,col.gameObject.transform.position.z+24.75f),Quaternion.Euler(0, 0, 0));
+            
+            if(startDeleting == false){
+                if(chunkCount == 2){
+
+                    startDeleting = true;
+
+                }else{
+                    chunkCount++;
+                }
+            }
+
+
+            if(startDeleting == true){
+                Destroy(chunks.Dequeue() as GameObject);
+            }
         }
     }
 
