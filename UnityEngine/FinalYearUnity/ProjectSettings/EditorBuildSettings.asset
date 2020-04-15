@@ -6,11 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/IGBlocks/Station03/Scene/Station03.unity
-    guid: 89e39149cd1cb394488855100cfa6369
-  - enabled: 1
     path: Assets/IGBlocks/Station03/Scene/StartScreen.unity
     guid: 14b1dca94ac80254ebec6706d28d1ff2
+  - enabled: 1
+    path: Assets/IGBlocks/Station03/Scene/Station03.unity
+    guid: 89e39149cd1cb394488855100cfa6369
   - enabled: 1
     path: Assets/IGBlocks/Station03/Scene/Tutorial.unity
     guid: 216c53caf3e17f643b5d46283216d08a

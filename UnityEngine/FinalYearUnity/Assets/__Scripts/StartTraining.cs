@@ -13,11 +13,15 @@ public class StartTraining : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //OVRInput.Update();
+
+        // if (OVRInput.GetDown(OVRInput.Button.One)){
+        //     SceneManager.LoadScene(1);
+        // }
     }
 
     void OnMouseDown()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 }
