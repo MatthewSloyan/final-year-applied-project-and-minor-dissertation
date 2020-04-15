@@ -8,12 +8,17 @@ public class PersonCollider : MonoBehaviour
     public bool onTrain = false;
     private bool startDeleting;
     private Queue chunks;
-
+    public bool stopSpawning;
     private int chunkCount;
+    private GameObject newChunk;
+    private GameObject station;
     void Start(){
+        stopSpawning = false;
         chunks = new Queue();
         startDeleting = false;
-        chunkCount = -1;
+        chunkCount = 0;
+        station = GameObject.Find("StationHolder");
+        newChunk = GameObject.Find("CityChunkContainer");
     } 
 
     void OnTriggerEnter(Collider col)
@@ -52,26 +57,49 @@ public class PersonCollider : MonoBehaviour
         }
         
         if(col.gameObject.CompareTag("NextChunk")){
-            Debug.Log("Next CHunk");
-            GameObject newChunk = GameObject.Find("CityChunkContainer");
-            chunks.Enqueue(Instantiate(newChunk,new Vector3(col.gameObject.transform.position.x-272.5f,col.gameObject.transform.position.y-78.25f,col.gameObject.transform.position.z+24.75f),Quaternion.Euler(0, 0, 0)));
-            //Instantiate(newChunk,new Vector3(col.gameObject.transform.position.x-272.5f,col.gameObject.transform.position.y-78.25f,col.gameObject.transform.position.z+24.75f),Quaternion.Euler(0, 0, 0));
-            
-            if(startDeleting == false){
-                if(chunkCount == 2){
+            if(stopSpawning == false){
+                Debug.Log("Next CHunk");
+                
+                chunks.Enqueue(Instantiate(newChunk,new Vector3(col.gameObject.transform.position.x-190f,col.gameObject.transform.position.y-78.25f,col.gameObject.transform.position.z+24.75f),Quaternion.Euler(0, 0, 0)));
+                //Instantiate(newChunk,new Vector3(col.gameObject.transform.position.x-272.5f,col.gameObject.transform.position.y-78.25f,col.gameObject.transform.position.z+24.75f),Quaternion.Euler(0, 0, 0));
+                
+                if(startDeleting == false){
+                    if(chunkCount == 2){
 
-                    startDeleting = true;
+                        startDeleting = true;
 
-                }else{
-                    chunkCount++;
+                    }else{
+                        chunkCount++;
+                    }
                 }
-            }
 
-
-            if(startDeleting == true){
+                if(startDeleting == true){
+                    Destroy(chunks.Dequeue() as GameObject);
+                }
+            }else{
+                Debug.Log("SPAWNING STOPPED");
+                
+                station.transform.position = new Vector3(col.gameObject.transform.position.x-220f,station.transform.position.y,station.transform.position.z);
+                Destroy(chunks.Dequeue() as GameObject);
                 Destroy(chunks.Dequeue() as GameObject);
             }
+
         }
+        if(col.gameObject.CompareTag("StopTrain") && stopSpawning == true){
+            station.GetComponent<MoveStation>().StopMoving();
+
+            foreach (GameObject chunk in chunks)
+            {
+                chunk.GetComponent<MoveStation>().StopMoving();
+            }
+
+            newChunk.GetComponent<MoveStation>().StopMoving();
+
+        }
+    }
+
+    public void GameComplete(){
+        stopSpawning = true;
     }
 
     private void OnTriggerExit(Collider col)

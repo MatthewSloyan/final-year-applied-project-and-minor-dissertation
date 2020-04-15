@@ -5,9 +5,11 @@ using UnityEngine;
 public class MoveStation : MonoBehaviour
 {
     private bool onTrain;
+    private float speed;
     void Start()
     {
         onTrain = false;
+        speed = 1f;
     }
 
     // Update is called once per frame
@@ -20,8 +22,12 @@ public class MoveStation : MonoBehaviour
         if(onTrain == true){
            // Debug.Log("Move Train");
             
-            gameObject.transform.position = new Vector3(gameObject.transform.position.x + 1f, gameObject.transform.position.y, gameObject.transform.position.z);
+            gameObject.transform.position = new Vector3(gameObject.transform.position.x + speed, gameObject.transform.position.y, gameObject.transform.position.z);
 
         }
+    }
+
+    public void StopMoving(){
+        speed = 0.0f;
     }
 }

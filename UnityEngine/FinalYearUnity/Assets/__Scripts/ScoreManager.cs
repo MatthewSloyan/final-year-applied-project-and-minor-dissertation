@@ -123,6 +123,8 @@ public class ScoreManager
         {
             Debug.Log("Game Complete!");
             
+            GameObject.Find("ColStick").GetComponent<PersonCollider>().GameComplete();
+
             if (!callOnce)
             {
                 callOnce = true;

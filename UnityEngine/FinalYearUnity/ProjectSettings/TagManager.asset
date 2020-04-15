@@ -10,6 +10,7 @@ TagManager:
   - OnTrain
   - watch
   - NextChunk
+  - StopTrain
   layers:
   - Default
   - TransparentFX
