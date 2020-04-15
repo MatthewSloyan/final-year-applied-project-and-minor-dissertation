@@ -79,9 +79,9 @@ public class PersonCollider : MonoBehaviour
             }else{
                 Debug.Log("SPAWNING STOPPED");
                 
-                station.transform.position = new Vector3(col.gameObject.transform.position.x-220f,station.transform.position.y,station.transform.position.z);
+                station.transform.position = new Vector3(col.gameObject.transform.position.x-100f,station.transform.position.y,station.transform.position.z);
                 Destroy(chunks.Dequeue() as GameObject);
-                Destroy(chunks.Dequeue() as GameObject);
+                
             }
 
         }
