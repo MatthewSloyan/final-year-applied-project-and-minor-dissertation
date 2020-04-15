@@ -5,6 +5,7 @@ using UnityEngine;
 public class PersonCollider : MonoBehaviour
 {
     private string[] replies = { "You've already checked my ticket, piss off!", "You've already checked my ticket.", "Sorry, but you have checked my ticket."};
+    private bool onTrain = false;
     
     void OnTriggerEnter(Collider col)
     {
@@ -36,7 +37,15 @@ public class PersonCollider : MonoBehaviour
         }
         else if(col.gameObject.CompareTag("OnTrain")){
             Debug.Log("OnTrain");
-            GameObject.Find("StationContainer").GetComponent<Animator>().SetBool("OnTrain",true);
+            //GameObject.Find("StationContainer").GetComponent<Animator>().SetBool("OnTrain",true);
+            onTrain = true;
+        }
+    }
+
+    void Update()
+    {
+        if(onTrain){
+
         }
     }
 
