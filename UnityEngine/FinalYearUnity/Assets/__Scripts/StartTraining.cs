@@ -20,7 +20,7 @@ public class StartTraining : MonoBehaviour
         // }
     }
 
-    void OnMouseDown()
+    public void OnMouseDown()
     {
         SceneManager.LoadScene(1);
     }
