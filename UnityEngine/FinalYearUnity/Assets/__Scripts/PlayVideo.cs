@@ -9,15 +9,24 @@ public class PlayVideo : MonoBehaviour
     public RawImage rawImage;
     public VideoPlayer videoPlayer;
     public AudioSource audioSource;
-    
-    // Use this for initialization
-    void Start () {
-        // Start playing the video.
+
+    void OnTriggerEnter(Collider col)
+    {
+        // Start playing the video, when player walks into colider.
         StartCoroutine(StartVideo());
+    }
+
+    private void OnTriggerExit(Collider col)
+    {
+        // Stop the playing video.
+        StopVideo();
     }
 
     // Code adapted from: https://www.mirimad.com/unity-play-video-on-canvas/
     IEnumerator StartVideo(){
+        // Stop video if playing.
+        //StopVideo();
+
         // Prepare video and wait till ready.
         videoPlayer.Prepare();
 
@@ -30,5 +39,11 @@ public class PlayVideo : MonoBehaviour
         rawImage.texture = videoPlayer.texture;
         videoPlayer.Play();
         audioSource.Play();
+    }
+
+    void StopVideo(){
+        // Stop video and audio.
+        videoPlayer.Stop();
+        audioSource.Stop();
     }
 }
