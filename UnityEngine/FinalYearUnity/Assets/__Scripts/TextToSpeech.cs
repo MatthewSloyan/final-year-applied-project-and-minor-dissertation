@@ -4,6 +4,7 @@ using UnityEngine;
 using Microsoft.CognitiveServices.Speech;
 using UnityEngine.UI;
 using System.Threading.Tasks;
+using System;
 
 public class TextToSpeech : MonoBehaviour
 {
@@ -23,6 +24,13 @@ public class TextToSpeech : MonoBehaviour
     //private string message;
 
     private SpeechToText speech;
+
+    private static Collider collision = null;
+    public static Collider Collision
+    {
+        get { return collision; }
+        set { collision = value; }
+    }
     #endregion
 
     // Singleton design pattern to get instance of class
@@ -110,6 +118,19 @@ public class TextToSpeech : MonoBehaviour
             // true if ticket has already been checked, otherwise start listening again until ticket has been checked.
             if (!ifChecked)
             {
+                // Turn NPC's head when speaking.
+                try
+                {
+                    if (Math.Round(collision.gameObject.transform.rotation.eulerAngles.y, 0) == 90){
+                        collision.gameObject.GetComponent<Animator>().SetTrigger("TurnHeadLeft");
+                    }
+                    else
+                    {
+                        collision.gameObject.GetComponent<Animator>().SetTrigger("TurnHeadRight");
+                    }
+                }
+                catch{}
+
                 // Wait until the audio is completed and start listening again.
                 // Code adapted from: https://answers.unity.com/questions/1111236/wait-for-audio-to-finish-and-then-load-scene.html
                 yield return new WaitWhile(() => audioSource.isPlaying);

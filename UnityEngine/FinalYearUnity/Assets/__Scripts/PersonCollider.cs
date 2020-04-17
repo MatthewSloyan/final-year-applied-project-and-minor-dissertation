@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PersonCollider : MonoBehaviour
 {
@@ -25,9 +26,17 @@ public class PersonCollider : MonoBehaviour
     {
         if (col.gameObject.CompareTag("person"))
         {
+            TextToSpeech.Collision = col;
+
             try
             {
-                col.gameObject.GetComponent<Animator>().SetTrigger("TurnHeadLeft");
+                if (Math.Round(col.gameObject.transform.rotation.eulerAngles.y, 0) == 90){
+                   col.gameObject.GetComponent<Animator>().SetTrigger("TurnHeadLeft");
+                }
+                else
+                {
+                   col.gameObject.GetComponent<Animator>().SetTrigger("TurnHeadRight");
+                }
             }
             catch{}
 
