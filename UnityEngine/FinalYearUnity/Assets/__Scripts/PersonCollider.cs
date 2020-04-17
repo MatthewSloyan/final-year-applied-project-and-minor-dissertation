@@ -25,6 +25,12 @@ public class PersonCollider : MonoBehaviour
     {
         if (col.gameObject.CompareTag("person"))
         {
+            try
+            {
+                col.gameObject.GetComponent<Animator>().SetTrigger("TurnHeadLeft");
+            }
+            catch{}
+
             // Get the NPC script attached to NPC and start to listen for speech.
             NPC npc = col.gameObject.GetComponent<NPC>();
 
