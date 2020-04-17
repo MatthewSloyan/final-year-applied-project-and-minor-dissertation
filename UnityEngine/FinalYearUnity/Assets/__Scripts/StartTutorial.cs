@@ -16,7 +16,7 @@ public class StartTutorial : MonoBehaviour
         
     }
 
-    void OnMouseDown()
+    public void OnMouseDown()
     {
         SceneManager.LoadScene(2);
     }
