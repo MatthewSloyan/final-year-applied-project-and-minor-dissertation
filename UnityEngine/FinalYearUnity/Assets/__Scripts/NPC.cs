@@ -14,9 +14,9 @@ public class NPC : MonoBehaviour
 
     public void SetHasTicket(){
 
-        int rand = UnityEngine.Random.Range(0, 10);
+        int rand = UnityEngine.Random.Range(0, 11);
 
-        if (rand < 5)
+        if (rand < 11)
         {
             hasTicket = false;
         }else{

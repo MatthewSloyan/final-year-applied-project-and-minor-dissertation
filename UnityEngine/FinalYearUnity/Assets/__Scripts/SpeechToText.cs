@@ -215,6 +215,7 @@ public class SpeechToText : MonoBehaviour
             request.persona = persona;
             request.userInput = messageToSend;
             request.hasTicket = hasTicket;
+            //Debug.Log("USER INPUT: " + request.userInput);
             // Send result to client class.
             // Couldn't get this working initial but fixed by adapting the following.
             // https://docs.unity3d.com/ScriptReference/GameObject.AddComponent.html
