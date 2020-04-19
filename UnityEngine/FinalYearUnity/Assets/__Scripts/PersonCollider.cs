@@ -67,7 +67,7 @@ public class PersonCollider : MonoBehaviour
         
         if(col.gameObject.CompareTag("OnTrain")){
             Debug.Log("OnTrain");
-            //GameObject.Find("StationContainer").GetComponent<Animator>().SetBool("OnTrain",true);
+            GameObject.Find("SlidingDoors").GetComponent<Animator>().SetBool("ontrain",true);
             onTrain = true;
         }
         
@@ -95,7 +95,7 @@ public class PersonCollider : MonoBehaviour
                 Debug.Log("SPAWNING STOPPED");
                 
                 station.transform.position = new Vector3(col.gameObject.transform.position.x-100f,station.transform.position.y,station.transform.position.z);
-                Destroy(chunks.Dequeue() as GameObject);
+                //Destroy(chunks.Dequeue() as GameObject);
                 
             }
 
@@ -109,7 +109,7 @@ public class PersonCollider : MonoBehaviour
             }
 
             newChunk.GetComponent<MoveStation>().StopMoving();
-
+            GameObject.Find("SlidingDoors").GetComponent<Animator>().SetBool("ontrain",false);
         }
     }
 
