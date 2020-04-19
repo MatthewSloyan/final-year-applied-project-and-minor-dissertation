@@ -29,9 +29,6 @@ public class ScoreManager
     
     private void UpdateGameObjects()
     {
-        // Test
-        scoreValue = 3;
-
         // == Update Satisfaction meter ==
         GameObject container = GameObject.Find("container");
 
