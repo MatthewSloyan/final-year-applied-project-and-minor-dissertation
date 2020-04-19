@@ -10,6 +10,25 @@ public class NPC : MonoBehaviour
     //0= rude 1= neutral 2= polite
     public int persona;
 
+    public bool hasTicket;
+
+    public void SetHasTicket(){
+
+        int rand = UnityEngine.Random.Range(0, 10);
+
+        if (rand < 5)
+        {
+            hasTicket = false;
+        }else{
+            hasTicket = true;
+        }
+
+    }
+
+    public bool GetHasTicket(){
+        return hasTicket;
+    }
+
     public void SetSessionId()
     {
         sessionId = UnityEngine.Random.Range(1, 10000);

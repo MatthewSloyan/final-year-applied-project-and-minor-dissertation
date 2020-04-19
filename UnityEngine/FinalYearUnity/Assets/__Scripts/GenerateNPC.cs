@@ -122,6 +122,8 @@ public class GenerateNPC : MonoBehaviour
         
         npcScript.SetSessionId();
         npcScript.SetPersona();
+        npcScript.SetHasTicket();
+        
         //if (npcScript.GetVoiceName() == null)
         //npcScript.SetVoice();
         person.sessionId = npcScript.GetSessionID();
