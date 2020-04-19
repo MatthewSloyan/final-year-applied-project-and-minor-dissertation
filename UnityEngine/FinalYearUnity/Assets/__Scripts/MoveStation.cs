@@ -9,7 +9,7 @@ public class MoveStation : MonoBehaviour
     void Start()
     {
         onTrain = false;
-        speed = 0.5f;
+        speed = 0.25f;
     }
 
     // Update is called once per frame

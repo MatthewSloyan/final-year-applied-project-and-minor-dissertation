@@ -17,7 +17,8 @@ public class NPC : MonoBehaviour
 
     public void SetPersona()
     {
-        persona = UnityEngine.Random.Range(0, 3);
+        //persona = UnityEngine.Random.Range(0, 3);
+        persona = 2;
     }
 
     public void SetVoice()

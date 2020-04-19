@@ -37,7 +37,13 @@ public class Client : MonoBehaviour
 
             try
             {
+                Debug.Log("Response" + reponse);
                 string[] reponses = reponse.Split('=');
+
+                foreach (string item in reponses)
+                {
+                    Debug.Log(item);
+                }
 
                 TextToSpeech.Instance.ConvertTextToSpeech(reponses[0], voiceName, false);
 
