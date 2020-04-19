@@ -16,7 +16,7 @@ public class NPC : MonoBehaviour
 
         int rand = UnityEngine.Random.Range(0, 11);
 
-        if (rand < 11)
+        if (rand < 4)
         {
             hasTicket = false;
         }else{
@@ -36,8 +36,8 @@ public class NPC : MonoBehaviour
 
     public void SetPersona()
     {
-        //persona = UnityEngine.Random.Range(0, 3);
-        persona = 2;
+        persona = UnityEngine.Random.Range(0, 3);
+        //persona = 2;
     }
 
     public void SetVoice()
