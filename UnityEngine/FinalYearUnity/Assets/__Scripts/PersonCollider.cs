@@ -121,13 +121,8 @@ public class PersonCollider : MonoBehaviour
     {
         if (col.gameObject.CompareTag("person"))
         {
-            //var renderer = col.gameObject.GetComponent<Renderer>();
-            //renderer.material.SetColor("_Color", Color.white);
-
             // Check if colour is green.
             string colour = col.gameObject.GetComponentInChildren<CompleteRing>().getCurrentColour();
-            //Debug.Log(colour);
-            //Debug.Log(tempColour);
 
             if (colour != "Green")
             {

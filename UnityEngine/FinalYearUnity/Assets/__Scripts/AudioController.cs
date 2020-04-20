@@ -37,16 +37,15 @@ public class AudioController : MonoBehaviour
 
     void Update()
     {
-        // // Check if game audio is off using player prefs, if so mute audiosource.
-        // // This turns the music on or off.
-        // if (PlayerPrefs.GetString("Music") == "True")
-        // {
-        //     sourceMusic.mute = false;
-        // }
-        // else
-        // {
-        //     sourceMusic.mute = true;
-        // }
+        // Check if game audio is off using player prefs, if so mute audiosource.
+        if (PlayerPrefs.GetString("Sound") == "True")
+        {
+            sourceMusic.mute = false;
+        }
+        else
+        {
+            sourceMusic.mute = true;
+        }
     }
 
     // Play background music from Dictionary.
