@@ -45,8 +45,8 @@ public class NPC : MonoBehaviour
         //0 = male 1= female
         int gender = UnityEngine.Random.Range(0, 2);
         Debug.Log("GENDER:" + gender);
-        string[] voicesMale = {"en-US-GuyNeural", "en-IE-Sean"};
-        string[] voicesFemale = { "en-US-JessaNeural", "de-DE-KatjaNeural" };
+        string[] voicesMale = {"en-US-GuyNeural", "en-GB-George-Apollo"};
+        string[] voicesFemale = { "en-US-AriaNeural", "de-DE-KatjaNeural" };
 
         if (gender == 0)
         {

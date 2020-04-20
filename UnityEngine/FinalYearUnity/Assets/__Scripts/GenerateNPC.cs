@@ -47,7 +47,7 @@ public class GenerateNPC : MonoBehaviour
                 Debug.Log("VOICENAME: " + copy.GetComponent<NPC>().GetVoiceName());
                 string npcVoice = copy.GetComponent<NPC>().GetVoiceName();
                 
-                if (copy.GetComponent<NPC>().GetVoiceName() == "en-US-JessaNeural" || copy.GetComponent<NPC>().GetVoiceName() == "de-DE-KatjaNeural")
+                if (copy.GetComponent<NPC>().GetVoiceName() == "en-US-AriaNeural" || copy.GetComponent<NPC>().GetVoiceName() == "de-DE-KatjaNeural")
                 {
                     int rand = UnityEngine.Random.Range(0, 2);
 
