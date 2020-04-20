@@ -32,7 +32,7 @@ public class AudioController : MonoBehaviour
     {
         // Load in all clips into memory, and start background music.
         LoadAllAudioClips();
-        //PlayAudio("background_2");
+        PlayAudio("train-station-ambience-1");
     }
 
     void Update()
