@@ -61,7 +61,7 @@ public class PersonCollider : MonoBehaviour
             {
                 cr.changeRingColour("Blue");
 
-                SpeechToText.Instance.convertSpeechToText(npc.GetSessionID(), npc.GetPersona(), npc.GetVoiceName(),npc.GetHasTicket());
+                SpeechToText.Instance.convertSpeechToText(npc);
             }
         }
         

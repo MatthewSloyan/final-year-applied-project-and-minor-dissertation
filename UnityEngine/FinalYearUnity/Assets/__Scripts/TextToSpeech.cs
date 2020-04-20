@@ -134,7 +134,7 @@ public class TextToSpeech : MonoBehaviour
                 // Wait until the audio is completed and start listening again.
                 // Code adapted from: https://answers.unity.com/questions/1111236/wait-for-audio-to-finish-and-then-load-scene.html
                 yield return new WaitWhile(() => audioSource.isPlaying);
-                speech.convertSpeechToText(speech.GetSessionID(), speech.GetPersona(), speech.GetVoiceName(),speech.GetHasTicket());
+                speech.convertSpeechToText(speech.GetNPC());
             }
         }
 

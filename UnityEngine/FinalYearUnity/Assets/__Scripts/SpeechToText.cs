@@ -36,18 +36,11 @@ public class SpeechToText : MonoBehaviour
     // Hook up the two properties below with a Text and Button object in your UI.
     [SerializeField]
     private Text outputText;
-
-    // Will be used to swap scenarios on the fly.
-    [SerializeField]
-    private int selection = 0;
     
     private object threadLocker = new object();
     private bool waitingForReco;
     private string message;
-    private int sessionId;
-    private int persona;
-    private string voiceName;
-    private bool hasTicket;
+    private NPC npc;
     private static string messageToSend;
 
     private static bool listenSuccess = false;
@@ -70,12 +63,9 @@ public class SpeechToText : MonoBehaviour
 
     // Set up and convert speech to text.
     // Code adapted from: https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstarts/speech-to-text-from-microphone?tabs=dotnet%2Cx-android%2Clinux%2Candroid&pivots=programming-language-more
-    public async void convertSpeechToText(int sessionId, int persona, string voiceName,bool hasTicket)
+    public async void convertSpeechToText(NPC npc)
     {
-        this.sessionId = sessionId;
-        this.persona = persona;
-        this.voiceName = voiceName;
-        this.hasTicket = hasTicket;
+        this.npc = npc;
 
         // Check if mic permission is granted or if the player is within range of a person.
         if (micPermissionGranted && isPersonActive)
@@ -92,9 +82,6 @@ public class SpeechToText : MonoBehaviour
             // Creates an instance of a speech config with specified subscription key and service region.
             //var config = SpeechConfig.FromSubscription("722faee502a24ebeb53cf34a58e22e7d", "westus");
             var config = SpeechConfig.FromSubscription("a2f75e30125b4f099012eaa7f9a5c840", "westeurope");
-
-            // Testing
-            //config.SetProperty(PropertyId.Speech_LogFilename, "C:/Users/Matthew/Desktop/Test2.txt");
 
             using (var recognizer = new SpeechRecognizer(config))
             {
@@ -170,25 +157,11 @@ public class SpeechToText : MonoBehaviour
 #endif
     }
 
-    public int GetSessionID()
+    public NPC GetNPC()
     {
-        return sessionId;
+        return npc;
     }
 
-    public int GetPersona()
-    {
-        return persona;
-    }
-
-    public string GetVoiceName()
-    {
-        return voiceName;
-    }
-
-    public bool GetHasTicket()
-    {
-        return hasTicket;
-    }
     // On frame update check for permission from microphone, and if speech is being recognised.
     void Update()
     {
@@ -211,16 +184,14 @@ public class SpeechToText : MonoBehaviour
         {
             // Implement for now, will use one object.
             AIMLRequest request = new AIMLRequest();
-            request.sessionId = sessionId;
-            request.persona = persona;
+            request.sessionId = npc.sessionId;
+            request.persona = npc.persona;
+            request.voiceName = npc.voiceName;
+            request.hasTicket = npc.hasTicket;
             request.userInput = messageToSend;
-            request.hasTicket = hasTicket;
-            //Debug.Log("USER INPUT: " + request.userInput);
+
             // Send result to client class.
-            // Couldn't get this working initial but fixed by adapting the following.
-            // https://docs.unity3d.com/ScriptReference/GameObject.AddComponent.html
-            Client c = gameObject.AddComponent(typeof(Client)) as Client;
-            c.sendText(request, voiceName);
+            GameObject.Find("Plane").GetComponent<Client>().sendText(request);
 
             listenSuccess = false;
             messageToSend = "";

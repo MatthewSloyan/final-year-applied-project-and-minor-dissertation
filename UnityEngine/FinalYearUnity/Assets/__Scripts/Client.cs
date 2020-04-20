@@ -6,13 +6,11 @@ using UnityEngine.Networking;
 public class Client : MonoBehaviour
 {
     private AIMLRequest request;
-    private string voiceName;
 
     // Called when listening is a sucess, and sends text to server to be output as audio.
-    public void sendText(AIMLRequest request, string voiceName)
+    public void sendText(AIMLRequest request)
     {
         this.request = request;
-        this.voiceName = voiceName;
 
         StartCoroutine(GetText());
     }
@@ -35,23 +33,14 @@ public class Client : MonoBehaviour
         {
             string reponse = www.downloadHandler.text;
 
-            try
-            {
-                Debug.Log("Response" + reponse);
-                string[] reponses = reponse.Split('=');
+            string[] reponses = reponse.Split('=');
 
-                foreach (string item in reponses)
-                {
-                    Debug.Log(item);
-                }
-
-                TextToSpeech.Instance.ConvertTextToSpeech(reponses[0], voiceName, false);
-
+            if (reponses.Length > 1){
+                TextToSpeech.Instance.ConvertTextToSpeech(reponses[0], request.voiceName, false);
                 new ScoreManager(request.sessionId, Int32.Parse(reponses[1]), request.userInput, reponses[0]).UpdateScore();
             }
-            catch
-            { 
-                TextToSpeech.Instance.ConvertTextToSpeech(reponse, voiceName, false);
+            else {
+                TextToSpeech.Instance.ConvertTextToSpeech(reponse, request.voiceName, false);
             }
         }
     }

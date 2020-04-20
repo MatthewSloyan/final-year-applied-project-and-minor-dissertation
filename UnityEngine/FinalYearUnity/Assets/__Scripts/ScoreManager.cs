@@ -18,6 +18,11 @@ public class ScoreManager
         this.scoreValue = scoreValue;
         this.userInput = userInput;
         this.npcResponse = npcResponse;
+
+        Debug.Log(sessionId);
+        Debug.Log(scoreValue);
+        Debug.Log(userInput);
+        Debug.Log(npcResponse);
     }
 
     // Test method, will be implemented properly.
@@ -69,7 +74,10 @@ public class ScoreManager
         Game game = UpdateGameScore(new Utilities().ToObject<Game>(json));
 
         // Update gameTime
-        game.gameTime = GameObject.Find("Time").gameObject.GetComponent<TextMeshPro>().text;
+        try{
+            game.gameTime = GameObject.Find("Time").gameObject.GetComponent<TextMeshPro>().text;
+        }
+        catch{}
 
         // Create a new list to update and overwrite current list.
         List<NPCList> list = new List<NPCList>();
@@ -147,9 +155,12 @@ public class ScoreManager
             game.gameScore++;
         }
 
-        // Update in game board.
-        TextMeshPro tm = GameObject.Find("Score").gameObject.GetComponent<TextMeshPro>();
-        tm.text = "Score: " + game.gameScore;
+        try{
+            // Update in game board.
+            TextMeshPro tm = GameObject.Find("Score").gameObject.GetComponent<TextMeshPro>();
+            tm.text = "Score: " + game.gameScore;
+        }
+        catch{}
 
         return game;
     }
