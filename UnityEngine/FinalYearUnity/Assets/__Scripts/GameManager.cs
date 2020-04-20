@@ -9,10 +9,13 @@ public class GameManager : MonoBehaviour
     private int seconds = 0;
     private int minutes = 0;
 
+    private TextMeshPro tm;
+
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(IncrementTime());
+        tm = GameObject.Find("Time").gameObject.GetComponent<TextMeshPro>();
     }
 
     // Update is called once per frame
@@ -34,7 +37,6 @@ public class GameManager : MonoBehaviour
             seconds = (playTime % 60);
             minutes = (playTime / 60) % 60;
             
-            TextMeshPro tm = GameObject.Find("Time").gameObject.GetComponent<TextMeshPro>();
             tm.text = "Time:\n" + minutes + " Mins " + seconds + " Sec";
         }
     }
