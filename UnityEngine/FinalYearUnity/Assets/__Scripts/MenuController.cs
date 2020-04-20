@@ -35,8 +35,6 @@ public class MenuController : MonoBehaviour
     {
         // Reload current scene abd un pause game.
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        Time.timeScale = 1f;
-        PauseMenu.IsGamePaused = false;
     }
 
     // Quit the game.
