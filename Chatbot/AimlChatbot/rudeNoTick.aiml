@@ -1,6 +1,6 @@
 <aiml version="1.0.1" encoding="UTF-8">
     <!-- std-startup.xml -->
-    <category>
+<category>
         <pattern>HELLO</pattern>
         <template>
             What do you want? Can't you see I am busy?
@@ -87,9 +87,9 @@
       <pattern>* YOU NEED A TICKET</pattern>
       <template>
         <random>
-            <li> Here!=3</li>
-            <li> Here just take it=3</li>
-            <li> Here take it, don't bother me again!=3</li>
+            <li> Well I don't have one</li>
+            <li> Go away, I don't have one</li>
+            <li> Stop bothering me I don't have one!</li>
          </random>
       </template>
    </category>
@@ -98,9 +98,9 @@
       <pattern>YOU NEED A TICKET</pattern>
       <template>
         <random>
-            <li> Here!=3</li>
-            <li> Here just take it=3</li>
-            <li> Here take it, don't bother me again!=3</li>
+            <li> Well I don't have one</li>
+            <li> Go away, I don't have one</li>
+            <li> Stop bothering me I don't have one!</li>
          </random>
       </template>
    </category>
@@ -109,32 +109,69 @@
       <pattern>* YOU NEED TO HAVE A TICKET</pattern>
       <template>
         <random>
-            <li> Here!=3</li>
-            <li> Here just take it=3</li>
-            <li> Here take it, don't bother me again!=3</li>
+            <li> Well I don't have one</li>
+            <li> Go away, I don't have one</li>
+            <li> Stop bothering me I don't have one!</li>
          </random>
       </template>
    </category>
 
   <category>
-      <pattern>YOU NEED A TICKET</pattern>
+      <pattern>YOU NEED TO HAVE A TICKET</pattern>
       <template>
         <random>
-            <li> Here!=3</li>
-            <li> Here just take it=3</li>
-            <li> Here take it, don't bother me again!=3</li>
+            <li> Well I don't have one</li>
+            <li> Go away, I don't have one</li>
+            <li> Stop bothering me I don't have one!</li>
          </random>
       </template>
    </category>
 
 
     <category>
+      <pattern>* BRING ONE NEXT TIME</pattern>
+      <template>
+            Yeah I will. Can you leave me alone now?=3
+      </template>
+    </category>
+
+    <category>
+      <pattern>BRING ONE NEXT TIME</pattern>
+      <template>
+            Yeah I will. Can you leave me alone now?=3
+      </template>
+    </category>
+
+    <category>
+      <pattern>* WARNING</pattern>
+      <template>
+            Okay. Can you leave me alone now?=3
+      </template>
+    </category>
+
+    <category>
       <pattern>* PAY THE FINE</pattern>
       <template>
+            Piss off! I'm not paying the fine!
+      </template>
+    </category>
+
+    <category>
+      <pattern>* CALM DOWN</pattern>
+      <template>
         <random>
-            <li> Here!=3</li>
-            <li> Here just take it=3</li>
-            <li> Here take it, don't bother me again!=3</li>
+            <li> Okay, I'll make sure to bring one next time=3</li>
+            <li> I'd rather pay the fine=3</li>
+         </random>
+      </template>
+    </category>
+
+    <category>
+      <pattern>CALM DOWN</pattern>
+      <template>
+        <random>
+            <li> Okay, I'll make sure to bring one next time=3</li>
+            <li> I'd rather pay the fine=3</li>
          </random>
       </template>
     </category>
@@ -183,7 +220,7 @@
 
    <!-- SORRY -->
    <category>
-      <pattern>* SORRY</pattern>
+      <pattern>* SORRY *</pattern>
       <template>
          <random>
             <li>You should be sorry.</li>
