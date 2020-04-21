@@ -4,7 +4,7 @@
     <category>
         <pattern>HELLO</pattern>
         <template>
-            Hi!
+            Hi I've no ticket!
         </template>
     </category>
 
@@ -18,66 +18,178 @@
     <category>
         <pattern>MY NAME IS * CAN I SEE YOUR TICKET</pattern>
         <template>
-             here it is <set name="usersName"><star/></set>!=3
+            <random>
+                <li>I don't have it <set name="usersName"><star/></set>  </li>
+                <li>I don't have my ticket <set name="usersName"><star/></set>  </li>
+                <li>Oh, I can't find it <set name="usersName"><star/></set>  </li>
+                <li>Oh, I must've lost it <set name="usersName"><star/></set>  </li>
+            </random>
+
         </template>
     </category>
 
     <category>
         <pattern>* MY NAME IS * CAN I SEE YOUR TICKET</pattern>
         <template>
-            here it is <set name="usersName"><star index = "2"/></set>!=3
+            <random>
+                <li>I don't have it <set name="usersName"><star index = "2"/></set>  </li>
+                <li>I don't have my ticket <set name="usersName"><star index = "2"/></set>  </li>
+                <li>Oh, I can't find it <set name="usersName"><star index = "2"/></set>  </li>
+                <li>Oh, I must've lost it <set name="usersName"><star index = "2"/></set>  </li>
+            </random>
         </template>
     </category>
 
     <category>
       <pattern>TICKET PLEASE</pattern>
       <template>
-         Here you go.=3
+        <random>
+            <li>I don't have it</li>
+            <li>I don't have my ticket</li>
+            <li>Oh, I can't find it</li>
+            <li>Oh, I must've lost it</li>
+        </random>
       </template>
    </category>
 
     <category>
       <pattern>TICKETS PLEASE</pattern>
       <template>
-         Here you go.=3
+         <random>
+            <li>I don't have it</li>
+            <li>I don't have my ticket</li>
+            <li>Oh, I can't find it</li>
+            <li>Oh, I must've lost it</li>
+        </random>
       </template>
    </category>
 
    <category>
       <pattern>* TICKET PLEASE</pattern>
       <template>
-         Here you go.=3
+        <random>
+            <li>I don't have it</li>
+            <li>I don't have my ticket</li>
+            <li>Oh, I can't find it</li>
+            <li>Oh, I must've lost it</li>
+        </random>
       </template>
    </category>
 
     <category>
       <pattern>* TICKETS</pattern>
       <template>
-         Here you go.=3
+         <random>
+            <li>I don't have it</li>
+            <li>I don't have my ticket</li>
+            <li>Oh, I can't find it</li>
+            <li>Oh, I must've lost it</li>
+        </random>
       </template>
    </category>
 
    <category>
       <pattern>* TICKET</pattern>
       <template>
-         Here you go.=3
+         <random>
+            <li>I don't have it</li>
+            <li>I don't have my ticket</li>
+            <li>Oh, I can't find it</li>
+            <li>Oh, I must've lost it</li>
+        </random>
       </template>
    </category>
 
     <category>
       <pattern>TICKETS</pattern>
       <template>
-         Here you go.=3
+         <random>
+            <li>I don't have it</li>
+            <li>I don't have my ticket</li>
+            <li>Oh, I can't find it</li>
+            <li>Oh, I must've lost it</li>
+        </random>
       </template>
    </category>
 
    <category>
       <pattern>TICKET</pattern>
       <template>
-         Here you go.=3
+         <random>
+            <li>I don't have it</li>
+            <li>I don't have my ticket</li>
+            <li>Oh, I can't find it</li>
+            <li>Oh, I must've lost it</li>
+        </random>
       </template>
    </category>
 
+   <category>
+      <pattern>WHY *</pattern>
+      <template>
+         <random>
+            <li>I don't know</li>
+            <li>I don't know, I can't find it</li>
+            <li>I don't know, I must've lost it</li>
+        </random>
+      </template>
+   </category>
+
+   <category>
+      <pattern>* YOU NEED A TICKET</pattern>
+      <template>
+            But I don't have one.
+      </template>
+   </category>
+
+  <category>
+      <pattern>YOU NEED A TICKET</pattern>
+      <template>
+            But I don't have one.
+      </template>
+   </category>
+
+  <category>
+      <pattern>* YOU NEED TO HAVE A TICKET</pattern>
+      <template>
+            But I don't have one.
+      </template>
+   </category>
+
+  <category>
+      <pattern>YOU NEED TO HAVE A TICKET</pattern>
+      <template>
+            But I don't have one.
+      </template>
+   </category>
+
+    <category>
+      <pattern>* BRING ONE NEXT TIME</pattern>
+      <template>
+            Thank you, I'll make sure I have it next time.=3
+      </template>
+    </category>
+
+    <category>
+      <pattern>BRING ONE NEXT TIME</pattern>
+      <template>
+            Thank you, I'll make sure I have it next time.=3
+      </template>
+    </category>
+
+    <category>
+      <pattern>* WARNING</pattern>
+      <template>
+            Thank you, I'll make sure I have it next time.=3
+      </template>
+    </category>
+
+    <category>
+      <pattern>* PAY THE FINE</pattern>
+      <template>
+            Okay I'll pay the fine=3
+      </template>
+    </category>
 
     <!-- THANKS -->
    <category>
@@ -123,7 +235,7 @@
 
    <!-- SORRY -->
    <category>
-      <pattern>* SORRY *</pattern>
+      <pattern>* SORRY</pattern>
       <template>
          <random>
             <li>It's okay.</li>
