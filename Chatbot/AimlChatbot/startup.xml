@@ -22,7 +22,29 @@
     <category>
         <pattern>LOAD AIML 2</pattern>
         <template>
-            <learn>/home/aaronchannon1/mysite/basic.aiml</learn>
+            <learn>/home/aaronchannon1/mysite/polite.aiml</learn>
+        </template>
+    </category>
+
+    <category>
+        <pattern>LOAD AIML 0 NO TICKET</pattern>
+        <template>
+            <learn>/home/aaronchannon1/mysite/rudeNoTick.aiml</learn>
+        </template>
+    </category>
+
+    <category>
+        <pattern>LOAD AIML 1 NO TICKET</pattern>
+        <template>
+            <learn>/home/aaronchannon1/mysite/neutralNoTick.aiml</learn>
+        </template>
+    </category>
+
+
+    <category>
+        <pattern>LOAD AIML 2 NO TICKET</pattern>
+        <template>
+            <learn>/home/aaronchannon1/mysite/politeNoTick.aiml</learn>
         </template>
     </category>
 
