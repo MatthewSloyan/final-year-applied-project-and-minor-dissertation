@@ -1,0 +1,302 @@
+<aiml version="1.0.1" encoding="UTF-8">
+
+    <!-- 0 = RUDE -->
+    <!-- 1 = NEUTRAL -->
+    <!-- 2 = POLITE -->
+    <!-- TESTING -->
+    <category>
+        <pattern>HELLO</pattern>
+        <template>
+            Hello Pleased to meet you I've no ticket!
+        </template>
+    </category>
+
+    <category>
+        <pattern>HOW ARE YOU</pattern>
+        <template>
+            I'm good thank you
+        </template>
+    </category>
+
+    <category>
+        <pattern>MY NAME IS * CAN I SEE YOUR TICKET</pattern>
+        <template>
+            <random>
+                <li>Sorry, I don't have it <set name="usersName"><star/></set>  </li>
+                <li>Sorry, I don't have my ticket <set name="usersName"><star/></set>  </li>
+                <li>Sorry, I can't find it <set name="usersName"><star/></set>  </li>
+                <li>Sorry, I must've lost it <set name="usersName"><star/></set>  </li>
+            </random>
+
+        </template>
+    </category>
+
+    <category>
+        <pattern>Hi MY NAME IS * CAN I SEE YOUR TICKET</pattern>
+        <template>
+            <random>
+                <li>Sorry, I don't have it <set name="usersName"><star/></set>  </li>
+                <li>Sorry, I don't have my ticket <set name="usersName"><star/></set>  </li>
+                <li>Sorry, I can't find it <set name="usersName"><star/></set>  </li>
+                <li>Sorry, I must've lost it <set name="usersName"><star/></set>  </li>
+            </random>
+        </template>
+    </category>
+
+    <category>
+      <pattern>TICKET PLEASE</pattern>
+      <template>
+        <random>
+            <li>Sorry, I don't have it</li>
+            <li>Sorry, I don't have my ticket</li>
+            <li>Sorry, I can't find it</li>
+            <li>Sorry, I must've lost it</li>
+        </random>
+      </template>
+   </category>
+
+    <category>
+      <pattern>TICKETS PLEASE</pattern>
+      <template>
+         <random>
+            <li>Sorry, I don't have it</li>
+            <li>Sorry, I don't have my ticket</li>
+            <li>Sorry, I can't find it</li>
+            <li>Sorry,  I must've lost it</li>
+        </random>
+      </template>
+   </category>
+
+   <category>
+      <pattern>* TICKET PLEASE</pattern>
+      <template>
+        <random>
+            <li>Sorry, I don't have it</li>
+            <li>Sorry, I don't have my ticket</li>
+            <li>Sorry, I can't find it</li>
+            <li>Sorry, I must've lost it</li>
+        </random>
+      </template>
+   </category>
+
+    <category>
+      <pattern>* TICKETS</pattern>
+      <template>
+         <random>
+            <li>Sorry, I don't have it</li>
+            <li>Sorry, I don't have my ticket</li>
+            <li>Sorry, I can't find it</li>
+            <li>Sorry, I must've lost it</li>
+        </random>
+      </template>
+   </category>
+
+   <category>
+      <pattern>* TICKET</pattern>
+      <template>
+         <random>
+            <li>Sorry, I don't have it</li>
+            <li>Sorry, I don't have my ticket</li>
+            <li>Sorry, I can't find it</li>
+            <li>Sorry, I must've lost it</li>
+        </random>
+      </template>
+   </category>
+
+    <category>
+      <pattern>TICKETS</pattern>
+      <template>
+         <random>
+            <li>Sorry, I don't have it</li>
+            <li>Sorry, I don't have my ticket</li>
+            <li>Sorry, I can't find it</li>
+            <li>Sorry, I must've lost it</li>
+        </random>
+      </template>
+   </category>
+
+   <category>
+      <pattern>TICKET</pattern>
+      <template>
+         <random>
+            <li>Sorry, I don't have it</li>
+            <li>Sorry, I don't have my ticket</li>
+            <li>Sorry, I can't find it</li>
+            <li>Sorry, I must've lost it</li>
+        </random>
+      </template>
+   </category>
+
+   <category>
+      <pattern>WHY *</pattern>
+      <template>
+         <random>
+            <li>I don't know</li>
+            <li>I don't know, I can't find it</li>
+            <li>I don't know, I must've lost it</li>
+        </random>
+      </template>
+   </category>
+
+   <category>
+      <pattern>* YOU NEED A TICKET</pattern>
+      <template>
+            Sorry, But I don't have one.
+      </template>
+   </category>
+
+  <category>
+      <pattern>YOU NEED A TICKET</pattern>
+      <template>
+            Sorry, But I don't have one.
+      </template>
+   </category>
+
+  <category>
+      <pattern>* YOU NEED TO HAVE A TICKET</pattern>
+      <template>
+            Sorry, But I don't have one.
+      </template>
+   </category>
+
+  <category>
+      <pattern>YOU NEED TO HAVE A TICKET</pattern>
+      <template>
+            Sorry, But I don't have one.
+      </template>
+   </category>
+
+    <category>
+      <pattern>* BRING ONE NEXT TIME</pattern>
+      <template>
+            Thank you so much, I'll make sure I have it next time.=3
+      </template>
+    </category>
+
+    <category>
+      <pattern>BRING ONE NEXT TIME</pattern>
+      <template>
+            Thank you so much, I'll make sure I have it next time.=3
+      </template>
+    </category>
+
+    <category>
+      <pattern>* WARNING</pattern>
+      <template>
+            Thank you so much, I'll make sure I have it next time.=3
+      </template>
+    </category>
+
+    <category>
+      <pattern>* PAY THE FINE</pattern>
+      <template>
+            Okay I'm so sorry, I'll pay the fine=3
+      </template>
+    </category>
+
+   <!-- THANKS -->
+   <category>
+      <pattern>THANK YOU</pattern>
+      <template>
+         <random>
+            <li>You're very welcome!</li>
+            <li>You're welcome. Thank you!</li>
+         </random>
+      </template>
+   </category>
+
+   <category>
+      <pattern>THANKS</pattern>
+      <template>
+         <random>
+            <li>You're very welcome!</li>
+            <li>You're welcome. Thank you!</li>
+         </random>
+      </template>
+   </category>
+
+   <!-- GOODBYE -->
+   <category>
+      <pattern>GOODBYE</pattern>
+      <template>
+         <random>
+            <li>See you, thanks!</li>
+            <li>Goodbye!</li>
+         </random>
+      </template>
+   </category>
+
+   <category>
+      <pattern>BYE</pattern>
+      <template>
+         <random>
+            <li>See you, thanks!</li>
+            <li>Goodbye!</li>
+         </random>
+      </template>
+   </category>
+
+   <!-- SORRY -->
+   <category>
+      <pattern>* SORRY</pattern>
+      <template>
+         <random>
+            <li>No worries, it's okay.</li>
+            <li>Don't worry, it's no problem.</li>
+         </random>
+      </template>
+   </category>
+
+   <!-- GENERAL -->
+   <category>
+    <pattern>* WEATHER *</pattern>
+        <template>
+         <random>
+            <li>It is a lovely day, thank god!</li>
+            <li>I think it's meant to clear up later.</li>
+            <li>It's not the nicest unfortunately.</li>
+         </random>
+      </template>
+    </category>
+
+    <category>
+    <pattern>WHAT IS THE TIME</pattern>
+        <template>
+           I'm very sorry, I don't have the time.
+      </template>
+    </category>
+
+    <!-- Jokes sourced from: https://github.com/pandorabots/Free-AIML/blob/master/jokes.aiml -->
+    <category>
+    <pattern>TELL ME A JOKE</pattern>
+        <template>
+         <random>
+            <li>I met a Dutch girl with inflatable shoes last week, phoned her up to arrange a date but unfortunately she'd popped her clogs.  </li>
+            <li>So I said "Do you want a game of Darts?" He said, "OK then", I said nearest to bull starts". He said, "Baa", I said, "Moo", he said, You're closest".  </li>
+            <li>The other day I sent my girlfriend a huge pile of snow. I rang her up; I said "Did you get my drift?"  </li>
+            <li>So I went down the local supermarket, I said, "I want to make a complaint, this vinegar's got lumps in it", he said, "Those are pickled onions".  </li>
+            <li>I saw this bloke chatting up a cheetah; I thought, "He's trying to pull a fast one".  </li>
+            <li>So I said to this train driver "I want to go to Paris". He said "Eurostar?" I said, "I've been on telly but I'm no Dean Martin".  </li>
+            <li>I said to the Gym instructor "Can you teach me to do the splits?" He said, "How flexible are you?" I said, "I can't make Tuesdays".  </li>
+            <li>But I'll tell you what I love doing more than anything: trying to pack myself in a small suitcase. I can hardly contain myself.  </li>
+            <li>I went to the Chinese restaurant and this duck came up to me with a red rose and says "Your eyes sparkle like diamonds". I said, "Waiter, I asked for a-ROMATIC duck".  </li>
+            <li>So this bloke says to me, "Can I come in your house and talk about your carpets?" I thought, "That's all I need, a Je-hoover's witness".  </li>
+         </random>
+      </template>
+    </category>
+
+   <!-- CATCHALL -->
+   <category>
+    <pattern>*</pattern>
+        <template>
+         <random>
+            <li> Can you repeat that?=1</li>
+            <li> what?=1</li>
+            <li> I don't understand=1</li>
+            <li>Pardon?=1</li>
+            <li>Excuse me?=1</li>
+         </random>
+      </template>
+    </category>
+
+</aiml>
