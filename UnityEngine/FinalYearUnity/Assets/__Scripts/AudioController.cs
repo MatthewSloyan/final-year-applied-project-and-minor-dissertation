@@ -33,19 +33,21 @@ public class AudioController : MonoBehaviour
         // Load in all clips into memory, and start background music.
         LoadAllAudioClips();
         PlayAudio("train-station-ambience-1");
+        Debug.Log("AUDIO PLAYING");
     }
 
     void Update()
     {
         // Check if game audio is off using player prefs, if so mute audiosource.
-        if (PlayerPrefs.GetString("Sound") == "True")
-        {
-            sourceMusic.mute = false;
-        }
-        else
-        {
-            sourceMusic.mute = true;
-        }
+        //PlayerPrefs.DeleteAll();
+        // if (PlayerPrefs.GetString("Sound") == "True")
+        // {
+        //     sourceMusic.mute = false;
+        // }
+        // else
+        // {
+        //     sourceMusic.mute = true;
+        // }
     }
 
     // Play background music from Dictionary.
