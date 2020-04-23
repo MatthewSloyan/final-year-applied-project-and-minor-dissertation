@@ -427,36 +427,113 @@ In order to communicate with our Flask server, we used HTTP. We did so use the U
 \end{lstlisting}
 
 \section{Chatbot - AIML}
-% NEED THIS LATER
-\begin{figure}[!h]
-    \centering
-    \begin{lstlisting}[language=PYTHON]
-@app.route('/request', methods=['POST'])
+As mentioned in the technical review, we decided to use AIML instead of a keras neural network. In listing~\ref{lst:flaskaiml} we can see the Flask GET request that also contains the AIML kernel. The kernel object controls the entire AIML library. Once the request data has been parsed, the kernel decides what aiml file to load based on their persona and if the have a ticket or not.
+
+    \begin{lstlisting}[caption={Generate AIML response},label={lst:flaskaiml},language=python]
+@app.route('/request', methods=['PUT'])
 def predictResponse():
-    # Get json from request.
+     # Get json from request.
     sessionId = request.get_json()['sessionId']
     persona = request.get_json()['persona']
     userInput = request.get_json()['userInput']
-    print(sessionId)
-    print(persona)
-    print(userInput)
+    hasTicket = request.get_json()['hasTicket']
 
-    # Load specific aiml file depending on persona.
-    kernel.respond("load aiml " + str(persona))
+    # Load specific aiml file depending on persona and if they have a ticket.
+
+
+    if hasTicket == True:
+        kernel.respond("load aiml " + str(persona))
+        st= "has ticket"
+    else:
+        kernel.respond("load aiml " + str(persona)+ " NO TICKET")
+        st= "does not have ticket"
+    print (st)
+
 
     print("DATA:")
     print(kernel.getPredicate("usersName", sessionId))
 
+    #result = re.sub('[^a-zA-Z]', '', userInput)
+    result = re.sub(r'([^\s\w]|_)+', '', userInput)
+
+    print("Result:")
+    print(result)
+
     # Predict reponse for specific session using user input.
-    response = kernel.respond(userInput, sessionId)
+    response = kernel.respond(result, sessionId)
     print(response)
 
     return response
 
 \end{lstlisting}
-    \caption{Caption}
-    \label{fig:my_label}
-\end{figure}
+
+Once loaded, any illegal characters are removed from the users input, making it easier to pass it into the AIML kernel. That edited input is then passed into the .respond method to get a response. From listing~\ref{lst:aiml1} we can see a stripped down version of the conversation you can have with a RUDE bot with NO ticket. As mentioned, this is aiml file is loaded from the request data. The user can initiate the conversation by saying "Ticket Please". The bot then looks for a category that contains the phrase. In the case that the phrase does not exist in the AIML we have added a catch all that can bee seen at the bottom of the file to generate a response if the bot does not understand what you are trying to say. In the case of saying "Ticket please", once found, the bot has a few random options it can response with. These options can be seen under the random tag. The bot clearly doe not want to talk to you right not. You can continue by saying " I'm sorry you need a ticket". Even though this phrase is not directly in the list of categories a form of it is: "<pattern>* YOU NEED A TICKET</pattern>". The star symbol allows you to say any number of words before "YOU NEED A TICKET" making it AIML great in catching most scenarios. The bot says that it does not have a ticket. The next part is up to the user. Do they let them away with not having a ticket or tell then that they have to pay a fine? If the user tells them to "BRING ONE NEXT TIME" the rude bot will reply with "Yeah I will. Can you leave me alone now?=3". The "=3" at the end of the reply indicates to us on the Unity client side that the conversation with that bot is now complete and deactivates them. In the case that you ask them to pay the fine, they respond rudely and you must tell then to calm down. After this the bot can decide whether they'd rather pay the fine or make sure to bring one next time.
+
+\begin{lstlisting}[caption={Generate AIML response},label={lst:aiml1},language=XML]
+    <category>
+      <pattern>TICKET PLEASE</pattern>
+      <template>
+         <random>
+            <li> I'm busy.</li>
+            <li> Can't you see I'm busy</li>
+            <li> I don't have time for this!</li>
+         </random>
+      </template>
+   </category>
+   
+    <category>
+      <pattern>* YOU NEED A TICKET</pattern>
+      <template>
+        <random>
+            <li> Well I don't have one</li>
+            <li> Go away, I don't have one</li>
+            <li> Stop bothering me I don't have one!</li>
+         </random>
+      </template>
+   </category>
+   
+    <category>
+      <pattern>BRING ONE NEXT TIME</pattern>
+      <template>
+            Yeah I will. Can you leave me alone now?=3
+      </template>
+    </category>
+    
+    <category>
+      <pattern>* PAY THE FINE</pattern>
+      <template>
+            Piss off! I'm not paying the fine!
+      </template>
+    </category>
+
+    <category>
+      <pattern>* CALM DOWN</pattern>
+      <template>
+        <random>
+            <li> Okay, I'll make sure to bring one next time=3</li>
+            <li> I'd rather pay the fine=3</li>
+         </random>
+      </template>
+    </category>
+    
+    <!-- CATCH ALL -->
+   <category>
+    <pattern>*</pattern>
+        <template>
+         <random>
+            <li>Can you repeat that?=1</li>
+            <li>What?=1</li>
+            <li>I don't understand=1</li>
+            <li>Pardon?=1</li>
+            <li>Excuse me?=1</li>
+         </random>
+      </template>
+    </category>
+\end{lstlisting}
+
+The listing~\ref{lst:aiml1} is a simplified version of a rude bot with no ticket. Bare in mind an AIML file has been constructed for each persona that being, polite, neutral and rude also another three AIML for those personas if they do not have a ticket totaling to six AIML files.
+
+
 
 \section{Back-end - Flask}
 After some consideration as described in the Technical review, we decided a Flask server would be best to handle the back-end. Firstly we set up a simple Flask server that could handle a simple GET request and return some text which can be seen in Listing~\ref{lst:flask1}. It was important to create this simple GET request for testing purposes. We could just test that we could make a HTTP request and if it returned a response, we knew the server was working correctly.\newline
@@ -553,6 +630,8 @@ After all this everything worked flawlessly, and we were able to get predictions
 We have used a MongoDB database to store the final game information securely and efficiently. More information on how this is implemented can be found in the "Backend - Flask" section. We choose mLab to host this database. mLab is a fully fledged cloud provider that allows users to easily access and host their database without the need for a virtual machine. Once an account was created and the hosting service was setup using a Amazon Web Services virtual machine, the flask server could easily be connected to using credentials. These credentials are stored in an environments file and read in. This environments is not published to our GitHub repository for security reasons. 
 
 There were a number of issues getting MongoDB with mLab to work with our hosting service PythonAnywhere but with the correct imports and a number of tests we got it work correctly.
+
+% Decribe database schema and why.
 
 \begin{figure}[ht]
 	\caption{Database Class Diagram.}
