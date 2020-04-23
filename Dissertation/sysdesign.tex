@@ -678,10 +678,10 @@ No single function knows the whole navigation structure of the system. All commo
 \subsection{Coupling}
 
 \subsection{Object Pooling}
-% Reusing objects (Trains etc)
+To save on system memory in regarding the 3D objects in the Unity engine we decided to just object pooling. What this entails is loading one model into memory and it is just duplicated preventing us from having to instantiate a new model every time. An example of this in the project is the City chunk model that spawns when you are on the train. One chunk is instantiate and every other chunk is a copy of that first one. Once the copy is out of view it is then deleted, therefore saving more system memory. Another example of this can be seen in start screen with the NPC models walking in the station. There is only three models and the rest of them are copies of the initial models. This was extreme important from a system design point of view. The reason being, we were developing this application for the Oculus Quest. The Quest is currently running an old enough version of Android, Android 7.1.1 to be exact. Because the Quest is running on an mobile operating system with mobile level specifications we needed to make sure it ran smoothly and Object pooling helped us achieve this.
 
 \subsection{Modularity}
-% Could be swapped out for another training scenario.
+Even though at a glance the project seems pretty glued down, meaning it is a training simulation for ticket inspectors and that it. However, the system is designed in such a way that certain components can be swapped and changed to give the user a different training experience. For example the, to change the dialog of the NPCs all you have to do is simply change their AIML scripts. Now you have bots that are not just passengers on a train. To further the modularity, the entire scene can be changed in Unity with different models to give a different feel. Those are the two only things you would have to change in the entire project to create a training simulation for any other line of work.
 
 \subsection{Error Handling}
 
