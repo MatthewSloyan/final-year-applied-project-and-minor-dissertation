@@ -631,7 +631,36 @@ We have used a MongoDB database to store the final game information securely and
 
 There were a number of issues getting MongoDB with mLab to work with our hosting service PythonAnywhere but with the correct imports and a number of tests we got it work correctly.
 
-% Decribe database schema and why.
+\subsection{Database Schema}
+The database schema was designed to only include the information that would be useful to the client for training purposes. Below is a descriptions of each of the fields and why they were included. The design can be seen in listing~\ref{lst:schema}.
+
+\begin{itemize}
+  \item gameId - unique ID for each training session. This would be used to pull information about the session when required.
+  \item gameScore - An overall game score to rank sessions.
+  \item gameTime - The time taken by the trainee. If a trainee was rushing or took too long it could give a negative outlook.
+  \item npcs - A list of all passenger interactions in one training session. Each NPC has an array index which contains information such as their session id, if there ticket was checked, their score, voice name and finally a list of all the whole conversation thread with said passenger. The voice name could be used to see how a trainee would react to different genders or mixed races. The list of conversations is very useful so that the trainer can see the way the trainee deals with situation based on their reply. These fields can be seen in listing~\ref{lst:schema}. 
+\end{itemize}
+
+\begin{lstlisting}[caption={MongoDB database schema},label={lst:schema},language=python]
+    "gameId": 200,
+    "gameScore": 1,
+    "gameTime": "Time:\n0 Mins 20 Sec",
+    "npcs": [
+        {
+            "sessionId": 6591,
+            "complete": True,
+            "score": 1,
+            "voiceName": "de-DE-KatjaNeural",
+            "conversations": [
+                "Do you have a ticket?",
+                "Here you go!"
+            ]
+        }
+    ]
+\end{lstlisting}
+
+\subsection{Unity Connection}
+How this works on the Unity side can be seen in Figure~\ref{image:Database}. It works very similar to how the client connects to the server for AIML requests and uses the same methods. A connection is made using a HTTP request that passes the data defined in listing~\ref{lst:schema} to flask server. This data is then stored using our MongoDB database hosted through mLab.
 
 \begin{figure}[ht]
 	\caption{Database Class Diagram.}
@@ -674,8 +703,6 @@ No higher-level modules or scripts depends on a low-level module.
 
 \subsubsection{Law of Demeter}
 No single function knows the whole navigation structure of the system. All common functionality is subjugated into multiple methods and reused where possible.
-
-\subsection{Coupling}
 
 \subsection{Object Pooling}
 To save on system memory in regarding the 3D objects in the Unity engine we decided to just object pooling. What this entails is loading one model into memory and it is just duplicated preventing us from having to instantiate a new model every time. An example of this in the project is the City chunk model that spawns when you are on the train. One chunk is instantiate and every other chunk is a copy of that first one. Once the copy is out of view it is then deleted, therefore saving more system memory. Another example of this can be seen in start screen with the NPC models walking in the station. There is only three models and the rest of them are copies of the initial models. This was extreme important from a system design point of view. The reason being, we were developing this application for the Oculus Quest. The Quest is currently running an old enough version of Android, Android 7.1.1 to be exact. Because the Quest is running on an mobile operating system with mobile level specifications we needed to make sure it ran smoothly and Object pooling helped us achieve this.
