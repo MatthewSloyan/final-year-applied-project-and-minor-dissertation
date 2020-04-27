@@ -12,7 +12,9 @@ public class AudioController : MonoBehaviour
     private AudioSource sourceMusic;
 
     // Dictionary which holds all audio files in memory.
-    private Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
+    //public Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
+
+    public AudioClip[] audioClips;
 
     #endregion
 
@@ -31,8 +33,8 @@ public class AudioController : MonoBehaviour
     void Start()
     {
         // Load in all clips into memory, and start background music.
-        LoadAllAudioClips();
-        PlayAudio("train-station-ambience-1");
+        //LoadAllAudioClips();
+        PlayAudio(0);
         Debug.Log("AUDIO PLAYING");
     }
 
@@ -49,37 +51,37 @@ public class AudioController : MonoBehaviour
     }
 
     // Play background music from Dictionary.
-    public void PlayAudio(string fileName)
+    public void PlayAudio(int clipIndex)
     {
-        sourceMusic.clip = audioClips[fileName];
+        sourceMusic.clip = audioClips[clipIndex];
         sourceMusic.Play();
     }
     
     // Play audio just once over background music.
-    public void PlayAudioOnce(string fileName)
+    public void PlayAudioOnce(int clipIndex)
     {
-        sourceMusic.PlayOneShot(audioClips[fileName]);
+        sourceMusic.PlayOneShot(audioClips[clipIndex]);
     }
 
-    private void LoadAllAudioClips()
-    {
-        // Get all file names from Resources folder, and get file information about each.
-        // Code adapted from: https://answers.unity.com/questions/16433/get-list-of-all-files-in-a-directory.html
-        DirectoryInfo dir = new DirectoryInfo("Assets/Resources/Audio");
-        FileInfo[] fileInfo = dir.GetFiles();
+    // private void LoadAllAudioClips()
+    // {
+    //     // Get all file names from Resources folder, and get file information about each.
+    //     // Code adapted from: https://answers.unity.com/questions/16433/get-list-of-all-files-in-a-directory.html
+    //     DirectoryInfo dir = new DirectoryInfo("Assets/Resources/Audio");
+    //     FileInfo[] fileInfo = dir.GetFiles();
 
-        // Loop through each file in the directory/array.
-        foreach (FileInfo file in fileInfo)
-        {
-            // Exlude meta files
-            if (!file.Name.Contains(".meta"))
-            {
-                // Remove file extension from file name, get file from resouces and add to dictionary.
-                string[] fileName = file.Name.Split('.');
+    //     // Loop through each file in the directory/array.
+    //     foreach (FileInfo file in fileInfo)
+    //     {
+    //         // Exlude meta files
+    //         if (!file.Name.Contains(".meta"))
+    //         {
+    //             // Remove file extension from file name, get file from resouces and add to dictionary.
+    //             string[] fileName = file.Name.Split('.');
                 
-                AudioClip temp = Resources.Load("Audio/" + fileName[0]) as AudioClip;
-                audioClips.Add(fileName[0], temp);
-            }
-        }
-    }
+    //             AudioClip temp = Resources.Load("Audio/" + fileName[0]) as AudioClip;
+    //             audioClips.Add(fileName[0], temp);
+    //         }
+    //     }
+    // }
 }

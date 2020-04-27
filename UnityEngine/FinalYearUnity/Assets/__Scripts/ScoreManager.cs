@@ -130,7 +130,6 @@ public class ScoreManager
                 GameObject.Find("GameOver_UI").gameObject.GetComponent<GameOverMenu>().GameOverUI();
                 
                 // Write to Database.
-                Debug.Log("Test");
                 GameObject.Find("Plane").GetComponent<DatabaseManager>().writeToDatabase(json);
             }
         }
@@ -146,13 +145,6 @@ public class ScoreManager
         {
             game.gameScore++;
         }
-
-        try{
-            // Update in game board.
-            TextMeshPro tm = GameObject.Find("Score").gameObject.GetComponent<TextMeshPro>();
-            tm.text = "Score: " + game.gameScore;
-        }
-        catch{}
 
         return game;
     }

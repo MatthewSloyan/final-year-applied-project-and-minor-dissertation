@@ -3684,6 +3684,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sourceMusic: {fileID: 433038220}
+  audioClips:
+  - {fileID: 8300000, guid: e93605b1a99e849499c3ca04fa20e3c5, type: 3}
 --- !u!82 &433038220
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3696,7 +3698,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.95
   m_Pitch: 1
   Loop: 0
   Mute: 0

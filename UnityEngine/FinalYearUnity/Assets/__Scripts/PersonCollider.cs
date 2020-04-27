@@ -66,7 +66,7 @@ public class PersonCollider : MonoBehaviour
         }
         
         if(col.gameObject.CompareTag("OnTrain")){
-            AudioController.Instance.PlayAudio("inside-luas");
+            AudioController.Instance.PlayAudio(1);
             Debug.Log("OnTrain");
             GameObject.Find("SlidingDoors").GetComponent<Animator>().SetBool("ontrain",true);
             onTrain = true;

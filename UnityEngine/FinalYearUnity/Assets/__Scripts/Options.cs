@@ -26,10 +26,10 @@ public class Options : MonoBehaviour
     void ToggleValueChanged(Toggle change)
     {
         if (soundToggle.isOn.ToString() == "True"){
-            AudioController.Instance.turnSoundOnOff(0);
+            AudioController.Instance.turnSoundOnOff(1);
         }
         else {
-            AudioController.Instance.turnSoundOnOff(1);
+            AudioController.Instance.turnSoundOnOff(0);
         }
     }
 }
