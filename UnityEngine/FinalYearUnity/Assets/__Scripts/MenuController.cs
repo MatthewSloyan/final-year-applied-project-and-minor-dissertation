@@ -41,7 +41,7 @@ public class MenuController : MonoBehaviour
     // Code adapted from: https://docs.unity3d.com/ScriptReference/Application.Quit.html
     public void QuitGame()
     {
-        Application.Quit();
+        SceneManager.LoadScene(0);
     }
     #endregion
 }

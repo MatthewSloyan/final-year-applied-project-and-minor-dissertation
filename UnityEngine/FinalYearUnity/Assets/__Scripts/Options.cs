@@ -20,29 +20,16 @@ public class Options : MonoBehaviour
         soundToggle.onValueChanged.AddListener(delegate {
             ToggleValueChanged(soundToggle);
         });
-
-        // Check if sound option has been saved before.
-        // E.g if not the first time playing the game, or sound has never been turned off.
-        // If so then change toggle switch to false if sound is off.
-        // If not then set playerPref to true, for again.
-        if (PlayerPrefs.HasKey("Sound"))
-        {
-            bool toggle = Convert.ToBoolean(PlayerPrefs.GetString("Sound"));
-
-            if (!toggle)
-            {
-                soundToggle.isOn = false;
-            }
-        }
-        else
-        {
-            PlayerPrefs.SetString("Sound", soundToggle.isOn.ToString());
-        }
     }
 
     //Output the new state of the Toggle into Text
     void ToggleValueChanged(Toggle change)
     {
-        PlayerPrefs.SetString("Sound", soundToggle.isOn.ToString());
+        if (soundToggle.isOn.ToString() == "True"){
+            AudioController.Instance.turnSoundOnOff(0);
+        }
+        else {
+            AudioController.Instance.turnSoundOnOff(1);
+        }
     }
 }

@@ -18,11 +18,6 @@ public class ScoreManager
         this.scoreValue = scoreValue;
         this.userInput = userInput;
         this.npcResponse = npcResponse;
-
-        Debug.Log(sessionId);
-        Debug.Log(scoreValue);
-        Debug.Log(userInput);
-        Debug.Log(npcResponse);
     }
 
     // Test method, will be implemented properly.
@@ -52,12 +47,12 @@ public class ScoreManager
                     break;
                 }
 
-                SatisfactionMeter satisfactionMeter = child.GetComponentInChildren<SatisfactionMeter>();
+                // SatisfactionMeter satisfactionMeter = child.GetComponentInChildren<SatisfactionMeter>();
 
-                if (scoreValue == 0)
-                    satisfactionMeter.DecreaseSatifaction();
-                else if (scoreValue == 2)
-                    satisfactionMeter.IncreaseSatifaction();
+                // if (scoreValue == 0)
+                //     satisfactionMeter.DecreaseSatifaction();
+                // else if (scoreValue == 2)
+                //     satisfactionMeter.IncreaseSatifaction();
             }
         }
     }
@@ -98,18 +93,15 @@ public class ScoreManager
                 if (scoreValue == 0)
                 {
                     obj.score--;
-                    Debug.Log(obj.score);
                 }
                 else if (scoreValue == 2)
                 {
                     obj.score++;
-                    Debug.Log(obj.score);
                 }
                 else if (scoreValue == 3)
                 {
                     obj.score++;
                     obj.complete = true;
-                    Debug.Log(obj.complete);
                 }
                 break;
             }
@@ -150,7 +142,7 @@ public class ScoreManager
         {
             game.gameScore--;
         }
-        else if (scoreValue == 2)
+        else if (scoreValue == 2 || scoreValue == 3)
         {
             game.gameScore++;
         }

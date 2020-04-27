@@ -27,12 +27,8 @@ public class SatisfactionMeter : MonoBehaviour
 
     public void DecreaseSatifaction()
     {
-        if (satifaction > 1)
-        {
-            transform.Rotate(0f, 0f, 38);
-            satifaction--;
-            Debug.Log(satifaction);
-        }
+        transform.Rotate(0f, 0f, 38);
+        satifaction--;
     }
 
     public void IncreaseSatifaction()
@@ -41,7 +37,6 @@ public class SatisfactionMeter : MonoBehaviour
         {
             transform.Rotate(0f, 0f, -38);
             satifaction++;
-            Debug.Log(satifaction);
         }
     }
 }

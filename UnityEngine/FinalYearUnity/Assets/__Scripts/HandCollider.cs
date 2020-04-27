@@ -13,14 +13,13 @@ public class HandCollider : MonoBehaviour
         set { isGamePaused = value; }
     }
 
-    private GameObject pauseMenu;
+    public GameObject pauseMenu;
     #endregion
 
     void Start()
     {
-        pauseMenu = GameObject.Find("PauseMenuWatch");
-        pauseMenu.GetComponent<Canvas>().enabled = false;
-        //pauseMenu.enabled = false;
+        //pauseMenu.GetComponent<Canvas>().enabled = false;
+        pauseMenu.SetActive(false); 
     }
 
     void OnTriggerEnter(Collider col)
@@ -41,21 +40,20 @@ public class HandCollider : MonoBehaviour
     // Resumes game if called
     public void ResumeGame()
     {
-        Debug.Log("Resume");
         // Turn off the menu UI
-        pauseMenu.GetComponent<Canvas>().enabled = false;
+        //pauseMenu.GetComponent<Canvas>().enabled = false;
+        pauseMenu.SetActive(false); 
 
         // Start the game running again
-        //Time.timeScale = 1f;
         isGamePaused = false;
     }
 
     // Pauses game if called
     public void PauseGame()
     {
-        pauseMenu.GetComponent<Canvas>().enabled = true;
+        pauseMenu.SetActive(true); 
+        //pauseMenu.GetComponent<Canvas>().enabled = true;
 
-        //Time.timeScale = 0f;
         isGamePaused = true;
     }
 }

@@ -7,17 +7,14 @@ public class StartTraining : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Delete player options on load.
+        PlayerPrefs.DeleteAll();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //OVRInput.Update();
-
-        // if (OVRInput.GetDown(OVRInput.Button.One)){
-        //     SceneManager.LoadScene(1);
-        // }
+        
     }
 
     public void OnMouseDown()

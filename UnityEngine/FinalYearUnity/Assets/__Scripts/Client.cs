@@ -35,12 +35,14 @@ public class Client : MonoBehaviour
 
             string[] reponses = reponse.Split('=');
 
+            // If response has a score value E.g 3 to complete NPC.
             if (reponses.Length > 1){
                 TextToSpeech.Instance.ConvertTextToSpeech(reponses[0], request.voiceName, false);
                 new ScoreManager(request.sessionId, Int32.Parse(reponses[1]), request.userInput, reponses[0]).UpdateScore();
             }
             else {
                 TextToSpeech.Instance.ConvertTextToSpeech(reponse, request.voiceName, false);
+                new ScoreManager(request.sessionId, 1, request.userInput, reponse).UpdateScore();
             }
         }
     }

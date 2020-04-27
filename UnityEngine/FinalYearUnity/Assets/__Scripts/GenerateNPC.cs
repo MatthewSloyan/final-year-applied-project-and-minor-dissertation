@@ -99,6 +99,18 @@ public class GenerateNPC : MonoBehaviour
 
                 // Initialise and add new NPC to list to be writen to file.
                 list.Add(InitialiseNPCObject(npcScript));
+
+                // Finally increase or decrease persona meter depending on the type of person (0 = rude, 1 = neutral, 2 = polite)
+                SatisfactionMeter smScript = sm.GetComponentInChildren<SatisfactionMeter>();
+
+                if (npcScript.GetPersona() == 0) {
+                    smScript.DecreaseSatifaction();
+                    smScript.DecreaseSatifaction();
+                }
+                else if (npcScript.GetPersona() == 2) {
+                    smScript.IncreaseSatifaction();
+                    smScript.IncreaseSatifaction();
+                }
             }
         }
 
