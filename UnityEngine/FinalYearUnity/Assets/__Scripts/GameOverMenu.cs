@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class GameOverMenu : MonoBehaviour
 {
+    public Sprite[] images;
+
     void Start()
     {
         gameObject.GetComponent<Canvas>().enabled = false;
@@ -39,32 +41,30 @@ public class GameOverMenu : MonoBehaviour
             GameObject temp = Resources.Load("Container") as GameObject;
             GameObject container = Instantiate(temp, new Vector3(temp.transform.position.x, temp.transform.position.y - position, temp.transform.position.z), temp.transform.rotation) as GameObject;
 
-            // Get the filename depending on the voice.
-            string fileName;
+            // Get the image depending on the voice.
+            int imageIndex;
 
             switch (npc.voiceName)
             {
                 case "en-US-GuyNeural":
-                    fileName = "male_1.png";
+                    imageIndex = 0;
                     break;
-                case "en-IE-Sean":
-                    fileName = "male_1.png";
+                case "en-GB-George-Apollo":
+                    imageIndex = 0;
                     break;
-                case "en-US-JessaNeural":
-                    fileName = "female_1.png";
+                case "en-US-AriaNeural":
+                    imageIndex = 1;
                     break;
                 case "de-DE-KatjaNeural":
-                    fileName = "female_2.png";
+                    imageIndex = 2;
                     break;
                 default:
-                    fileName = "default";
+                    imageIndex = 3;
                     break;
             }
 
-            Debug.Log(fileName);
-
-            Sprite image = Resources.Load("Images/" + fileName) as Sprite;
-            container.transform.GetChild(0).GetComponent<Image>().sprite = image;
+            //Sprite image = Resources.Load("Images/" + fileName) as Sprite;
+            container.transform.GetChild(0).GetComponent<Image>().sprite = images[imageIndex];
 
             container.transform.GetChild(1).transform.GetComponent<Text>().text = "Rating: " + npc.score;
             container.transform.SetParent(grid.transform, false);

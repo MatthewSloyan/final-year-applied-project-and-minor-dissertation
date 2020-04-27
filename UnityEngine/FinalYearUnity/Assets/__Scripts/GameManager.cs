@@ -18,12 +18,6 @@ public class GameManager : MonoBehaviour
         tm = GameObject.Find("Time").gameObject.GetComponent<TextMeshPro>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     // Code heavily adapted from the following timer tutorial.
     // https://www.youtube.com/watch?v=IQkabxKDY3M
     IEnumerator IncrementTime()

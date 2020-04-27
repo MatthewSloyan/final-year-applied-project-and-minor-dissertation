@@ -202,8 +202,6 @@ public class SpeechToText : MonoBehaviour
             if (outputText != null)
             {
                 outputText.text = message;
-                TextMeshPro tm = GameObject.Find("DEBUG").gameObject.GetComponent<TextMeshPro>();
-                tm.text = message;
             }
         }
     }

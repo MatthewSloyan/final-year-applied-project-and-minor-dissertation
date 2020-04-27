@@ -2426,7 +2426,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2887456430625362072}
-  - component: {fileID: 4651992050717436946}
   m_Layer: 0
   m_Name: mixamorig6:Head
   m_TagString: Untagged
@@ -2449,18 +2448,6 @@ Transform:
   m_Father: {fileID: 5376266553275739482}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4651992050717436946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7393671816801177005}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16134b5b98c6b3d418a1fb40e85b92f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7493309319699441946
 GameObject:
   m_ObjectHideFlags: 0
@@ -2617,7 +2604,7 @@ CapsuleCollider:
   m_Radius: 0.47
   m_Height: 2.2976313
   m_Direction: 1
-  m_Center: {x: -0.041737795, y: 0.64881563, z: 0}
+  m_Center: {x: -0.041737795, y: 0.64881563, z: 0.2}
 --- !u!114 &329975833132350603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2633,6 +2620,7 @@ MonoBehaviour:
   sessionId: 0
   voiceName: 
   persona: 0
+  hasTicket: 0
 --- !u!1 &7884759104236303218
 GameObject:
   m_ObjectHideFlags: 0
