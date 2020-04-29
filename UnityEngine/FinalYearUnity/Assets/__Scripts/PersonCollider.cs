@@ -116,6 +116,7 @@ public class PersonCollider : MonoBehaviour
 
     public void GameComplete(){
         stopSpawning = true;
+        //GameObject.Find("Audio Source").GetComponent<AudioController>().PlayAudioOnce(1);
     }
 
     private void OnTriggerExit(Collider col)
