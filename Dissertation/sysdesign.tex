@@ -11,7 +11,7 @@ In this section, we will illustrate the entire system in detail. We will go thro
 \end{figure}
 
 \section{Unity}
-As seen in Figure~\ref{image:SystemArch} Unity is the central component in this application. It is the part that the user interacts with and the part where all the data flows in and out of. Having said that, in this section we will discuss the more graphical side of the implementation and how we did that.
+As seen in Figure~\ref{image:SystemArch} Unity is the central component to this application. It is the part that the user interacts with and the part where all the data flows in and out of. Having said that, in this section we will discuss the more graphical side of the implementation and how we did that.
 
 \begin{figure}[h!]
 	\caption{Unity Project Class Diagram.}
@@ -21,7 +21,7 @@ As seen in Figure~\ref{image:SystemArch} Unity is the central component in this 
 \end{figure}
 
 \subsection{3D Models}
-Generating realistic bots with realistic models was a problem that was easily solved with the aid of a website called "http://mixamo.com/". This website has an plethora of high quality 3d character models along with animations. Once the model was imported into Unity all that was left to do was give these bots a session ID, random voice, gender based on that voice and a random persona E.g. Polite, neutral and rude. These personas would aid us later in deciding which AIML file to use server-side. As seen in the below code snippet this is how we generate all these traits. The session ID is a random number between 1 and 10000. The persona is an integer between zero and three, each number meaning a different persona: 
+Generating realistic bots with realistic models was a problem that was easily solved with the aid of a website called Mixamo\cite{Mixamo31:online}. This website has an plethora of high quality 3d character models along with animations. Once the model was imported into Unity all that was left to do was give these bots a session ID,whether they had a ticket or not, a random voice, a gender based on that voice and a random persona E.g. Polite, neutral and rude. These personas would aid us later in deciding which AIML file to use server-side. As seen in the below code snippet this is how we generate all these traits. The session ID is a random number between 1 and 10000. The persona is an integer between zero and three, each number meaning a different persona: 
 
 \begin{table}[!ht]
     \centering
@@ -38,11 +38,13 @@ Number & Persona \\
 2 & Polite NPC \\
 \hline
 
+
+
 \end{tabular}
     \caption{Personas}
     \label{tab:my_label}
 \end{table}
-
+\newpage
 
 \begin{lstlisting}[language=python]
     
@@ -74,9 +76,9 @@ Number & Persona \\
     }
 \end{lstlisting}
 
-Once these traits have been generated all that is left to be done is to generate them in the virtual 3D environment. The solution to this can be seen in the below snippet.
+Once these traits have been generated all that is left to be done is to instantiate them in the virtual 3D environment. The solution to this can be seen in the below snippet.
 This snippet is also wrapped in a for loop to generate multiple random NPCs. There is an array of manually place GameObjects in the virtual world. These GameObjects act as spawning points for a single NPC. Based on the NPCs voice a Male or Female model is loaded then it is spawned in the position and rotation of one of the spawn points according to the index of the loop. After this process is complete, we see NPCs standing in all the spawn points. This is how all the NPCs/Bots are spawned in the application.\newline
-
+\newpage
 \begin{lstlisting}[language=python]
     if (copy.GetComponent<NPC>().GetVoiceName() == "en-US-JessaNeural" || copy.GetComponent<NPC>().GetVoiceName() == "de-DE-KatjaNeural")
     {
@@ -103,7 +105,7 @@ This snippet is also wrapped in a for loop to generate multiple random NPCs. The
 \end{lstlisting}
 
 \subsection{Animation}
-Animations in our opinion were important in this application. We needed the user to feel as if they were speaking to a person. If the NPCs where static it would have ruined the realism, completely disconnecting the user from this virtual world. As mentioned earlier, we were fortunate to find a website called Mixamo. As well as realistic models it also had animations to go alongside them. The process of applying the animation to the model is simple but tedious. Firstly, you must add an Animator component to the model/NPC this allows you to manage your animation clips. Once this is done, animations can be added to the animator using a graph-like interface as seen in Figure~\ref{fig:anim}. Each animation is considered as a state. If certain parameters are met you can change the state, therefore changing the animation.
+Animations in our opinion were important in this application. We needed the user to feel as if they were speaking to a person. If the NPCs where static it would have ruined the realism, completely disconnecting the user from this virtual world. As mentioned earlier, we were fortunate to find a website called Mixamo\cite{Mixamo31:online}. As well as realistic models it also had animations to go alongside them. The process of applying the animation to the model is simple but tedious. Firstly, you must add an Animator component to the model/NPC this allows you to manage your animation clips. Once this is done, animations can be added to the animator using a graph-like interface as seen in Figure~\ref{fig:anim}. Each animation is considered as a state. If certain parameters are met you can change the state, therefore changing the animation.
 
 \begin{figure}[!ht]
     \centering
@@ -116,30 +118,19 @@ Animations in our opinion were important in this application. We needed the user
 Throughout the development of this project we focused a lot of effort on ensuring the training application was intuitive to the user. We looked a number of areas in regards to user experience and usability which we will look at below.
 
 \subsubsection{Passenger (NPC) Interaction}
-From our initial meetings with our supervisor and the initial scope we laid out we felt getting the interaction to feel as real and immersive as possible was important. In real life a ticket inspector can walk up to passenger and start a conversation simply by saying "Hello". We wanted our training experience to reflect this simple nature. There were a number of interaction in our development process such as initially having the player press a button to start speaking with an NPC, but we felt it wasn't quite cumbersome and took away from the experience especially in VR. Through user testing we developed a simple way of interacting with an NPC. It involved adding a collider to each NPC which would act as a barrier. Once this barrier was passed, E.g the player moves close to the NPC it would trigger a conversation and the Azure Speech to Text service would start listening for input. Another aspect we looked at was keeping the flow of conversation intuitive. Similar to the initial interaction we felt that pressing a button wasn't suitable, so again we developed an automatic system. Once the result is returned from the Text to Speech and spoken by the passenger, the STT service will automatically start listening again for the player reply to the passenger. For example if the player asked to see the passengers ticket, and the NPC replied with "I don't have a ticket", then the service will start listing for possible reply like "Why don't you have a ticket?". This simple flow of interaction and conversations improved the user experience drastically. More information on STT and TTS technologies can be found below in their respective sections. 
+From our initial meetings with our supervisor and the initial scope we laid out we felt getting the interaction to feel as real and immersive as possible was important. In real life, a ticket inspector can walk up to passenger and start a conversation simply by saying "Hello". We wanted our training experience to reflect this simple nature. There were a number of interaction in our development process such as initially having the player press a button to start speaking with an NPC, but we felt it was quite cumbersome and took away from the experience especially in VR. Through user testing we developed a simple way of interacting with an NPC. It involved adding a collider to each NPC which would act as a barrier. Once this barrier was passed, E.g the player moves close to the NPC it would trigger a conversation and the Azure Speech to Text service would start listening for input. Another aspect we looked at was keeping the flow of conversation intuitive. Similar to the initial interaction we felt that pressing a button wasn't suitable, so again we developed an automatic system. Once the result is returned from the Text to Speech and spoken by the passenger, the STT service will automatically start listening again for the player to reply to the passenger. For example if the player asked to see the passengers ticket, and the NPC replied with "I don't have a ticket", then the service will start listing for possible reply like "Why don't you have a ticket?". This simple flow of interaction and conversations improved the user experience drastically. More information on STT and TTS technologies can be found below in their respective sections. 
 
 \subsubsection{Player Input}
-Again from our meetings another area to improve immersion was to all the player to psychically speak to a passenger. Our initial tests involved a keyboard input however it was very slow and cumbersome to type out each reply. We also looked at a multiple choice decisions where the player could reply with three options, however from initial user tests it was compared to a role playing decision based game rather than a immersive training experience. Instead we developed a Speech service that would listen for your voice, parse it to text to send to our chatbot for a reply. Of course this was more of a challenge as the player could say anything and in any way, however it is something that was very successful in our final build and really improved the overall experience.
+Again from our meetings another area to improve immersion was to allow the player to psychically speak to a passenger. Our initial tests involved a keyboard input however it was very slow and cumbersome to type out each reply. We also looked at a multiple choice decisions where the player could reply with three options, however from initial user tests it was compared to a role playing decision based game rather than a immersive training experience. Instead we developed a Speech service that would listen for your voice, parse it to text to send to our chatbot for a reply. Of course this was more of a challenge as the player could say anything and in any way, however it is something that was very successful in our final build and really improved the overall experience.
 
 \subsubsection{Passenger Information and Scoring}
-There were a number of things that we wanted to display to the player about each passenger they interact with. Firstly, whether the passengers ticket had been checked on not. We decided this should be simple and researched multiple methods such as displaying a green tick beside their head and outputting a completion sound to the user amongst others. We decided that a ring around the passengers feet that would initially be red and then turn to green would work best. The ring turns to green when the player has checked the passengers ticket or dealt with situation where they don't have a ticket. It also turns blue when the player is within the range to start a conversation. This simple red, blue green loop is very simple to grasp and worked well in the various user tests. Also it worked well for the VR experience as it is very subtle but effective in displaying the required information.
+There were a number of things that we wanted to display to the player about each passenger they interact with. Firstly, whether the passengers ticket had been checked on not. We decided this should be simple and researched multiple methods such as displaying a green tick beside their head and outputting a completion sound to the user amongst others. We decided that a ring around the passengers feet that would initially be red and then turn to green would work best. The ring turns to green when the player has checked the passengers ticket or dealt with situation where they don't have a ticket. It also turns blue when the player is within the range to start a conversation. This red, blue, green loop is very simple to grasp and worked well in the various user tests. Also it worked well for the VR experience as it is very subtle but effective in displaying the required information.
 
 \subsubsection{VR Support}
-As our main platform focus was VR support on the Oculus Quest we wanted to ensure it was the most immersive experience possible. This was taken into account when designing the various environments (The train, the station, city etc), the in game sound, the player interactions, and controls. The controls were designed to require the least requirement of buttons possible, so the user didn't feel like they were holding controllers. All menu interactions are done by looking around in the virtual space and pulling the triggers, which is a simple fluid movement. One area we felt really improves the experience was the inclusion of the in-game watch. It was a very simple thing but it really was success in our user tests. In the virtual space we wanted to feel like the user is really in the train station to the best possibility, and if they look down at anytime they can view their hands in real time and move their fingers. On the left hand there is a simple dial watch that displays the real world time. If the user touches this watch with their right hand the game is paused and a virtual menu is displayed. Unfortunately, this was only a feature that could work on the VR build, but we implemented the pause menu support by displaying the menu on front of the player when the pause button is pressed.
+As our main platform focus was VR support on the Oculus Quest we wanted to ensure it was the most immersive experience possible. This was taken into account when designing the various environments (The train, the station, city etc), the in game sound, the player interactions, and controls. The controls were designed to require the least requirement of buttons possible, so the user didn't feel like they were holding controllers. All menu interactions are done by looking around in the virtual space and pulling the triggers, which is a simple fluid movement. One area we felt really improves the experience was the inclusion of the in-game watch. It was a very simple thing but it really was success in our user tests. In the virtual space we wanted to feel like the user is really in the train station to the best of our ability, and if they look down at anytime they can view their hands in real time and move their fingers. On the left hand there is a simple dialog watch that displays the real world time. If the user touches this watch with their right hand the game is paused and a virtual menu is displayed. Unfortunately, this was only a feature that could work on the VR build, but we implemented the pause menu support by displaying the menu on front of the player when the pause button is pressed.
 
 \subsubsection{User Interface (UI) Design}
-For this project we used a simple design scheme for all menus and UI. It involved a simple grey background, strong contrasting text and blue buttons. This made it easy to read and view all elements throughout the application. All menus were also designed with ergonomics in mind, so that it would be easy for the user to move between menus, close the menus or select options. For example on the pause menu implemented in VR the QUIT and RESET button were placed at the top as from testing they could be accidentally pressed when touching the watch. The score and game time is also placed accordingly along with the option to turn he sound on and off. We wanted to insure everything required by the player is all in one place and easily accessible. This idea was reflected in the start menu and game over menu too.
-
-\subsubsection{Tutorial}
-
-% Interactions with npcs and placement
-% Speech rather than keyboard input
-% Menus / Layout
-% If ticket is checked
-% VR controls
-% Pause menu on watch
-
-% Tutorial
+For this project we used a simple design scheme for all menus and UI. It involved a simple grey background, strong contrasting text and blue buttons. This made it easy to read and view all elements throughout the application. All menus were also designed with ergonomics in mind, so that it would be easy for the user to move between menus, close the menus or select options. For example on the pause menu implemented in VR the QUIT and RESET button were placed at the top as from testing they could be accidentally pressed when touching the watch. The score and game time is also placed accordingly along with the option to turn he sound on and off. We wanted to ensure everything required by the player is all in one place and easily accessible. This idea was reflected in the start menu and game over menu too.
 
 \begin{figure}[h!]
 	\caption{Menus Class Diagram.}
@@ -171,7 +162,7 @@ Can I see your ticket, please? & +1 \\
     \label{tab:scores}
 \end{table}
 
-The scoring systems works as follows as seen in Figure~\ref{image:Scoring}. Once the game is started and each NPC is being generated and template "Game" object is setup, this object contains a nested list "NPCList" which contains information about each NPC such as the conversations, current score, and sessionID. Once created it is written to a local file on the device, the decision to use file storage rather than have the object in memory was chosen for several reasons. Firstly, it allowed the file to be accessed at any time from any class easily, quickly and efficiently. It also would be stored if the game crashed, or if the user quit however results retrieval weren't implemented in the final build, however it would be something to look at for future development.
+The scoring systems works as follows as seen in Figure~\ref{image:Scoring}. Once the game is started and each NPC is being generated and template "Game" object is setup, this object contains a nested list "NPCList" which contains information about each NPC such as the conversations, current score, and sessionID. Once created it is written to a local file on the device, the decision to use file storage rather than have the object in memory was chosen for several reasons. Firstly, it allowed the file to be accessed at any time from any class easily, quickly and efficiently. It also would be stored if the game crashed, or if the user quit however results retrieval weren't implemented in the final build, it would be something to look at for future development.
 
 \par
 \medskip
@@ -185,15 +176,13 @@ The next steps occur after each successful interaction with a NPC. The GameManag
 	\includegraphics[width=1\textwidth]{Images/ClassDiagram Scoring.png}
 \end{figure}
 
-\subsection{Other Game Functions}
-
 \section{Azure Speech Services}
 From our research and testing efforts as laid out in the technology review Azure was chosen as the provider for the speech services due to its many benefits. This provided the voice of our human like NPC's (Non-player character) and converted the players speech to machine readable diction which is sent to the Flask server for processing. Azure provides a Unity plugin to allow access to their services, with this implemented we could access the classes required.
 
 \par
 \medskip
 
-The Speech to Text and Text to Speech functionality were the first sections to get working as it was initially decided that we would use voice commands and human speech to improve the user experience and usability rather than having the user type in their response. Using the sample Unity project provided by Microsoft as a guide we tested the implementation to learn how it works. Using this an initial prototype was built where the player could walk up to a cylinder which would turn blue on interaction. Once the collision occurs the speech engine begins listening and the result is returned from an Azure server as text output to the screen. We also developed a similar test build for Text to Speech where a user could input text into a text box which would play back their input as if it was spoken by a human voice. This was one of the bare essential goals of our project.
+The Speech to Text and Text to Speech functionality were the first sections to get working as it was initially decided that we would use voice commands and human speech to improve the user experience and usability rather than having the user type in their response. Using the sample Unity project provided by Microsoft as a guide we tested the implementation to learn how it works. Using this an initial prototype, the player could walk up to a cylinder which would turn blue on interaction. Once the collision occurs the speech engine begins listening and the result is returned from an Azure server as text output to the screen. We also developed a similar test build for Text to Speech where a user could input text into a text box which would play back their input as if it was spoken by a human voice. This was one of the bare essential goals of our project.
 
 \par
 \medskip
@@ -386,7 +375,7 @@ private IEnumerator RunSynthesizer(Task<SpeechSynthesisResult> task, SpeechConfi
 \par
 \medskip
 
-Throughout the project the TextToText code was modified and improved. Some of these improvements are outlined below.
+Throughout the project the Text To Speech code was modified and improved. Some of these improvements are outlined below.
 
 \begin{itemize}
   \item We encountered a problem where if the the internet connection was slow the application would hang and freeze until the result was returned. From research of the documentation it was found that Microsoft developed their sample code with this problem not fixed. This problem was outlined here \cite{stackoverflow} which led it to our attention in the documentation. If "synthesizer.SpeakTextAsync()" is called it blocks and waits for a result, which was disastrous for our project as it could hang for 2/3 seconds. To fix this a asynchronous task was implemented which would allow the application to run smoothly until the audio result was played to the user. This Task<> can be seen in Listing~\ref{lst:TTS2}.
@@ -395,7 +384,7 @@ Throughout the project the TextToText code was modified and improved. Some of th
 \end{itemize}
 
 \subsection{HTTP Web Client}
-In order to communicate with our Flask server, we used HTTP. We did so use the UnityEngine.Networking library. Before sending the data, we created an object to store the session ID, persona and the user input from the STT service. Once this object was created it was converted to a JSON string. Then this string of json was sent, as seen in the code snippet below, to the Flask server hosted on PythonAnywhere to be processed and return a predicted response from the bot. That response is then sent to the TTS service.
+In order to communicate with our Flask server, we used HTTP. We did so by using the UnityEngine.Networking library. Before sending the data, we created an object to store the session ID, persona and the user input from the STT service. Once this object was created it was converted to a JSON string. Then this string of json was sent, as seen in the code snippet below, to the Flask server hosted on PythonAnywhere to be processed and return a predicted response from the bot. That response is then sent to the TTS service.
 
 \begin{lstlisting}[language=python]
         string json = new Utilities().ToJsonString(request);
@@ -467,7 +456,7 @@ def predictResponse():
 
 \end{lstlisting}
 
-Once loaded, any illegal characters are removed from the users input, making it easier to pass it into the AIML kernel. That edited input is then passed into the .respond method to get a response. From listing~\ref{lst:aiml1} we can see a stripped down version of the conversation you can have with a RUDE bot with NO ticket. As mentioned, this is aiml file is loaded from the request data. The user can initiate the conversation by saying "Ticket Please". The bot then looks for a category that contains the phrase. In the case that the phrase does not exist in the AIML we have added a catch all that can bee seen at the bottom of the file to generate a response if the bot does not understand what you are trying to say. In the case of saying "Ticket please", once found, the bot has a few random options it can response with. These options can be seen under the random tag. The bot clearly doe not want to talk to you right not. You can continue by saying " I'm sorry you need a ticket". Even though this phrase is not directly in the list of categories a form of it is: "<pattern>* YOU NEED A TICKET</pattern>". The star symbol allows you to say any number of words before "YOU NEED A TICKET" making it AIML great in catching most scenarios. The bot says that it does not have a ticket. The next part is up to the user. Do they let them away with not having a ticket or tell then that they have to pay a fine? If the user tells them to "BRING ONE NEXT TIME" the rude bot will reply with "Yeah I will. Can you leave me alone now?=3". The "=3" at the end of the reply indicates to us on the Unity client side that the conversation with that bot is now complete and deactivates them. In the case that you ask them to pay the fine, they respond rudely and you must tell then to calm down. After this the bot can decide whether they'd rather pay the fine or make sure to bring one next time.
+Once loaded, any illegal characters are removed from the users input, making it easier to pass it into the AIML kernel. That edited input is then passed into the .respond method to get a response. From listing~\ref{lst:aiml1} we can see a stripped down version of the conversation you can have with a RUDE bot with NO ticket. As mentioned, this aiml file is loaded from the request data. The user can initiate the conversation by saying "Ticket Please". The bot then looks for a category that contains the phrase. In the case that the phrase does not exist in the AIML we have added a catch all that can be seen at the bottom of the file to generate a response if the bot does not understand what you are trying to say. In the case of saying "Ticket please", once found, the bot has a few random options it can response with. These options can be seen under the random tag. The bot clearly doe not want to talk to you right now. You can continue by saying " I'm sorry you need a ticket". Even though this phrase is not directly in the list of categories however, a form of it is: "$<$pattern$>$* YOU NEED A TICKET$</$pattern$>$". The star symbol(*) allows you to say any number of words before "YOU NEED A TICKET" making it AIML great in catching most scenarios. The bot says that it does not have a ticket. The next part is up to the user. Do they let them away with not having a ticket or tell them that they have to pay a fine? If the user tells them to "BRING ONE NEXT TIME" the rude bot will reply with "Yeah I will. Can you leave me alone now?=3". The "=3" at the end of the reply indicates to us on the Unity client side that the conversation with that bot is now complete and deactivates them. In the case that you ask them to pay the fine, they respond rudely and you must tell then to calm down. After this the bot can decide whether they'd rather pay the fine or make sure to bring one next time.
 
 \begin{lstlisting}[caption={Generate AIML response},label={lst:aiml1},language=XML]
     <category>
@@ -531,7 +520,7 @@ Once loaded, any illegal characters are removed from the users input, making it 
     </category>
 \end{lstlisting}
 
-The listing~\ref{lst:aiml1} is a simplified version of a rude bot with no ticket. Bare in mind an AIML file has been constructed for each persona that being, polite, neutral and rude also another three AIML for those personas if they do not have a ticket totaling to six AIML files.
+The listing~\ref{lst:aiml1} is a simplified version of a rude bot with no ticket. Bare in mind an AIML file has been constructed for each persona that being, polite, neutral and rude also another three AIML for those personas if they do not have a ticket. Totaling to six AIML files which all can be found on the Github repository.
 
 
 
@@ -554,7 +543,7 @@ if __name__ == "__main__":
     app.run(debug=True)
 \end{lstlisting}
 
-Once the simple Flask server was setup it was time to implement the AIML request. This request would contain data like the session ID, NPC person and the user input from the STT service. Because of this it had to be a PUT method as seen in Listing~\ref{lst:flask2}. We can also see in lines 4-6, the JSON data from the request being converted back into their respectable types. As mentioned in Section 4.6 here is where all the AIML code is located too. Once AIML has generated an output from the input this output is sent back to the Unity client to be converted back into speech using the Azure TTS service. 
+Once the simple Flask server was setup it was time to implement the AIML request. This request would contain data like the session ID, NPC person and the user input from the STT service. Because of this it had to be a PUT method as seen in Listing~\ref{lst:flask2}. We can also see in lines 4-6, the JSON data from the request being converted back into their respectable types. As mentioned in Section 4.4 here is where all the AIML code is located too. Once AIML has generated an output from the input this output is sent back to the Unity client to be converted back into speech using the Azure TTS service. 
 
 \begin{lstlisting}[caption={Flask PUT request to generate AIML response},label={lst:flask2},language=python]
 @app.route('/request', methods=['PUT'])
@@ -621,13 +610,13 @@ After creating an account, the steps to hosting a flask server on PythonAnywhere
 \begin{itemize}
     \item Firstly, you create a web app. This will generate all the necessary files you need to start.
     \item Then we added all our server files to the web app fold that was generated.
-    \item Unfortunately, we had not developed the flask server on PythonAnywhere from being so we had to install all the extra libraries at once before we could even get a simple get request working. To install the relevant libraries, we had to open a bash console and pip3.7 install --user "LIB-NAME" every import we had.
-    \item Then you must added every import to the WSGI config file.
+    \item Unfortunately, we had not developed the flask server on PythonAnywhere from the beginning so we had to install all the extra libraries at once before we could even get a simple get request working. To install the relevant libraries, we had to open a bash console and pip3.7 install --user "LIB-NAME" for every import we had.
+    \item Then you must add every import to the WSGI config file.
 \end{itemize}
 After all this everything worked flawlessly, and we were able to get predictions from the Flask server.
 
 \section{Database - MongoDB}
-We have used a MongoDB database to store the final game information securely and efficiently. More information on how this is implemented can be found in the "Backend - Flask" section. We choose mLab to host this database. mLab is a fully fledged cloud provider that allows users to easily access and host their database without the need for a virtual machine. Once an account was created and the hosting service was setup using a Amazon Web Services virtual machine, the flask server could easily be connected to using credentials. These credentials are stored in an environments file and read in. This environments is not published to our GitHub repository for security reasons. 
+We have used a MongoDB database to store the final game information securely and efficiently. More information on how this is implemented can be found in the "Backend - Flask" section. We choose mLab to host this database. mLab is a fully fledged cloud provider that allows users to easily access and host their database without the need for a virtual machine. Once an account was created and the hosting service was setup using a Amazon Web Services virtual machine, the flask server could easily be connected to using credentials. These credentials are stored in an environments file and read in. This environments file is not published to our GitHub repository for security reasons. 
 
 There were a number of issues getting MongoDB with mLab to work with our hosting service PythonAnywhere but with the correct imports and a number of tests we got it work correctly.
 
@@ -638,7 +627,7 @@ The database schema was designed to only include the information that would be u
   \item gameId - unique ID for each training session. This would be used to pull information about the session when required.
   \item gameScore - An overall game score to rank sessions.
   \item gameTime - The time taken by the trainee. If a trainee was rushing or took too long it could give a negative outlook.
-  \item npcs - A list of all passenger interactions in one training session. Each NPC has an array index which contains information such as their session id, if there ticket was checked, their score, voice name and finally a list of all the whole conversation thread with said passenger. The voice name could be used to see how a trainee would react to different genders or mixed races. The list of conversations is very useful so that the trainer can see the way the trainee deals with situation based on their reply. These fields can be seen in listing~\ref{lst:schema}. 
+  \item npcs - A list of all passenger interactions in one training session. Each NPC has an array index which contains information such as their session id, if there ticket was checked, their score, voice name and finally a list of the whole conversation thread with said passenger. The voice name could be used to see how a trainee would react to different genders or mixed races. The list of conversations is very useful so that the trainer can see the way the trainee deals with situation based on their reply. These fields can be seen in listing~\ref{lst:schema}. 
 \end{itemize}
 
 \begin{lstlisting}[caption={MongoDB database schema},label={lst:schema},language=python]
@@ -705,18 +694,10 @@ No higher-level modules or scripts depends on a low-level module.
 No single function knows the whole navigation structure of the system. All common functionality is subjugated into multiple methods and reused where possible.
 
 \subsection{Object Pooling}
-To save on system memory in regarding the 3D objects in the Unity engine we decided to just object pooling. What this entails is loading one model into memory and it is just duplicated preventing us from having to instantiate a new model every time. An example of this in the project is the City chunk model that spawns when you are on the train. One chunk is instantiate and every other chunk is a copy of that first one. Once the copy is out of view it is then deleted, therefore saving more system memory. Another example of this can be seen in start screen with the NPC models walking in the station. There is only three models and the rest of them are copies of the initial models. This was extreme important from a system design point of view. The reason being, we were developing this application for the Oculus Quest. The Quest is currently running an old enough version of Android, Android 7.1.1 to be exact. Because the Quest is running on an mobile operating system with mobile level specifications we needed to make sure it ran smoothly and Object pooling helped us achieve this.
+To save on system memory in regarding the 3D objects in the Unity engine we decided to use object pooling. What this entails is loading one model into memory and it is just duplicated preventing us from having to instantiate a new model every time. An example of this in the project is the City chunk model that spawns when you are on the train. One chunk is instantiate and every other chunk is a copy of that first one. Once the copy is out of view it is then deleted, therefore saving more system memory. Another example of this can be seen in start screen with the NPC models walking in the station. There is only three models and the rest of them are copies of the initial models. This was extreme important from a system design point of view. The reason being, we were developing this application for the Oculus Quest. The Quest is currently running an old enough version of Android, Android 7.1.1 to be exact. Because the Quest is running on an mobile operating system with mobile level specifications we needed to make sure it ran smoothly and Object pooling helped us achieve this.
 
 \subsection{Modularity}
-Even though at a glance the project seems pretty glued down, meaning it is a training simulation for ticket inspectors and that it. However, the system is designed in such a way that certain components can be swapped and changed to give the user a different training experience. For example the, to change the dialog of the NPCs all you have to do is simply change their AIML scripts. Now you have bots that are not just passengers on a train. To further the modularity, the entire scene can be changed in Unity with different models to give a different feel. Those are the two only things you would have to change in the entire project to create a training simulation for any other line of work.
-
-\subsection{Error Handling}
-
-\subsection{Security}
+Even though at a glance the project seems pretty glued down, meaning it is a training simulation for ticket inspectors and that it. However, the system is designed in such a way that certain components can be swapped and changed to give the user a different training experience. For example, to change the dialog of the NPCs all you have to do is simply change their AIML scripts. Now you have bots that are not just passengers on a train. To further the modularity, the entire scene can be changed in Unity with different models to give a different feel. Those are the only two things you would have to change in the entire project to create a training simulation for any other line of work.
 
 \section{Platforms}
-As we were developing for Windows, Android and VR with a focus on VR we had to ensure everything we developed would work on all platforms. This was a big challenge but we developed in such a way that out features would port across easily. However some features did have to be designed slightly different such as the watch menu implementation described above.
-
-\subsection{Oculus Quest}
-\subsection{Android}
-\subsection{Windows}
+As we were developing for Windows, Android and VR with a focus on VR we had to ensure everything we developed would work on all platforms. This was a big challenge but we developed in such a way that all features would port across easily. However some features did have to be designed slightly different such as the watch menu implementation described above.
