@@ -60,10 +60,22 @@ System testing is a black box testing methodology completed after integration te
 Non-functional testing focuses the non-functional aspects of a system such as performance, usability and compatibility.
 
 \subsubsection{Network/System Performance Testing}
-Compatibility testing is a measure of how the system performs under pressure, or heavy load. We tested the system with a high number of requests to the server to ensure it didn't buckle under load..  
+Frame rate and response time where important for this project. We understood that the Oculus Quest would not perform as well as a gaming desktop but VR was a component that we could not remove from the project. To test the average frame rate we ran the project on both  the Oculus and on a Gaming desktop. The average results can be seen in Figure~\ref{image:graph1}. The Oculus ran at around 55fps on average and the desktop ran at 110fps on average. We found that this was an appropriate amount of frames per second to ensure the user has a smooth experience. Regarding the response time, this can be seen in Figure~\ref{image:graph}. To obtain these results we interacted with an NPC once to see how fast it took them to respond. Both of us did this to get accurate results as our network speed are drastically different. Even though it took roughly 1.5 seconds to respond on a really bad internet we found that it did not take too much from the users experience.
 
-% Big emphasis on this I'd say..
+\begin{figure}[h!]
+	\caption{Response Time Graph.}
+	\label{image:graph}
+	\centering
+	\includegraphics[width=1\textwidth]{Images/barchart connection.png}
+\end{figure}
 
+\begin{figure}[h!]
+	\caption{Frame Rate Graph.}
+	\label{image:graph1}
+	\centering
+	\includegraphics[width=1\textwidth]{Images/framerate.png}
+\end{figure}
+\clearpage
 
 \subsubsection{Security Testing}
 Security testing involves testing how secure the system against unauthorized attack. We implemented security measures regarding the server, deployment and database access. For example on the server the database credentials were kept securely in an environments file and read in. This environment file is not published to our GitHub repository so there would be no unauthorized attempts to access the data saved. The same attitude was taken with server and deployment for the AIML requests as the methods are purely GET/PUT requests which just return information and don't modify data.
@@ -75,5 +87,26 @@ Usability testing involves measuring the ease of use from and end user’s persp
 Compatibility testing is a measure of how well a system works in different environments (Browsers, devices etc.). This was essential as we were developing the application to work on Android, Windows, and Oculus Quest VR. We initial started developed for Windows for initial tests but quickly started to develop for Android and the Oculus Quest as they both use the same Android build. Based on this it was essential that what we developed would be compatible with all platforms.
 
 \section{Technological Limitations}
+% AI voices could be better
+\subsection{Text To Speech Voices}
+In an ideal world we would have real human voices replying to user but obviously this is impossible and this  is one of our technical limitations. However we found that Azure's AI voices were good enough to use when converting the AIML bot's text back to speech. We found a couple good voices that are included in Azure's API and decided to use those. There was a few other voices on the API that we tested and felt like they were not to the standard that we were looking for. Even though we were happy with the final product ideally we would have loved to have more dynamic and realistic voices that we could have added, but the current state of Azure's Speech API does not support this currently.
+
+\subsection{Network Limitation}
+As seen in Figure~\ref{image:graph} a high network speed is desired for the best user experience. The quicker the response time the more fluid the conversation appears to be. In an ideal world everyone would have high speed internet sadly this is not the case. If the user has slow internet e.g 10Mbps you could be waiting a second or two for a response which is not ideal and in our opinion is a technical limitation that we can not control because we believe that we have optimised the transferring of data as best to our abilities so if the conversation with one of the NPCs is slow it is all down to the users internet connection. 
+
+\subsection{Models \& Animations}
+Ideally we would have ultra realistic models with 4K textures for all the NPCs and scene objects but we are not trained in modeling, texturing and animation so we made use of what we could find on the internet and Unity asset store. If we did manage to have highly detailed models and texture we would find ourselves with another problem, that being performance on the Oculus Quest. If we had a VR headset that was not mobile we could have added better models if we had them. Even though this is a technical limitation we were still extremely happy with the final state and aesthetic of the project.
 
 \section{Completed Objectives}
+Based on our goals/objectives from the introduction we believe we completed them all. Below is a list of our completed objectives.
+
+\begin{itemize}
+    \item We developed a project based on requirements that the client was happy with.
+    \item We researched all the latest technologies so that the application would not be out-dated.
+    \item We implemented a robust system based on our research.
+    \item We created a project that we were happy with as well as the client.
+\end{itemize}
+
+
+
+
