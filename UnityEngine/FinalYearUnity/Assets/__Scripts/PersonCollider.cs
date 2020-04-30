@@ -7,6 +7,7 @@ public class PersonCollider : MonoBehaviour
 {
     private string[] replies = { "You've already checked my ticket, piss off!", "You've already checked my ticket.", "Sorry, but you have checked my ticket."};
     public bool onTrain = false;
+    public bool playOnce = false;
     private bool startDeleting;
     private Queue chunks;
     public bool stopSpawning;
@@ -66,6 +67,12 @@ public class PersonCollider : MonoBehaviour
         }
         
         if(col.gameObject.CompareTag("OnTrain")){
+
+            if (playOnce == false){
+                AudioController.Instance.PlayAudioOnce(2);
+                playOnce = true;
+            }
+
             AudioController.Instance.PlayAudio(1);
             Debug.Log("OnTrain");
             GameObject.Find("SlidingDoors").GetComponent<Animator>().SetBool("ontrain",true);

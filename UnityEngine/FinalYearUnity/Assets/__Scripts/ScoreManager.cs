@@ -122,6 +122,9 @@ public class ScoreManager
             
             GameObject.Find("ColStick").GetComponent<PersonCollider>().GameComplete();
 
+            // Play audio for arriving at the train station.
+            AudioController.Instance.PlayAudioOnce(3);
+
             if (!callOnce)
             {
                 callOnce = true;
