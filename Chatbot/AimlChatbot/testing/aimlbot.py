@@ -42,7 +42,7 @@ def predictResponse():
 @app.route('/api/results', methods=['PUT'])
 def uploadResult():
     # Get collection from database.
-    results = mongo.db.test_results
+    results = mongo.db.results
 
     # Get json from request.
     gameId = request.get_json()['gameId']

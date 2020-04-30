@@ -6327,6 +6327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onTrain: 0
+  playOnce: 0
   stopSpawning: 0
 --- !u!65 &858226751
 BoxCollider:

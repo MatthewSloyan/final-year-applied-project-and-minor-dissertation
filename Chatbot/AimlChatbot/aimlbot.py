@@ -79,7 +79,7 @@ def uploadResult():
     print(npcs)
 
     # Get collection from database.
-    result = mongo.db.results
+    result = mongo.db.test_results
 
     test = result.find_one({
         '_id': "5e6d381cd9a63706287fc7e1"
