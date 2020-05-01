@@ -4,31 +4,33 @@ This chapter looks at some of the technologies used throughout the project with 
 
 \begin{itemize}
     \item What 3D Engine to use?
-    \item What Speech Service?
-    \item What technology to create a chat-bot?
-    \item What Back-end?
+    \item What Speech Service to use?
+    \item What technology would we use to create a chat-bot?
+    \item What Back-end to use?
+    \item What Database to use?
 \end{itemize}
 
 \section{Application}
-We knew we would need some form of gaming engine for the application itself. This would be the part of the project that the user would actually interact with. There are number of free gaming engines that we could have used however, we chose the Unity Engine as it is very well documented and powerful enough for our needs \cite{unity}.
+We knew we would need some form of gaming engine for the application itself. This would be the part of the project that the user would actually interact with. There are number of free gaming engines that we could have used however, we chose the Unity Engine as it is very well documented, powerful enough for our needs and provides multi-platform support \cite{unity}.
 
 \subsection{Unity}
-This is the part of the application is where the user interacts with. After briefly looking at other game engines we chose unity it for below reasons:
+This is the main part of the application where the user interacts with NPC's and the environment. After briefly looking at other game engines we chose Unity for the following reasons:
 
 \begin{itemize}
-  \item Unity uses C\#. The reason this is good is because C\# is very versatile and supports many different programming styles \cite{csharp}. It can be used to created objects, make network requests and it is also Unity's default scripting language.
+  \item Unity uses C\#. C\# is very versatile and supports many different programming styles \cite{csharp}. It can be used to created objects, make network requests and it is also Unity's default scripting language.
   \item It was apparent that 3D models and animations would be key to improving the experience of the application. Unity allowed us to add 3D models with ease. Unity also has a built in animator that allows you to animate these models by key-framing them and moving them as desired. All of this was very important to create a realistic training experience for the user.
   \item Another aspect that was important was to be able to connect to our back-end Flask server. Unity has built-in HTTP support allowing us to send necessary JSON data from the Speech-to-Text service to the server to be processed and a response sent back. \cite{unitywebrequest}.
   \item As mentioned Speech-to-Text (STT) and Text-to-Speech (TTS) is another important feature that was needed to enhance the realism for the user. After some research we found out that a lot of the STT and TTS services support Unity and supply their own packages for the engine, giving us options for when we decided on which STT and TTS service we were going to choose.
+  \item Unity provides full cross platform support for all the major development platforms. This was useful to useas we were developing and testing on Windows and Android with a focus on VR development.
 \end{itemize}
 
 \section{HTTP}
 HTTP or HyperText Transfer Protocol, is a protocol used by the world wide web to send messages from a client to a server or vice verse. It also defines how these messages are structured to inform the server or web browser what actions to take upon receiving a request \cite{rescorla2000http}. The reason we chose this approach is because for one, Unity has libraries that handle incoming and outgoing HTTP requests. Also, Flask uses HTTP making it very easy to communicate with our back-end server.
 
 \section{JSON}
-JavaScript Object Notation (JSON) is a widely used data interchange format for sending human readable messages across a network. It consists of attribute value pairs and array types which can be seen below in this simple example describing a person \cite{chen2014javascript}. We will use JSON to send all our web requests between our application and web server.
+JavaScript Object Notation (JSON) is a widely used data interchange format for sending human readable messages across a network \cite{chen2014javascript}. It consists of attribute value pairs and array types which can be seen below in listing~\ref{lst:JSON}. This simple example describing a person object with a number of attributes. We will use JSON to send all our web requests between our application and web server to communicate with our chat-bot and database.
 
-\begin{lstlisting}[language=JSON]
+\begin{lstlisting}[caption={JSON example.},label={lst:JSON}]
 {
   "firstName": "John",
   "lastName": "Smith",
@@ -57,7 +59,7 @@ JavaScript Object Notation (JSON) is a widely used data interchange format for s
 As one of the main goals outlined in the project was to create an immersive training experience for the end user, we felt we just couldn't get that level required from a conventional screen and controls. With this in mind we researched new technologies and deciding on using Virtual Reality (VR) to achieve this. VR can be sometimes mixed up with Augmented reality (AR). AR involves displaying virtual objects in a real-world environment, usually displayed on a mobile phone display through a camera. This had been implemented in some training experiences we looked at but wouldn't have met our initial goals or scenarios provided. However, a VR environment consists of a virtual three-dimensional (3D) space that a user can interact with objects and move around. \cite{isdale1998virtual}. This 3D space is encapsulated in a head-mounted display (HMD) or headset that the user can wear. Inside the headset, the user can become immersed and feel they are experiencing the real or the next best thing which was exactly what we required. \cite{isdale1998virtual}. 
 
 \subsection{Google Cardboard}
-Even though VR seemed like the solution for our immersive experience we still wanted to test it to ensure it was worth the time and investment. A solution to this was Google Cardboard (GC). GC is an affordable, simple to use cardboard frame that holds your smartphone device \cite{12335197120170501}. The user then holds the cardboard headset up to their eyes to experience VR videos and games. The cardboard frame as seen in figure~\ref{image:googlevr} retails for 15 EUR so it relatively cheap and it works with most phones \cite{12335197120170501}. However, the college provided test units for us to try. Also, Google provide a Unity SDK for development which was useful to us when building and deploying the Android build. From our initial tests we found the technology to be quite impressive and immersive but with low resolution on our phones it could be improved. Another downside is that there is no controller to move the player around so a teleport movement functionality would have to be implemented which would break immersion.
+Even though VR seemed like the solution for our immersive experience we still wanted to test it to ensure it was worth the time and investment. A solution to this was Google Cardboard (GC). GC is an affordable, simple to use cardboard frame that holds your smartphone device \cite{12335197120170501}. The user then holds the cardboard headset up to their eyes to experience VR videos and games. The cardboard frame as seen in figure~\ref{image:googlevr} and retails for 15 EUR so it relatively cheap and it works with most phones \cite{12335197120170501}. Also, Google provide a Unity SDK for development which was useful to us when building and deploying the Android build. GMIT provided test units for us to try out with our application. From our initial tests we found the technology to be quite impressive and immersive but with a low resolution on our phones it could be improved. Another downside is that there is no controller to move the player around so a teleport movement functionality would have to be implemented which would break immersion.
 
 \begin{figure}[h!]
 	\caption{Google Cardboard VR HMD.}
@@ -77,7 +79,7 @@ The second VR device we looked at was the Oculus Quest. The Oculus Quest is an a
 \end{figure}
 
 \begin{itemize}
-    \item Two 1440 x 1600-pixel screens with a refresh rate of 72 Hz, which provides a clearer and more realistic viewing experience.
+    \item It has two 1440 x 1600-pixel screens with a refresh rate of 72 Hz, which provides a clearer and more realistic viewing experience.
     \item Runs on Android so previous builds for Google Cardboard work.
     \item Touch controller support as seen in figure~\ref{image:oculusquest}, so the player can see their hands in the virtual environment and move the player.
     \item Unity support for Oculus Quest.
@@ -88,7 +90,7 @@ The second VR device we looked at was the Oculus Quest. The Oculus Quest is an a
 As the application needed to include a dynamic chatbot we looked at some Text-to-Speech (TTS) and Speech-to-Text (STT) services to achieve this. Our initial thought was to include a text input system or a multiple choice dialog tree but from testing and further research we felt it would be pre-programmed and substantially less interactive for a training environment. This spurred us to look at other areas and the possibility of taking in audio from the microphone and parsing it to text using TTS. TTS involves converting human speech to a text format so it can be read by a machine in real time \cite{EJ122858920190101}. On the other hand, STT is the opposite in which text is converted to human like synthesized speech, which would be used to give our chatbot life, personality and evoke possible emotions \cite{ED60067020190801}. Below we will look at some of the technologies we reviewed and tested in these two areas.
 
 \subsection{Windows}
-All Windows devices have STT functionality built into its Cortana virtual assistant. This allows the user to talk directly to the device and it will pick up what you said and decide from this. As described above we decided to use Unity as the main technology for our application which would be deployed to and Oculus Quest, so any service we tested must work with Unity and Android respectively. As the Windows STT services provided a Unity package, we thought it could work well, however from testing it was quite slow at depicting speech despite being accurate \cite{unityspeech}. Also, the text predicted was lower case and contained no punctuation, or any useful characters such as question marks etc. which would be useful for determining context in Natural Language processing. Another unfortunate downside was that it didn't work on Android when testing so we decided to look at other options, this was since it's developed for Windows. 
+All Windows devices have STT functionality built into its Cortana virtual assistant. This allows the user to talk directly to the device and it will pick up what you said and decide from this. As described above we decided to use Unity as the main technology for our application which would be deployed to and Oculus Quest, so any service we tested must work with Unity and Android respectively. As the Windows STT services provided a Unity package, we thought it could work well, however from testing it was quite slow at depicting speech despite being accurate \cite{unityspeech}. Also, the text predicted was lower case and contained no punctuation, or any useful characters such as question marks etc. which would be useful for determining context in Natural Language processing (NLP). Another unfortunate downside was that it didn't work on Android when testing so we decided to look at other options, this was since its developed solely for Windows. 
 
 \subsection{Google Cloud}
 The second speech service we looked at was Google Cloud Speech Synthesis. Compared to the inbuilt system provided by Windows this service works using an application programming interface (API) where audio data is sent to a remote server and a result is returned \cite{googlespeech}. Because of this a constant internet connection is required which is another issue to look at. Using the documentation provided a solution was implemented despite it not working as desired due to the fact there is no specific Unity package available. The only way to implement it is to add the DLL files in Unity as a source which worked but unfortunately not as desired. Another area where Google Cloud was quite beneficial was the fact that allowed the developer to tailor the Speech Services to their own need. Some options included the ability to change the voice of the response from TTS or changing the pitch and tone of the voice \cite{googlespeech}. This would be useful for depicting emotion in characters. The cost to use Google's services was also quite reasonable and provided a good allowance of free usage which would suffice for our needs but as it didn't work as expected we decided to test other services. 
@@ -121,36 +123,35 @@ It was a given that a we needed to create a chat-bot so this was one of the firs
 \subsection{Keras}
 Keras is a deep learning library that allows you to create neural networks quickly with very little implementation\cite{chollet2018keras}. It also has a dedicated library for python which would run seamlessly on our flask server meaning we could make requests to the neural network using HTTP. To train the model, we processed a JSON intents file that included objects that looked like this:\cite{18Python81:online}
 
-\begin{lstlisting}[language=JSON]
-{"intents": [
-    {"tag": "greeting",
-     "patterns": ["Hi.", "Is anyone there?", "Hello.", "Good day"
-        , "Whats up?"],
-     "responses": ["Hello!", "Good to see you again!", "Hi there
-        , how can I help?"],
-     "context_set": ""
+\begin{lstlisting}[caption={Keras training data example.},label={lst:keras}, language=JSON]
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": ["Hi.", "Is anyone there?", "Hello.", "Good day",   "Whats up?"],
+      "responses": ["Hello!", "Good to see you again!", "Hi there, how  can I help?"],
+      "context_set": ""
     },
-    {"tag": "greetingResponse",
-      "patterns": ["I am great thanks!", "Great, thank you!"
-        , "Not too bad!"],
+    {
+      "tag": "greetingResponse",
+      "patterns": ["I am great thanks!", "Great, thank you!", "Not too bad!"], 
       "responses": ["That's good to hear.", "I'm glad."],
       "context_set": ""
      }
-    ]
+   ]
 }
 \end{lstlisting}
 
-The pre-processing mapped certain words to the tag. For example in the above snippet you can see the tag "greeting", and one of the patterns is "Is anyone there?". What the pre-processing does is it creates a bag for words related to the tag removing any unnecessary words like "Is" in this case. Then it trains the model using this tag and that bag of words. It also has a list of responses that is added to the output of the neural network. After training the model keras loaded it and it was ready for use. Pre-processing would have to be done for every input too. This was done using the the method of creating a bag for words. Then that bag of words was used as an input to predict an output/response. The neural network was very accurate however it had some issues:
+The pre-processing mapped certain words to the tag. For example in listing~\ref{lst:keras} you can see the tag "greeting", and one of the patterns is "Is anyone there?". What the pre-processing does is it creates a bag for words related to the tag removing any unnecessary words like "Is" in this case. Then it trains the model using this tag and that bag of words. It also has a list of responses that is added to the output of the neural network. After training the model Keras loaded it and it was ready for use. Pre-processing would have to be done for every input too. This was done using the the method of creating a bag for words. Then that bag of words was used as an input to predict an output/response. The neural network was very accurate however it had some issues:
 
 \begin{itemize}
   \item The model would have to be rebuilt every time more responses where appended to the intents file making it tedious and bulky to maintain.
   \item There was no simple way for creating independent sessions for each bot. This was a feature that we really needed as we knew the application would have many different instances of the bot and that progress/state needed to be saved and there was no simple way of doing it.
 \end{itemize}
 
-Initially the we thought the safest approach in creating a chat-bot would be to use a neural network however, after doing some testing and implementing a working build using keras we found out that it was not the right route to take.
+Initially the we thought the safest approach in creating a chat-bot would be to use a neural network however, after doing some testing and implementing a working build using keras we found out that it was not the right route to take. Also due to the nature of neural networks it can be quite difficult to unit test, as the same result might not be returned each time. This would increase testing difficulty and decrease overall robustness of the project.
 
 \subsection{AIML}
-%
 Artificial Intelligence Markup Language (AIML) is markup language that allows you to create a set of conversation rules\cite{AIChatBo91:online}. These rules contain various tags and symbols that allow you to generate outputs or responses based on the input. AIML's tags are similar to another markup language called Extensible Markup Language(XML). The reason these markup languages are so similar is due to the fact that AIML is derived from XML. The main reason we chose AIML over the Keras approach was for the simple reason that we needed to store session data. This would have been very difficult to do using keras and would have forced us to do a lot of string manipulation to try and extract the relevant data from the input. AIML had built in tags and methods that allowed us to save various bits of data that we could store on a session by session basis. This was essential to the project and that is why we fundamentally chose AIML over Keras.
 \newline
 
@@ -196,9 +197,9 @@ to matching input.\\
 \newline
 \newline
 
-Below is a snippet of the simplest input and output that can be made in AIML. When the user says "HELLO BOT", AIML looks for patterns that contain this string. If the pattern is found, the bot replies with the contents of the template tags which is "Hello User!". However, if the input is not found in the patterns, you can have a category that acts as a catch all using the "*" symbol which will become the default response if no other input was found which in this case would be "Sorry, I do not understand...".
+In listing~\ref{lst:aiml} is a snippet of the simplest input and output that can be made in AIML. When the user says "HELLO BOT", AIML looks for patterns that contain this string. If the pattern is found, the bot replies with the contents of the template tags which is "Hello User!". However, if the input is not found in the patterns, you can have a category that acts as a catch all using the "*" symbol which will become the default response if no other input was found which in this case would be "Sorry, I do not understand...".
 
-\begin{lstlisting}[language=XML]
+\begin{lstlisting}[caption={AIML example.},label={lst:aiml}, language=XML]
 <aiml version="1.0.1" encoding="UTF-8"?>
     <category>
     <pattern> HELLO BOT </pattern>
@@ -217,7 +218,8 @@ Below is a snippet of the simplest input and output that can be made in AIML. Wh
 
 \end{lstlisting}
 
-With the AIML file set up, all we had to do was access it through our flask server. We were fortunate that python has an AIML library that handles reading the file and saving the state for the chat-bots. Saving the states of every bot was essential for this project and that is why we picked AIML.
+\newpage
+With the AIML file set up, all we had to do was access it through our flask server. We were fortunate that python has an AIML library that handles reading the file and saving the state for the chat-bots. Saving the states of every bot was essential for this project and that is why we picked AIML. Also, using AIML would allow us to unit test the chatbot more efficiently, as the returned response can be predicted.
 
 \section{Back-end}
 To create a fully fledged application we needed a suitable back-end technology to handle the requests from the Unity application over HTTP.
@@ -226,9 +228,9 @@ To create a fully fledged application we needed a suitable back-end technology t
 Node.js is an open-source server-side platform that runs and executes using JavaScript. It allows the developer to easily build a fast and scalable network server to run a website, make HTTP requests, etc. \cite{node}. From initial tests we had it running a simple Python file as our chatbot had to be built in Python due to its nature, but that was problematic for Node.js so we investigated other options.
 
 \subsection{Flask}
-Flask is a web framework that allows you to build web applications with ease. Flask is actually classed as micro-framework meaning it has very little dependencies to external libraries \cite{flask}. This means Flask is extremely light-weight therefore, very efficient. Because we were working with STT and TTS efficiency was key. We needed to be able to generate responses as quickly as possible to give the illusion that you were having an actual in person conversation with the bot. Flask had this capability along with it being simple to set up so that is why we used it to host the back-end of this application. Below is a snippet of python code to set up a simple working server:
+Flask is a web framework that allows you to build web applications with ease. Flask is actually classed as micro-framework meaning it has very little dependencies to external libraries \cite{flask}. This means Flask is extremely light-weight therefore, very efficient. Because we were working with STT and TTS efficiency was key. We needed to be able to generate responses as quickly as possible to give the illusion that you were having an actual in person conversation with the bot. Flask had this capability along with it being simple to set up so that is why we used it to host the back-end of this application. Listing~\ref{lst:flask} describes a snippet of python code to set up a simple working server:
 
-\begin{lstlisting}[language=PYTHON]
+\begin{lstlisting}[caption={Flask example.},label={lst:flask}, language=PYTHON]
 from flask import Flask
 app = Flask(__name__)
 
@@ -260,9 +262,9 @@ PythonAnywhere is what we decided to use after testing Heroku. It is very simila
 The results of the training simulation needed to be stored somewhere so they could be studied by the testing centre at a later date, so we began to look into possible options to achieve this. For this project we have chosen MongoDB as our database storage technology.
 
 \subsection{MongoDB}
-MongoDB is a document oriented distributed database, that allows users to store data quickly, efficiently and securely \cite{mongodb}. The data stored in binary format called BSON, but it is JSON in its human readable form as seen below.
+MongoDB is a document oriented distributed database, that allows users to store data quickly, efficiently and securely \cite{mongodb}. The data stored in binary format called BSON, but it is JSON in its human readable form as seen below in listing~\ref{lst:mongo}. Includes is an "\_id" attribute which allows documents to be found efficiently.
 
-\begin{lstlisting}[language=JSON]
+\begin{lstlisting}[caption={MongoDB document example.},label={lst:mongo}, language=JSON]
 {
   "_id": "5cf0029caff5056591b0ce7d",
   "firstname": "Jane",

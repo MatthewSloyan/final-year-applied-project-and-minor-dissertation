@@ -14,7 +14,7 @@ Quantitative research is less theoretical than qualitative research and is focus
 We looked at several different approaches regarding software development methodologies, which included Waterfall and Agile methodologies. Waterfall is a sequential series steps or processes that must be completed before moving onto the following steps. These processes include (Requirements, Design, Implementation, Verification and Maintenance) \cite{cheatham1991object}. However, from initial research we decided it wouldn't suit our projects as it can exclude the client from the process, causing changes to be difficult to make and delay testing until the end of the project which would decrease software quality. Another methodology we looked at was Agile. Agile promotes continuous development, deployment and testing throughout the software development life cycle (SDLC) of the project to help increase productivity, software quality and decrease development time \cite{Cohen2003AgileSD}. We felt this would be most suitable to our project so we began to look at how Agile could be implemented to coincide with our initial goals.
 
 \subsection{Agile - Extreme Programming}
-The Agile methodology we have chosen for this project was Extreme Programming (XP). Extreme Programming is a form of Agile, which focuses on small development teams, quick iterative development cycles and a focus on test driven development. It is based on five values simplicity, communication, feedback, courage and respect. \cite[p.~4]{1335275620040101}. 
+The Agile methodology we have chosen for this project was Extreme Programming (XP). Extreme Programming is a form of Agile, which focuses on small development teams, quick iterative development cycles and a focus on test driven development. It is based on five values simplicity, communication, feedback, courage and respect. \cite[p.~4]{1335275620040101}. This iterative development cycle is outlined in figure~\ref{image:XP}
 
 \begin{figure}[h!]
 	\caption{Extreme Programming Life Cycle.}
@@ -29,7 +29,7 @@ The Agile methodology we have chosen for this project was Extreme Programming (X
   \item Feedback is constant, so changes can be made quickly and efficiently.
   \item Software is developed faster, due to constant testing and deployment.
   \item Simplicity is key, so code can be developed quickly to pass tests and meet goals, and then improved later.
-  \item Works well with small and large teams.
+  \item Works well with small and large teams, which would be suitable for our project.
 \end{itemize}
 
 \subsubsection{Disadvantages}
@@ -60,19 +60,19 @@ Throughout the project we incorporated multiple testing methodologies such as Fu
 Functional testing focuses the functional aspects of a system such as unit, integration and system testing.
 
 \subsubsection{Unit testing}
-Unit testing is the first form of testing to be completed and is usually undertaken by the developer themselves. It involves testing a class level, E.g. testing functions in a class if they behave correctly and don't produce errors \cite{5380492}. We implemented tests using NUnit framework to test basic functions of the Unity game. We also used pytest to run unit tests on the server, and to test the HTTP methods from the application to the server we used Postman to check the packets and debug errors.
+Unit testing is the first form of testing to be completed and is usually undertaken by the developer themselves. It involves testing a class level, E.g. testing functions in a class if they behave correctly and don't produce errors \cite{5380492}. We implemented tests using NUnit framework to test basic functions of the Unity game. We also used pytest to run unit tests on the server. To test HTTP methods from the application to the server we used Postman to check the packets and debug errors.
 
 \subsubsection{Integration testing}
-Integration testing involves testing the system to insure it still works when adding new features, so it doesn't break other areas of the system \cite{5380492}. We implemented integration by testing for all aspects of the system to see if they still worked correctly on all iterative builds. This was especially useful when adding Oculus VR support as it caused errors with the speech services.
+Integration testing involves testing the system to insure it still works when adding new features, so it doesn't break other areas of the system \cite{5380492}. We implemented integration by testing for all aspects of the system to see if they still worked correctly on all iterative builds. This was especially useful when adding Oculus VR support as it caused multiple errors with the Azure speech services.
 
 \subsubsection{System testing}
 System testing is a black box testing methodology completed after integration testing to ensure the system meets the requirements \cite{1028373}. We implemented system testing by ensuring the application met the initial requirements outlined by the client in the Introduction Chapter.
 
 \subsection{Non-functional Testing}
-Non-functional testing focuses the non-functional aspects of a system such as performance, usability and compatibility.
+Non-functional testing focuses on the non-functional aspects of a system such as performance, usability and compatibility.
 
 \subsubsection{Performance testing}
-Compatibility testing is a measure of how the system performs under pressure, or heavy load \cite{1028373}. We tested the system with a high number of requests to the server to ensure it didn't buckle under load.
+Compatibility testing is a measure of how the system performs under pressure, or heavy load \cite{1028373}. We tested the system with a high number of requests to the server to ensure it didn't buckle under load. We also recorded the time requests took to process which was largely dependant on internet speed. This was one of the technical limitations of the project.
 
 \subsubsection{Security testing}
 Security testing involves testing how secure the system is against unauthorized attacks \cite{1028373}. We implemented security measures regarding the server, deployment and database access.
@@ -84,8 +84,7 @@ Usability testing involves measuring the ease of use from and end user’s persp
 Compatibility testing is a measure of how well a system works in different environments (Browsers, devices etc.) \cite{5380492}. This was essential as we were developing the application to work on Android, Windows, and Oculus Quest VR.
 
 \section{Project Management}
-We have used Git with GitHub to track our changes, log error and work effectively using our chosen Agile methodology. Git is an open source and free version control system which allows small or large projects to be stored and accessed efficiently. Features include commits, branching, staging and workflows. It can be connected to GitHub which allows a project to be stored remotely and for multiple people to work together seamlessly. 
-
+We have used Git with GitHub to track our changes, log error and work effectively using our chosen Agile methodology. Git is an open source and free version control system which allows small or large projects to be stored and accessed efficiently \cite{github}. Features include commits, branching, staging and workflows. GitHub allows a project to be stored remotely and for multiple people to work together seamlessly. 
 \par
 \medskip
 

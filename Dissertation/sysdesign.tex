@@ -1,7 +1,7 @@
 \chapter{System Design}
 
 \section{Overview}
-In this section, we will illustrate the entire system in detail. We will go through all the various technologies that were finalized from the technical review, where they are located in the project structure and what role they have in creating a fluid and realistic experience for the user. In Figure~\ref{image:SystemArch} we can see the high-level design of the project. Each component has a major role to play in creating this fluid experience and we will discuss how they were implemented in detail.
+In this section, we will illustrate the entire system in detail. We will go through all the various technologies that were finalized from the technical review, where they are located in the project structure and what role they have in creating a fluid and realistic experience for the user. In Figure~\ref{image:SystemArch} we can see the high-level design of the project and how all the technologies we have developed connect. Each component has a major role to play in creating this fluid experience and we will discuss how they were implemented in detail.
 
 \begin{figure}[h!]
 	\caption{System Architecture.}
@@ -11,7 +11,7 @@ In this section, we will illustrate the entire system in detail. We will go thro
 \end{figure}
 
 \section{Unity}
-As seen in Figure~\ref{image:SystemArch} Unity is the central component to this application. It is the part that the user interacts with and the part where all the data flows in and out of. Having said that, in this section we will discuss the more graphical side of the implementation and how we did that.
+As seen in figure~\ref{image:SystemArch} Unity is the central component to this application. It is the part that the user interacts with and the part where all the data flows in and out of. Figure~\ref{image:ClassDiagram} describes the whole Unity system at a class level. In this section and whole chapter we will look at this class diagram in more detail and describe how some of the features work. We will also explore the graphical side of the implementation and how we achieved that.
 
 \begin{figure}[h!]
 	\caption{Unity Project Class Diagram.}
@@ -37,17 +37,14 @@ Number & Persona \\
 \hline
 2 & Polite NPC \\
 \hline
-
-
-
 \end{tabular}
-    \caption{Personas}
+
+    \caption{NPC Personas \newline}
     \label{tab:my_label}
 \end{table}
 \newpage
 
-\begin{lstlisting}[language=python]
-    
+\begin{lstlisting}[caption={Random NPC persona generation.},label={lst:npcs}, language=python]
     public void SetSessionId()
     {
         sessionId = UnityEngine.Random.Range(1, 10000);
@@ -60,7 +57,7 @@ Number & Persona \\
     {
         //0 = male 1= female
         int gender = UnityEngine.Random.Range(0, 2);
-        Debug.Log("GENDER:" + gender);
+        
         string[] voicesMale = {"en-US-GuyNeural", "en-IE-Sean"};
         string[] voicesFemale = { "en-US-JessaNeural", "de-DE-KatjaNeural" };
         if (gender == 0)
@@ -76,20 +73,23 @@ Number & Persona \\
     }
 \end{lstlisting}
 
-Once these traits have been generated all that is left to be done is to instantiate them in the virtual 3D environment. The solution to this can be seen in the below snippet.
+\medskip
+Once these traits have been generated all that is left to be done is to instantiate them in the virtual 3D environment. The solution to this can be seen in the below snippet. A random NPC model is chosen and oriented correctly in the environment.
 This snippet is also wrapped in a for loop to generate multiple random NPCs. There is an array of manually place GameObjects in the virtual world. These GameObjects act as spawning points for a single NPC. Based on the NPCs voice a Male or Female model is loaded then it is spawned in the position and rotation of one of the spawn points according to the index of the loop. After this process is complete, we see NPCs standing in all the spawn points. This is how all the NPCs/Bots are spawned in the application.\newline
 \newpage
-\begin{lstlisting}[language=python]
+\begin{lstlisting}[caption={NPC generation.},label={lst:npcs1}, language=python]
     if (copy.GetComponent<NPC>().GetVoiceName() == "en-US-JessaNeural" || copy.GetComponent<NPC>().GetVoiceName() == "de-DE-KatjaNeural")
     {
         int rand = UnityEngine.Random.Range(0, 2);
 
+        // Instantiate random woman model
         if(rand == 0)
         {
             copy = Instantiate(npc2, new Vector3(NPCSpawners[i].position.x, NPCSpawners[i].position.y, NPCSpawners[i].position.z), Quaternion.Euler(0, NPCSpawners[i].rotation.eulerAngles.y, 0));
             copy.GetComponent<NPC>().SetVoice(npcVoice);
             copy.transform.parent = container.transform;
-        }else if(rand == 1)
+        }
+        else if(rand == 1)
         {
             copy = Instantiate(npc3, new Vector3(NPCSpawners[i].position.x, NPCSpawners[i].position.y, NPCSpawners[i].position.z), Quaternion.Euler(0, NPCSpawners[i].rotation.eulerAngles.y, 0));
             copy.GetComponent<NPC>().SetVoice(npcVoice);
@@ -98,13 +98,17 @@ This snippet is also wrapped in a for loop to generate multiple random NPCs. The
     }
     else
     {
+        // Instantiate male model
         copy = Instantiate(npc1, new Vector3(NPCSpawners[i].position.x, NPCSpawners[i].position.y, NPCSpawners[i].position.z), Quaternion.Euler(0, NPCSpawners[i].rotation.eulerAngles.y, 0));
+        
+        // Set the voice and add to container object.
         copy.GetComponent<NPC>().SetVoice(npcVoice);
         copy.transform.parent = container.transform;
     }
 \end{lstlisting}
 
-Due to us not being training in 3D modeling and animation here are some links to the models we used and altered:
+\medskip
+Due to us not being trained in 3D modeling and animation here are some links to the models we used and altered for this project:
 
 \begin{itemize}
     \item Train Station Model: https://assetstore.unity.com/packages/3d/environments/industrial/train-stations-bundle-161989
@@ -112,15 +116,16 @@ Due to us not being training in 3D modeling and animation here are some links to
 \end{itemize}
 
 \subsection{Animation}
-Animations in our opinion were important in this application. We needed the user to feel as if they were speaking to a person. If the NPCs where static it would have ruined the realism, completely disconnecting the user from this virtual world. As mentioned earlier, we were fortunate to find a website called Mixamo\cite{Mixamo31:online}. As well as realistic models it also had animations to go alongside them. The process of applying the animation to the model is simple but tedious. Firstly, you must add an Animator component to the model/NPC this allows you to manage your animation clips. Once this is done, animations can be added to the animator using a graph-like interface as seen in Figure~\ref{fig:anim}. Each animation is considered as a state. If certain parameters are met you can change the state, therefore changing the animation.
+Animations in our opinion were important in this application. We needed the user to feel as if they were speaking to a person. If the NPCs where static it would have ruined the realism, completely disconnecting the user from this virtual world. As mentioned earlier, we were fortunate to find a website called Mixamo\cite{Mixamo31:online}. As well as realistic models it also had animations to go alongside them. The process of applying the animation to the model is simple but tedious. Firstly, you must add an Animator component to the model/NPC this allows you to manage your animation clips. Once this is done, animations can be added to the animator using a graph-like interface as seen in figure~\ref{fig:anim}. Each animation is considered as a state. If certain parameters are met you can change the state, therefore changing the animation.
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=1\textwidth]{Images/animator.PNG}
     \caption{Animator}
+    \includegraphics[width=1\textwidth]{Images/animator.PNG}
     \label{fig:anim}
 \end{figure}
 
+\newpage
 \subsection{Usability/User Experience}
 Throughout the development of this project we focused a lot of effort on ensuring the training application was intuitive to the user. We looked a number of areas in regards to user experience and usability which we will look at below.
 
@@ -131,20 +136,50 @@ From our initial meetings with our supervisor and the initial scope we laid out 
 Again from our meetings another area to improve immersion was to allow the player to psychically speak to a passenger. Our initial tests involved a keyboard input however it was very slow and cumbersome to type out each reply. We also looked at a multiple choice decisions where the player could reply with three options, however from initial user tests it was compared to a role playing decision based game rather than a immersive training experience. Instead we developed a Speech service that would listen for your voice, parse it to text to send to our chatbot for a reply. Of course this was more of a challenge as the player could say anything and in any way, however it is something that was very successful in our final build and really improved the overall experience.
 
 \subsubsection{Passenger Information and Scoring}
-There were a number of things that we wanted to display to the player about each passenger they interact with. Firstly, whether the passengers ticket had been checked on not. We decided this should be simple and researched multiple methods such as displaying a green tick beside their head and outputting a completion sound to the user amongst others. We decided that a ring around the passengers feet that would initially be red and then turn to green would work best. The ring turns to green when the player has checked the passengers ticket or dealt with situation where they don't have a ticket. It also turns blue when the player is within the range to start a conversation. This red, blue, green loop is very simple to grasp and worked well in the various user tests. Also it worked well for the VR experience as it is very subtle but effective in displaying the required information.
+There were a number of things that we wanted to display to the player about each passenger they interact with. Firstly, whether the passengers ticket had been checked on not. We decided this should be simple and researched multiple methods such as displaying a green tick beside their head and outputting a completion sound to the user amongst others. We decided that a ring around the passengers feet that would initially be red and then turn to green would work best. The ring turns to green when the player has checked the passengers ticket or dealt with situation where they don't have a ticket. It also turns blue when the player is within the range to start a conversation. This can be seen in figure~\ref{fig:interaction1}. This red, blue, green loop is very simple to grasp and worked well in the various user tests. Also it worked well for the VR experience as it is very subtle but effective in displaying the required information.
+
+\begin{figure}[!ht]
+    \centering
+    \caption{Interaction with passenger.}
+    \includegraphics[width=0.8\textwidth]{Images/Interaction.jpg}
+    \label{fig:interaction1}
+\end{figure}
+
+\newpage
 
 \subsubsection{VR Support}
 As our main platform focus was VR support on the Oculus Quest we wanted to ensure it was the most immersive experience possible. This was taken into account when designing the various environments (The train, the station, city etc), the in game sound, the player interactions, and controls. The controls were designed to require the least requirement of buttons possible, so the user didn't feel like they were holding controllers. All menu interactions are done by looking around in the virtual space and pulling the triggers, which is a simple fluid movement. One area we felt really improves the experience was the inclusion of the in-game watch. It was a very simple thing but it really was success in our user tests. In the virtual space we wanted to feel like the user is really in the train station to the best of our ability, and if they look down at anytime they can view their hands in real time and move their fingers. On the left hand there is a simple dialog watch that displays the real world time. If the user touches this watch with their right hand the game is paused and a virtual menu is displayed. Unfortunately, this was only a feature that could work on the VR build, but we implemented the pause menu support by displaying the menu on front of the player when the pause button is pressed.
 
 \subsubsection{User Interface (UI) Design}
-For this project we used a simple design scheme for all menus and UI. It involved a simple grey background, strong contrasting text and blue buttons. This made it easy to read and view all elements throughout the application. All menus were also designed with ergonomics in mind, so that it would be easy for the user to move between menus, close the menus or select options. For example on the pause menu implemented in VR the QUIT and RESET button were placed at the top as from testing they could be accidentally pressed when touching the watch. The score and game time is also placed accordingly along with the option to turn he sound on and off. We wanted to ensure everything required by the player is all in one place and easily accessible. This idea was reflected in the start menu and game over menu too.
+For this project we used a simple design scheme for all menus and UI. It involved a simple grey background, strong contrasting text and blue buttons. This made it easy to read and view all elements throughout the application. All menus were also designed with ergonomics in mind, so that it would be easy for the user to move between menus, close the menus or select options. For example on the pause menu implemented in VR the QUIT and RESET button were placed at the top as from testing they could be accidentally pressed when touching the watch. This can be seen in figure~\ref{image:PauseMenu} The game time is also placed accordingly along with the option to turn he sound on and off. We wanted to ensure everything required by the player is all in one place and easily accessible. This idea was reflected in the start menu and game over menu too. Figure~\ref{image:Menus} shows the layout of classes developed to handle all UI.
 
 \begin{figure}[h!]
-	\caption{Menus Class Diagram.}
+	\caption{UI displayed on watch.}
+	\label{image:PauseMenu}
+	\centering
+	\includegraphics[width=0.8\textwidth]{Images/Interaction2.jpg}
+\end{figure}
+
+\begin{figure}[h!]
+	\caption{Class Diagram - Menus}
 	\label{image:Menus}
 	\centering
-	\includegraphics[width=0.8\textwidth]{Images/ClassDiagram Menus.png}
+	\includegraphics[width=0.6\textwidth]{Images/ClassDiagram Menus.png}
 \end{figure}
+
+\newpage
+
+\subsubsection{Tutorial}
+For this application we have also designed a tutorial scene. This scene is simply used for the trainee to learn more about the application and how it works before they get into the training environment. We used this scene to display our presentation in the project demo video required. We have also developed simple to use tutorial UI, which allows the user to scroll between pages and close when ready. An example of this can be seen in figure~\ref{image:tutorial}.
+
+\begin{figure}[h!]
+	\caption{UI Tutorial.}
+	\label{image:tutorial}
+	\centering
+	\includegraphics[width=0.6\textwidth]{Images/Tutorial.jpg}
+\end{figure}
+
+\newpage
 
 \subsection{Scoring System}
 As one of the main goals of this project was to create a useful training experience to train ticket inspectors in relation to conflict resolution, we decided it would need a scoring system to help both the trainee and the training centre. A simple system was devised for each interaction and was scored depending on user input and the way it's said. Table ~\ref{tab:scores} shows example of how the result is scored, based on the user input. If the user is deemed aggressive then they will get a -1 score, if they are deemed neutral their score won't change and if they are deemed positive they will gain one point to their total score. This simple system proved beneficial in early tests, so we implemented same idea with the personalities of each NPC.
@@ -169,12 +204,14 @@ Can I see your ticket, please? & +1 \\
     \label{tab:scores}
 \end{table}
 
+\newpage
+
 The scoring systems works as follows as seen in Figure~\ref{image:Scoring}. Once the game is started and each NPC is being generated and template "Game" object is setup, this object contains a nested list "NPCList" which contains information about each NPC such as the conversations, current score, and sessionID. Once created it is written to a local file on the device, the decision to use file storage rather than have the object in memory was chosen for several reasons. Firstly, it allowed the file to be accessed at any time from any class easily, quickly and efficiently. It also would be stored if the game crashed, or if the user quit however results retrieval weren't implemented in the final build, it would be something to look at for future development.
 
 \par
 \medskip
 
-The next steps occur after each successful interaction with a NPC. The GameManager is called from the Client to update the game and score. The UpdateScore() method updates the score by reading in the current file, finding the NPC and updating their current score respectively. This also handles the check if the NPC is complete E.g. if their ticket has been checked. If the NPC is on the last state a boolean "complete" will be set to true which is used to check if the training experience is complete. This is written back out to a local file as a JSON string using the Utilities class methods. The Utilities methods were designed using generics so they can handle any type for usability. The end game condition is also checked here to see if the game is complete, if so, the end game menu is displayed with the players results.
+The next steps occurs after each successful interaction with a NPC. The GameManager is called from the Client to update the game and score. The UpdateScore() method updates the score by reading in the current file, finding the NPC and updating their current score respectively. This also handles the check if the NPC is complete E.g. if their ticket has been checked. If the NPC is on the last state a boolean "complete" will be set to true which is used to check if the training experience is complete. This is written back out to a local file as a JSON string using the Utilities class methods. The Utilities methods were designed using generics so they can handle any type for usability. The end game condition is also checked here to see if the game is complete, if so, the end game menu is displayed with the players results.
 
 \begin{figure}[h!]
 	\caption{Scoring System Class Diagram.}
@@ -182,6 +219,8 @@ The next steps occur after each successful interaction with a NPC. The GameManag
 	\centering
 	\includegraphics[width=1\textwidth]{Images/ClassDiagram Scoring.png}
 \end{figure}
+
+\newpage
 
 \section{Azure Speech Services}
 From our research and testing efforts as laid out in the technology review Azure was chosen as the provider for the speech services due to its many benefits. This provided the voice of our human like NPC's (Non-player character) and converted the players speech to machine readable diction which is sent to the Flask server for processing. Azure provides a Unity plugin to allow access to their services, with this implemented we could access the classes required.
@@ -218,6 +257,7 @@ Throughout the duration of the project the SpeechToText code was modified heavil
   \item Singleton design pattern was used as there should only be one instance of SpeechToText and it allows easy access from other classes.
 \end{itemize}
 
+\newpage
 \begin{lstlisting}[caption={Speech To Text - Setup and request},label={lst:STT},language=python]
 // Creates an instance of a speech config with specified subscription key and service region.
 // API_Key for security this is read in from a text file and is not included on Github. 
@@ -318,6 +358,7 @@ public void ConvertTextToSpeech(string inputText, string voiceName, bool ifCheck
 
 The audio response received from Azure is 16-bit mono format. The 16 bit is the bit depth, or resolution of audio. A common compact disc (CD) uses 16 bits per sample. As it's returned as bits it must be converted first to a float array to be output to the device speaker. A loop was implemented to shift the bits left on each iteration using the formula supplied in the documentation. This can be seen on line 7 in Listing~\ref{lst:TTS2}. Once completed the audio is ready for output.
 
+\newpage
 \begin{lstlisting}[caption={Text to Speech - Converting audio from bits to array},label={lst:TTS2},language=python]
 private Task<float[]> getAudioData(SpeechSynthesisResult result)
     {
@@ -333,6 +374,7 @@ private Task<float[]> getAudioData(SpeechSynthesisResult result)
 }
 \end{lstlisting}
 
+\medskip
 The last step of the process is to output the processed audio directly to the device speaker. A clip is first created using the data and applied to the AudioSource of the NPC and then this is played as seen in Listing~\ref{lst:TTS3}. Lastly, the SpeechToText class is called again to start the NPC listening for a new user input. However, if the NPC's ticket has already been checked this step is skipped and a predefined output is spoken, E.g "Sorry, but you have already checked my ticket.".
 
 \begin{lstlisting}[caption={Text to Speech - Asynchronous Audio Processing},label={lst:TTS3},language=python]
@@ -393,6 +435,7 @@ Throughout the project the Text To Speech code was modified and improved. Some o
 \subsection{HTTP Web Client}
 In order to communicate with our Flask server, we used HTTP. We did so by using the UnityEngine.Networking library. Before sending the data, we created an object to store the session ID, persona and the user input from the STT service. Once this object was created it was converted to a JSON string. Then this string of json was sent, as seen in the code snippet below, to the Flask server hosted on PythonAnywhere to be processed and return a predicted response from the bot. That response is then sent to the TTS service.
 
+\newpage
 \begin{lstlisting}[language=python]
         string json = new Utilities().ToJsonString(request);
         UnityWebRequest www = UnityWebRequest.Put("http://aaronchannon1.pythonanywhere.com/request", json);
@@ -425,7 +468,7 @@ In order to communicate with our Flask server, we used HTTP. We did so by using 
 \section{Chatbot - AIML}
 As mentioned in the technical review, we decided to use AIML instead of a keras neural network. In listing~\ref{lst:flaskaiml} we can see the Flask GET request that also contains the AIML kernel. The kernel object controls the entire AIML library. Once the request data has been parsed, the kernel decides what aiml file to load based on their persona and if the have a ticket or not.
 
-    \begin{lstlisting}[caption={Generate AIML response},label={lst:flaskaiml},language=python]
+\begin{lstlisting}[caption={Generate AIML response},label={lst:flaskaiml},language=python]
 @app.route('/request', methods=['PUT'])
 def predictResponse():
      # Get json from request.
@@ -435,32 +478,19 @@ def predictResponse():
     hasTicket = request.get_json()['hasTicket']
 
     # Load specific aiml file depending on persona and if they have a ticket.
-
-
     if hasTicket == True:
         kernel.respond("load aiml " + str(persona))
-        st= "has ticket"
     else:
         kernel.respond("load aiml " + str(persona)+ " NO TICKET")
-        st= "does not have ticket"
-    print (st)
+        
+    print("DATA: ", kernel.getPredicate("usersName", sessionId))
 
-
-    print("DATA:")
-    print(kernel.getPredicate("usersName", sessionId))
-
-    #result = re.sub('[^a-zA-Z]', '', userInput)
     result = re.sub(r'([^\s\w]|_)+', '', userInput)
-
-    print("Result:")
-    print(result)
 
     # Predict reponse for specific session using user input.
     response = kernel.respond(result, sessionId)
-    print(response)
 
     return response
-
 \end{lstlisting}
 
 Once loaded, any illegal characters are removed from the users input, making it easier to pass it into the AIML kernel. That edited input is then passed into the .respond method to get a response. From listing~\ref{lst:aiml1} we can see a stripped down version of the conversation you can have with a RUDE bot with NO ticket. As mentioned, this aiml file is loaded from the request data. The user can initiate the conversation by saying "Ticket Please". The bot then looks for a category that contains the phrase. In the case that the phrase does not exist in the AIML we have added a catch all that can be seen at the bottom of the file to generate a response if the bot does not understand what you are trying to say. In the case of saying "Ticket please", once found, the bot has a few random options it can response with. These options can be seen under the random tag. The bot clearly doe not want to talk to you right now. You can continue by saying " I'm sorry you need a ticket". Even though this phrase is not directly in the list of categories however, a form of it is: "$<$pattern$>$* YOU NEED A TICKET$</$pattern$>$". The star symbol(*) allows you to say any number of words before "YOU NEED A TICKET" making it AIML great in catching most scenarios. The bot says that it does not have a ticket. The next part is up to the user. Do they let them away with not having a ticket or tell them that they have to pay a fine? If the user tells them to "BRING ONE NEXT TIME" the rude bot will reply with "Yeah I will. Can you leave me alone now?=3". The "=3" at the end of the reply indicates to us on the Unity client side that the conversation with that bot is now complete and deactivates them. In the case that you ask them to pay the fine, they respond rudely and you must tell then to calm down. After this the bot can decide whether they'd rather pay the fine or make sure to bring one next time.
@@ -527,8 +557,7 @@ Once loaded, any illegal characters are removed from the users input, making it 
     </category>
 \end{lstlisting}
 
-The listing~\ref{lst:aiml1} is a simplified version of a rude bot with no ticket. Bare in mind an AIML file has been constructed for each persona that being, polite, neutral and rude also another three AIML for those personas if they do not have a ticket. Totaling to six AIML files which all can be found on the Github repository.
-
+The listing~\ref{lst:aiml1} is a simplified version of a rude bot with no ticket. An AIML file has been constructed for each persona (polite, neutral and rude). Also, another three AIML files were created for those personas that do not have a ticket. Totaling to six AIML files which all can be found on the Github repository.
 
 
 \section{Back-end - Flask}
@@ -550,28 +579,30 @@ if __name__ == "__main__":
     app.run(debug=True)
 \end{lstlisting}
 
+\medskip
 Once the simple Flask server was setup it was time to implement the AIML request. This request would contain data like the session ID, NPC person and the user input from the STT service. Because of this it had to be a PUT method as seen in Listing~\ref{lst:flask2}. We can also see in lines 4-6, the JSON data from the request being converted back into their respectable types. As mentioned in Section 4.4 here is where all the AIML code is located too. Once AIML has generated an output from the input this output is sent back to the Unity client to be converted back into speech using the Azure TTS service. 
 
-\begin{lstlisting}[caption={Flask PUT request to generate AIML response},label={lst:flask2},language=python]
+\begin{lstlisting}[caption={Flask PUT request to generate AIML response.},label={lst:flask2},language=python]
 @app.route('/request', methods=['PUT'])
 def predictResponse():
      # Get json from request.
     sessionId = request.get_json()['sessionId']
     persona = request.get_json()['persona']
     userInput = request.get_json()['userInput']
-    print(sessionId)
-    print(persona)
-    print(userInput)
+    hasTicket = request.get_json()['hasTicket']
 
-    # Load specific aiml file depending on persona.
-    kernel.respond("load aiml " + str(persona))
+    # Load specific aiml file depending on persona and if they have a ticket.
+    if hasTicket == True:
+        kernel.respond("load aiml " + str(persona))
+    else:
+        kernel.respond("load aiml " + str(persona)+ " NO TICKET")
+        
+    print("DATA: ", kernel.getPredicate("usersName", sessionId))
 
-    print("DATA:")
-    print(kernel.getPredicate("usersName", sessionId))
+    result = re.sub(r'([^\s\w]|_)+', '', userInput)
 
     # Predict reponse for specific session using user input.
-    response = kernel.respond(userInput, sessionId)
-    print(response)
+    response = kernel.respond(result, sessionId)
 
     return response
 \end{lstlisting}
@@ -587,19 +618,9 @@ def uploadResult():
     gameTime = request.get_json()['gameTime']
     npcs = request.get_json()['npcs']
 
-    print(gameId)
-    print(gameScore)
-    print(npcs)
-
     # Get collection from database.
     result = mongo.db.results
-
-    test = result.find_one({
-        '_id': "5e6d381cd9a63706287fc7e1"
-    })
-
-    testtwo = {'email': test['gameId'] + ' success'}
-
+    
     # Write json object to MongoDB database.
     result.insert({
         'gameId': gameId,
@@ -637,6 +658,7 @@ The database schema was designed to only include the information that would be u
   \item npcs - A list of all passenger interactions in one training session. Each NPC has an array index which contains information such as their session id, if there ticket was checked, their score, voice name and finally a list of the whole conversation thread with said passenger. The voice name could be used to see how a trainee would react to different genders or mixed races. The list of conversations is very useful so that the trainer can see the way the trainee deals with situation based on their reply. These fields can be seen in listing~\ref{lst:schema}. 
 \end{itemize}
 
+\newpage
 \begin{lstlisting}[caption={MongoDB database schema},label={lst:schema},language=python]
     "gameId": 200,
     "gameScore": 1,
@@ -664,6 +686,8 @@ How this works on the Unity side can be seen in Figure~\ref{image:Database}. It 
 	\centering
 	\includegraphics[width=0.8\textwidth]{Images/ClassDiagram Database.png}
 \end{figure}
+
+\newpage
 
 \section{Code Design}
 With our experience from a number of modules throughout our Software Development course, we have implemented our best knowledge in the following areas to provide a well written and efficient piece of software.
@@ -707,4 +731,4 @@ To save on system memory in regarding the 3D objects in the Unity engine we deci
 Even though at a glance the project seems pretty glued down, meaning it is a training simulation for ticket inspectors and that it. However, the system is designed in such a way that certain components can be swapped and changed to give the user a different training experience. For example, to change the dialog of the NPCs all you have to do is simply change their AIML scripts. Now you have bots that are not just passengers on a train. To further the modularity, the entire scene can be changed in Unity with different models to give a different feel. Those are the only two things you would have to change in the entire project to create a training simulation for any other line of work.
 
 \section{Platforms}
-As we were developing for Windows, Android and VR with a focus on VR we had to ensure everything we developed would work on all platforms. This was a big challenge but we developed in such a way that all features would port across easily. However some features did have to be designed slightly different such as the watch menu implementation described above.
+As we were developing for Windows, Android and VR with a focus on VR we had to ensure everything we developed would work on all platforms. This was a big challenge but we developed in such a way that all features would port across easily. However some features did have to be designed slightly different such as the watch menu implementation described above which could only be possible in VR. However, we have successfully developed a system that works correctly on all platforms.
