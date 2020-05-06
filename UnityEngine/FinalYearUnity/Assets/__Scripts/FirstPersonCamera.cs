@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 [AddComponentMenu("Camera-Control/Smooth Mouse Look")]
+//Class from Standard Assets pack on asset store
 public class FirstPersonCamera : MonoBehaviour
 {
 

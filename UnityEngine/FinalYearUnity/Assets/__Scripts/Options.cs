@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+//Class that Handles in-game options
 public class Options : MonoBehaviour
 {
     #region == Private Variables == 

@@ -3,8 +3,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
+//Class that makes a connection to the Flask server and receives a response
 public class Client : MonoBehaviour
 {
+    //Request object that holds necessary data
     private AIMLRequest request;
 
     // Called when listening is a sucess, and sends text to server to be output as audio.
@@ -15,20 +17,23 @@ public class Client : MonoBehaviour
         StartCoroutine(GetText());
     }
 
+    //CoRoutine that gets the prediction from the flask server
     IEnumerator GetText()
-    {
+    {   
+        //Parses data to JSON
         string json = new Utilities().ToJsonString(request);
 
-        //UnityWebRequest www = UnityWebRequest.Put("localhost:5000/request", json);
-        //UnityWebRequest www = UnityWebRequest.Post("https://final-year-project-chatbot.herokuapp.com/request", form);
+        //Makes connection to the flask server on PythonAnywhere and sends the JSON data
         UnityWebRequest www = UnityWebRequest.Put("http://aaronchannon1.pythonanywhere.com/request", json);
         www.SetRequestHeader("Content-Type", "application/json");
         yield return www.SendWebRequest();
 
+        //Displays error
         if (www.isNetworkError || www.isHttpError)
         {
             Debug.Log(www.error);
         }
+        //Waits for the response from the server and passes it to the score manager
         else
         {
             string reponse = www.downloadHandler.text;

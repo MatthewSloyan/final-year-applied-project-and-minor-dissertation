@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+//Class that controls the GameOver menu
 public class GameOverMenu : MonoBehaviour
 {
     public Sprite[] images;

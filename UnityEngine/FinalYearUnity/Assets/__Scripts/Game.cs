@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+//Object that holds all data of the game/ training simulation
 [System.Serializable]
 public class Game
 {

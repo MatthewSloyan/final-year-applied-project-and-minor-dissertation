@@ -11,9 +11,6 @@ public class AudioController : MonoBehaviour
     [SerializeField]
     private AudioSource sourceMusic;
 
-    // Dictionary which holds all audio files in memory.
-    //public Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
-
     public AudioClip[] audioClips;
 
     #endregion
@@ -38,6 +35,7 @@ public class AudioController : MonoBehaviour
         Debug.Log("AUDIO PLAYING");
     }
 
+    //Turn the sound off
     public void turnSoundOnOff(int option)
     {
         if (option == 1)
@@ -63,25 +61,4 @@ public class AudioController : MonoBehaviour
         sourceMusic.PlayOneShot(audioClips[clipIndex]);
     }
 
-    // private void LoadAllAudioClips()
-    // {
-    //     // Get all file names from Resources folder, and get file information about each.
-    //     // Code adapted from: https://answers.unity.com/questions/16433/get-list-of-all-files-in-a-directory.html
-    //     DirectoryInfo dir = new DirectoryInfo("Assets/Resources/Audio");
-    //     FileInfo[] fileInfo = dir.GetFiles();
-
-    //     // Loop through each file in the directory/array.
-    //     foreach (FileInfo file in fileInfo)
-    //     {
-    //         // Exlude meta files
-    //         if (!file.Name.Contains(".meta"))
-    //         {
-    //             // Remove file extension from file name, get file from resouces and add to dictionary.
-    //             string[] fileName = file.Name.Split('.');
-                
-    //             AudioClip temp = Resources.Load("Audio/" + fileName[0]) as AudioClip;
-    //             audioClips.Add(fileName[0], temp);
-    //         }
-    //     }
-    // }
 }

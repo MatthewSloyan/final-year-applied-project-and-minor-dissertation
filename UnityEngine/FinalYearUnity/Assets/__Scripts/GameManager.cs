@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+//This Class keeps track of the time for the Training simulation
 public class GameManager : MonoBehaviour
 {
     private int playTime = 0;

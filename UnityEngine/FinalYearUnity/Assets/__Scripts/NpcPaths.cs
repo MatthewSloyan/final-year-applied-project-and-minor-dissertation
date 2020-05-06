@@ -13,6 +13,7 @@ public class NpcPaths : MonoBehaviour
     private int lastNode;
     GameObject path;
 
+    //Sets which path the NPC takes
     void Start()
     {
         
@@ -24,19 +25,12 @@ public class NpcPaths : MonoBehaviour
             path = GameObject.Find("path2");
             target = path.GetComponentsInChildren<Transform>();
         }
-        
-
-        foreach (var item in target)
-
-        {
-            Debug.Log(item.gameObject.name);
-        }
 
         lastNode = 0;
         current = 1;
     }
 
-    // Update is called once per frame
+    // In the Start screen this update method moves NPCs towards the next object in the path
     void Update()
     {
         if(lastNode < target.Length-1){
@@ -49,7 +43,6 @@ public class NpcPaths : MonoBehaviour
             }else{
                 current = (current+1) % target.Length;
                 lastNode++;
-                //Debug.Log("Node" + lastNode);
             }
         }else{
             if(!gameObject.name.Equals("NPC_NoDestroy") && !gameObject.name.Equals("NPC2_NoDestroy")&& !gameObject.name.Equals("NPC3_NoDestroy")){

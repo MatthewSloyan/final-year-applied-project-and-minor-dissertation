@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+//Class that controls the menus
 public class MenuController : MonoBehaviour
 {
     #region == Menu overlays ==

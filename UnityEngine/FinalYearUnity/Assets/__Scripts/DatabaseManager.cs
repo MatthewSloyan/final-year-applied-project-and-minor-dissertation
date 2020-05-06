@@ -2,16 +2,19 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
+//This Class writes JSON data to the MongoDB
 public class DatabaseManager : MonoBehaviour
 {
     private string json;
 
+    //Starts CoRoutine to upload the data
     public void writeToDatabase(string json)
     {
         this.json = json;
         StartCoroutine(Upload());
     }
 
+    //Makes a connections and uploads the session's data
     IEnumerator Upload()
     {
         // Fixed issue with sending JSON through web request. It seems it can't be sent using a POST, so PUT is required.

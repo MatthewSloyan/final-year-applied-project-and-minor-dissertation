@@ -47,6 +47,7 @@ public class GenerateNPC : MonoBehaviour
                 Debug.Log("VOICENAME: " + copy.GetComponent<NPC>().GetVoiceName());
                 string npcVoice = copy.GetComponent<NPC>().GetVoiceName();
                 
+                //Spawns a Female NPC model on a spawn point based on there voice/gender
                 if (copy.GetComponent<NPC>().GetVoiceName() == "en-US-AriaNeural" || copy.GetComponent<NPC>().GetVoiceName() == "de-DE-KatjaNeural")
                 {
                     int rand = UnityEngine.Random.Range(0, 2);
@@ -63,6 +64,7 @@ public class GenerateNPC : MonoBehaviour
                         copy.transform.parent = container.transform;
                     }
                 }
+                //Spawns a Male NPC model on a spawn point based on there voice/gender
                 else
                 {
                     copy = Instantiate(npc1, new Vector3(NPCSpawners[i].position.x, NPCSpawners[i].position.y, NPCSpawners[i].position.z), Quaternion.Euler(0, NPCSpawners[i].rotation.eulerAngles.y, 0));
@@ -136,8 +138,6 @@ public class GenerateNPC : MonoBehaviour
         npcScript.SetPersona();
         npcScript.SetHasTicket();
         
-        //if (npcScript.GetVoiceName() == null)
-        //npcScript.SetVoice();
         person.sessionId = npcScript.GetSessionID();
         person.voiceName = npcScript.GetVoiceName();
 

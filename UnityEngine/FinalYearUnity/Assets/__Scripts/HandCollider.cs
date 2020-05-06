@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Class that handles if the user touches hand to pause the simulation
 public class HandCollider : MonoBehaviour
 {
     #region == Variables == 

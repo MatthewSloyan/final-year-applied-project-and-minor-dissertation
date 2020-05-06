@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Class that moves the enviroment around the train to give the illusion that the train is moving
 public class MoveStation : MonoBehaviour
 {
     private bool onTrain;
@@ -12,7 +13,7 @@ public class MoveStation : MonoBehaviour
         speed = 0.25f;
     }
 
-    // Update is called once per frame
+    // Moves the station or City chunk when on the train
     void Update()
     {
         if(onTrain == false){
@@ -20,13 +21,13 @@ public class MoveStation : MonoBehaviour
         }
 
         if(onTrain == true){
-           // Debug.Log("Move Train");
             
             gameObject.transform.position = new Vector3(gameObject.transform.position.x + speed, gameObject.transform.position.y, gameObject.transform.position.z);
 
         }
     }
 
+    //Stops Station or city chunks from moving when the train re-enters station
     public void StopMoving(){
         speed = 0.0f;
     }

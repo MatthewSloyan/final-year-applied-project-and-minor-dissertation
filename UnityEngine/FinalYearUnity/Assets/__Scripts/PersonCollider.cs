@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+//This class handles all the collisions that happen with the player. Used to trigger certain events
 public class PersonCollider : MonoBehaviour
 {
     private string[] replies = { "You've already checked my ticket, piss off!", "You've already checked my ticket.", "Sorry, but you have checked my ticket."};
@@ -14,6 +15,8 @@ public class PersonCollider : MonoBehaviour
     private int chunkCount;
     private GameObject newChunk;
     private GameObject station;
+
+    //Initalises necessary variables
     void Start(){
         stopSpawning = false;
         chunks = new Queue();
@@ -23,12 +26,15 @@ public class PersonCollider : MonoBehaviour
         newChunk = GameObject.Find("CityChunkContainer");
     } 
 
+    //Method is called if an object collides with the player
     void OnTriggerEnter(Collider col)
     {
+        //if the player collides with a NPC. Starts coversation
         if (col.gameObject.CompareTag("person"))
         {
             TextToSpeech.Collision = col;
 
+            //NPC's head turns towards the player
             try
             {
                 if (Math.Round(col.gameObject.transform.rotation.eulerAngles.y, 0) == 90){
@@ -66,6 +72,7 @@ public class PersonCollider : MonoBehaviour
             }
         }
         
+        //If the player boards the train
         if(col.gameObject.CompareTag("OnTrain")){
 
             if (playOnce == false){
@@ -74,18 +81,21 @@ public class PersonCollider : MonoBehaviour
             }
 
             AudioController.Instance.PlayAudio(1);
-            Debug.Log("OnTrain");
+
+            // Closes train door and changes onTrain boolean
             GameObject.Find("SlidingDoors").GetComponent<Animator>().SetBool("ontrain",true);
             onTrain = true;
         }
         
+        //If the player collides with the NextChunk object a new chunk is spawned
         if(col.gameObject.CompareTag("NextChunk")){
+            //If the player still has NPCs to talk to
             if(stopSpawning == false){
-                Debug.Log("Next CHunk");
                 
+                //Add another chunk to the queue and spawns it after the previous one.
                 chunks.Enqueue(Instantiate(newChunk,new Vector3(col.gameObject.transform.position.x-190f,col.gameObject.transform.position.y-78.25f,col.gameObject.transform.position.z+24.75f),Quaternion.Euler(0, 0, 0)));
-                //Instantiate(newChunk,new Vector3(col.gameObject.transform.position.x-272.5f,col.gameObject.transform.position.y-78.25f,col.gameObject.transform.position.z+24.75f),Quaternion.Euler(0, 0, 0));
-                
+
+                // Starts deleting chunks to save memory
                 if(startDeleting == false){
                     if(chunkCount == 2){
 
@@ -96,10 +106,13 @@ public class PersonCollider : MonoBehaviour
                     }
                 }
 
+                //Deletes the first chunk on the queue
                 if(startDeleting == true){
                     Destroy(chunks.Dequeue() as GameObject);
                 }
-            }else{
+            }
+            //Puts the Train station back in front of the player
+            else{
                 Debug.Log("SPAWNING STOPPED");
                 
                 station.transform.position = new Vector3(col.gameObject.transform.position.x-100f,station.transform.position.y,station.transform.position.z);
@@ -108,24 +121,29 @@ public class PersonCollider : MonoBehaviour
             }
 
         }
+        //Stops the train if the player collides with this object
         if(col.gameObject.CompareTag("StopTrain") && stopSpawning == true){
             station.GetComponent<MoveStation>().StopMoving();
 
+            //Stops all chunks from moving
             foreach (GameObject chunk in chunks)
             {
                 chunk.GetComponent<MoveStation>().StopMoving();
             }
 
+            //Stops Station from moving
             newChunk.GetComponent<MoveStation>().StopMoving();
+            //Opens train doors
             GameObject.Find("SlidingDoors").GetComponent<Animator>().SetBool("ontrain",false);
         }
     }
 
+    //Stops spawning chunks when the game is complete
     public void GameComplete(){
         stopSpawning = true;
-        //GameObject.Find("Audio Source").GetComponent<AudioController>().PlayAudioOnce(1);
     }
 
+    //Handles if the player leaves the collision with an NPC
     private void OnTriggerExit(Collider col)
     {
         if (col.gameObject.CompareTag("person"))
