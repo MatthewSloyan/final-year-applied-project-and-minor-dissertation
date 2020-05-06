@@ -12,7 +12,6 @@ public class AudioController : MonoBehaviour
     private AudioSource sourceMusic;
 
     public AudioClip[] audioClips;
-
     #endregion
 
     // Singleton design pattern to get instance of class
@@ -30,7 +29,6 @@ public class AudioController : MonoBehaviour
     void Start()
     {
         // Load in all clips into memory, and start background music.
-        //LoadAllAudioClips();
         PlayAudio(0);
         Debug.Log("AUDIO PLAYING");
     }

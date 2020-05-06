@@ -16,9 +16,12 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(IncrementTime());
+
+        // Find watch text to update.
         tm = GameObject.Find("Time").gameObject.GetComponent<TextMeshPro>();
     }
 
+    // Increment the in game time, and display on watch.
     // Code heavily adapted from the following timer tutorial.
     // https://www.youtube.com/watch?v=IQkabxKDY3M
     IEnumerator IncrementTime()

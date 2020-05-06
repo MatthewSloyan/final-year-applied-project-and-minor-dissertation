@@ -10,9 +10,9 @@ public class CompleteRing : MonoBehaviour
     public Material red;
 
     //Changes the color of the status ring under the NPC
+    // Code adapted from: https://answers.unity.com/questions/13356/how-can-i-assign-materials-using-c-code.html
     public void changeRingColour(string colour)
     {
-        // Code adapted from: https://answers.unity.com/questions/13356/how-can-i-assign-materials-using-c-code.html
         Renderer rend = GetComponent<Renderer>();
 
         if (colour == "Green" && rend != null)
@@ -29,6 +29,7 @@ public class CompleteRing : MonoBehaviour
         }
     }
 
+    // Get the current colour of the completion ring.
     public string getCurrentColour()
     {
         Renderer rend = GetComponent<Renderer>();

@@ -56,7 +56,7 @@ def test_aiml_polite():
     tests.test_predictResponse(test_data, "Hello Pleased to meet you!")
 
 def test_aiml_neutral():
-    test_data = {'sessionId': 1234, 'persona': 1, 'userInput': 'DO YOU HAVE A TICKET'}
+    test_data = {'sessionId': 1234, 'persona': 2, 'userInput': 'DO YOU HAVE A TICKET'}
     tests.test_predictResponse(test_data, "Here it is=1")
 
 def test_aiml_rude():

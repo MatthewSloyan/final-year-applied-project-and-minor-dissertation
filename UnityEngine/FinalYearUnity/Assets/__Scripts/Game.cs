@@ -10,6 +10,7 @@ public class Game
     public List<NPCList> npcs;
 }
 
+// Nested list of class Game, this holds all information about a specific NPC.
 [System.Serializable]
 public class NPCList
 {
