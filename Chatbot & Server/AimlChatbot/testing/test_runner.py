@@ -51,18 +51,26 @@ def test_home_page():
     tests.test_hello()
 
 # AIML test runners.
-def test_aiml_polite():
-    test_data = {'sessionId': 1234, 'persona': 2, 'userInput': 'HELLO'}
+def test_aiml_positive_ticket():
+    test_data = {'sessionId': 1234, 'persona': 2, 'userInput': 'HELLO', 'hasTicket': True}
     tests.test_predictResponse(test_data, "Hello Pleased to meet you!")
 
-def test_aiml_neutral():
-    test_data = {'sessionId': 1234, 'persona': 2, 'userInput': 'DO YOU HAVE A TICKET'}
-    tests.test_predictResponse(test_data, "Here it is=1")
+def test_aiml_positive_no_ticket():
+    test_data = {'sessionId': 1234, 'persona': 2, 'userInput': 'WHAT IS THE TIME', 'hasTicket': False}
+    tests.test_predictResponse(test_data, "I'm very sorry, I don't have the time.")
 
-def test_aiml_rude():
-    test_data = {'sessionId': 1234, 'persona': 2, 'userInput': 'TICKET PLEASE'}
-    tests.test_predictResponse(test_data, "Here you go!=2")
+def test_aiml_rude_ticket():
+    test_data = {'sessionId': 1234, 'persona': 0, 'userInput': 'HELLO', 'hasTicket': True}
+    tests.test_predictResponse(test_data, "What do you want? Can't you see I am busy?")
 
-def test_aiml_end():
-    test_data = {'sessionId': 1234, 'persona': 2, 'userInput': 'THANK YOU'}
-    tests.test_predictResponse(test_data, "You're Welcome!=2")
+def test_aiml_rude_no_ticket():
+    test_data = {'sessionId': 1234, 'persona': 0, 'userInput': 'HOW ARE YOU', 'hasTicket': False}
+    tests.test_predictResponse(test_data, "I'd be better if you left me alone")
+
+def test_aiml_neutral_ticket():
+    test_data = {'sessionId': 1234, 'persona': 1, 'userInput': 'HOW ARE YOU', 'hasTicket': True}
+    tests.test_predictResponse(test_data, "I'm okay")
+
+def test_aiml_neutral_no_ticket():
+    test_data = {'sessionId': 1234, 'persona': 1, 'userInput': 'YOU NEED A TICKET', 'hasTicket': False}
+    tests.test_predictResponse(test_data, "But I don't have one.")

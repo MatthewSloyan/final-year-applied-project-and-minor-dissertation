@@ -13,22 +13,20 @@ public class NPC : MonoBehaviour
 
     public bool hasTicket;
 
+    // == Sets ==
     //Randomly sets if the NPC has a ticket or not
     public void SetHasTicket(){
 
         int rand = UnityEngine.Random.Range(0, 11);
 
+        // Passengers have a 3 in 10 chance of not having a ticket.
         if (rand < 4)
         {
             hasTicket = false;
-        }else{
+        }
+        else{
             hasTicket = true;
         }
-
-    }
-
-    public bool GetHasTicket(){
-        return hasTicket;
     }
 
     //Randomly sets the NPC's Session ID
@@ -48,7 +46,6 @@ public class NPC : MonoBehaviour
     {
         //0 = male 1= female
         int gender = UnityEngine.Random.Range(0, 2);
-        Debug.Log("GENDER:" + gender);
         string[] voicesMale = {"en-US-GuyNeural", "en-GB-George-Apollo"};
         string[] voicesFemale = { "en-US-AriaNeural", "de-DE-KatjaNeural" };
 
@@ -64,13 +61,14 @@ public class NPC : MonoBehaviour
             int rand = UnityEngine.Random.Range(0, voicesFemale.Length);
             voiceName = voicesFemale[rand];
         }
-
     }
 
     public void SetVoice(string voice)
     {
         voiceName = voice;
     }
+
+    // == Getters ==
 
     public int GetSessionID()
     {
@@ -85,5 +83,9 @@ public class NPC : MonoBehaviour
     public int GetPersona()
     {
         return persona;
+    }
+
+    public bool GetHasTicket(){
+        return hasTicket;
     }
 }

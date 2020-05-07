@@ -1,3 +1,8 @@
+# This is an old version of our chatbot, developed intiailly using a Keras machine learning neural network.
+# This script is used to train the model and save it to a file for quick access by the server.
+# We later decided to develop our chatbot using AIML which can be seen in a separate folder.
+# However this implementation worked very well and was a great learning experience.
+
 import numpy as np
 import tensorflow
 import keras as kr

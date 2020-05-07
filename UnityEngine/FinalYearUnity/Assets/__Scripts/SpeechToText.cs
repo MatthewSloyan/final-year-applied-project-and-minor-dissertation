@@ -74,12 +74,6 @@ public class SpeechToText : MonoBehaviour
             message = "Listening. Please say something!";
 
             // Creates an instance of a speech config with specified subscription key and service region.
-            // For security this is read in from a text file and is not included on Github. 
-            // API_Key.txt is stored in the resources folder of the project.
-            // For now just using free trial key.
-            //string API_Key = System.IO.File.ReadAllText("../../API_Key.txt");
-
-            // Creates an instance of a speech config with specified subscription key and service region.
             //var config = SpeechConfig.FromSubscription("722faee502a24ebeb53cf34a58e22e7d", "westus");
             var config = SpeechConfig.FromSubscription("a2f75e30125b4f099012eaa7f9a5c840", "westeurope");
 
@@ -157,11 +151,6 @@ public class SpeechToText : MonoBehaviour
 #endif
     }
 
-    public NPC GetNPC()
-    {
-        return npc;
-    }
-
     // On frame update check for permission from microphone, and if speech is being recognised.
     void Update()
     {
@@ -182,7 +171,7 @@ public class SpeechToText : MonoBehaviour
         // Check is listen was success and if there's a message to send.
         if (listenSuccess && messageToSend != "")
         {
-            // Implement for now, will use one object.
+            // Create AIML request object to send to Client.
             AIMLRequest request = new AIMLRequest();
             request.sessionId = npc.sessionId;
             request.persona = npc.persona;
@@ -204,5 +193,10 @@ public class SpeechToText : MonoBehaviour
                 outputText.text = message;
             }
         }
+    }
+
+    public NPC GetNPC()
+    {
+        return npc;
     }
 }

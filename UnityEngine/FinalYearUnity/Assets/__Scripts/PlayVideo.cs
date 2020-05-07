@@ -24,9 +24,6 @@ public class PlayVideo : MonoBehaviour
 
     // Code adapted from: https://www.mirimad.com/unity-play-video-on-canvas/
     IEnumerator StartVideo(){
-        // Stop video if playing.
-        //StopVideo();
-
         // Prepare video and wait till ready.
         videoPlayer.Prepare();
 

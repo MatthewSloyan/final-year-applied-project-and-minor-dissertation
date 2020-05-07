@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class NpcPaths : MonoBehaviour
 {
-
     //public Transform[] target;
     public Transform[] target;
     public float speed;

@@ -15,6 +15,7 @@ public class Movement : MonoBehaviour
     }
     void Update()
     {
+        // Used for testing on windows.
         if (Input.GetKey(KeyCode.RightArrow))
         {
             rb.velocity = transform.right * speed;

@@ -1,6 +1,8 @@
 <aiml version="1.0.1" encoding="UTF-8">
     <!-- std-startup.xml -->
 
+    <!-- This is developed for running on pythonAnywhere. -->
+
     <!-- 0 = RUDE -->
     <!-- 1 = NEUTRAL -->
     <!-- 2 = POLITE -->
@@ -17,7 +19,6 @@
             <learn>/home/aaronchannon1/mysite/neutral.aiml</learn>
         </template>
     </category>
-
 
     <category>
         <pattern>LOAD AIML 2</pattern>
@@ -39,7 +40,6 @@
             <learn>/home/aaronchannon1/mysite/neutralNoTick.aiml</learn>
         </template>
     </category>
-
 
     <category>
         <pattern>LOAD AIML 2 NO TICKET</pattern>

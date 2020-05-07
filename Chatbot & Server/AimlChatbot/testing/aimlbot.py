@@ -1,13 +1,17 @@
 from flask import Flask, jsonify, request, json
 from flask_pymongo import PyMongo
 import aiml
+import re
+import env
 
-# Setup connection to MongoDB database
+# == Important ==
+# This version of the server is a copy of the main aimlbot.py but merely used for testing purposes using pytest.
+# All data is written to a separate test database.
+
+# Setup connection to MongoDB database. Information is stored securily in environment file.
 # https://flask-pymongo.readthedocs.io/en/latest/
 app = Flask(__name__)
-app.config['MONGO_DBNAME'] = 'final-year-project'
-app.config['MONGO_URI'] = 'mongodb://admin:admin1234@ds039457.mlab.com:39457/final-year-project?retryWrites=false'
-mongo = PyMongo(app)
+mongo = PyMongo(app, uri="mongodb://" + env.USER + ":" +env.PASSWORD + "@ds039457.mlab.com:39457/" + env.DB + "?retryWrites=false")
 
 # AIML
 kernel = aiml.Kernel()
@@ -17,32 +21,32 @@ kernel.learn("startup.xml")
 def index():
     return 'Hello, World!'
 
-@app.route('/request', methods=['POST'])
+@app.route('/request', methods=['PUT'])
 def predictResponse():
     # Get json from request.
     sessionId = request.get_json()['sessionId']
     persona = request.get_json()['persona']
     userInput = request.get_json()['userInput']
-    print(sessionId)
-    print(persona)
-    print(userInput)
+    hasTicket = request.get_json()['hasTicket']
 
     # Load specific aiml file depending on persona.
-    kernel.respond("load aiml " + str(persona))
+    if hasTicket == True:
+        kernel.respond("load aiml " + str(persona))
+    else:
+        kernel.respond("load aiml " + str(persona)+ " NO TICKET")
 
-    print("DATA:")
-    print(kernel.getPredicate("usersName", sessionId))
+    # Remove all extra characters from string.
+    result = re.sub(r'([^\s\w]|_)+', '', userInput)
 
     # Predict reponse for specific session using user input.
-    response = kernel.respond(userInput, sessionId)
-    print(response)
+    response = kernel.respond(result, sessionId)
 
     return response
 
 @app.route('/api/results', methods=['PUT'])
 def uploadResult():
     # Get collection from database.
-    results = mongo.db.results
+    results = mongo.db.test_results
 
     # Get json from request.
     gameId = request.get_json()['gameId']

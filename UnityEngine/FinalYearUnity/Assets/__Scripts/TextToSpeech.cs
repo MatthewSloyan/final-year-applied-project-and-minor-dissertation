@@ -55,13 +55,7 @@ public class TextToSpeech : MonoBehaviour
         this.ifChecked = ifChecked;
 
         // Creates an instance of a speech config with specified subscription key and service region.
-        // For security this is read in from a text file and is not included on Github. 
-        // API_Key.txt is stored in the root directory of the project
-        // For now just using free trial key.
-        //string API_Key = System.IO.File.ReadAllText("../../API_Key.txt");
-
         speechConfig = SpeechConfig.FromSubscription("a2f75e30125b4f099012eaa7f9a5c840", "westeurope");
-        //speechConfig = SpeechConfig.FromSubscription("722faee502a24ebeb53cf34a58e22e7d", "westus");
 
         // The default format is Riff16Khz16BitMonoPcm.
         // We are playing the audio in memory as audio clip, which doesn't require riff header.

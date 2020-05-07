@@ -1,3 +1,8 @@
+# This is an old version of our chatbot, developed intiailly using a Keras machine learning neural network.
+# This script is the flask server that would host our chatbot and make predictions on the trained neural network.
+# We later decided to develop our chatbot using AIML which can be seen in a separate folder.
+# However this implementation worked very well and was a great learning experience.
+
 from flask import Flask, json, jsonify, render_template, request
 import numpy as np
 import pickle
@@ -78,4 +83,3 @@ def predictResponse():
 
 if __name__ == "__main__":
     app.run(debug = False, threaded = False)
-#host = "192.168.1.7",

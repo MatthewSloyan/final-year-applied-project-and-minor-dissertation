@@ -12,7 +12,7 @@ def test_hello():
 
 # Method that tests AIML response, can be run with any input from test_runner.
 def test_predictResponse(test_data, bot_response):        
-    response = app.test_client().post(
+    response = app.test_client().put(
         '/request',
         data=json.dumps(test_data),
         content_type='application/json',

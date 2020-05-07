@@ -113,11 +113,7 @@ public class PersonCollider : MonoBehaviour
             }
             //Puts the Train station back in front of the player
             else{
-                Debug.Log("SPAWNING STOPPED");
-                
                 station.transform.position = new Vector3(col.gameObject.transform.position.x-100f,station.transform.position.y,station.transform.position.z);
-                //Destroy(chunks.Dequeue() as GameObject);
-                
             }
 
         }
@@ -136,11 +132,6 @@ public class PersonCollider : MonoBehaviour
             //Opens train doors
             GameObject.Find("SlidingDoors").GetComponent<Animator>().SetBool("ontrain",false);
         }
-    }
-
-    //Stops spawning chunks when the game is complete
-    public void GameComplete(){
-        stopSpawning = true;
     }
 
     //Handles if the player leaves the collision with an NPC
@@ -163,5 +154,10 @@ public class PersonCollider : MonoBehaviour
             GameObject temp = col.gameObject.transform.Find("SatisfactionMeterContainer(Clone)").gameObject;
             temp.SetActive(false);
         }
+    }
+
+    //Stops spawning chunks when the game is complete
+    public void GameComplete(){
+        stopSpawning = true;
     }
 }

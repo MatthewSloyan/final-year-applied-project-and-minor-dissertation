@@ -25,6 +25,7 @@ public class DatabaseManager : MonoBehaviour
         www.SetRequestHeader("Content-Type", "application/json");
         yield return www.SendWebRequest();
 
+        // Log error message.
         if (www.isNetworkError || www.isHttpError)
         {
             Debug.Log(www.error);

@@ -23,6 +23,7 @@ public class HandCollider : MonoBehaviour
         pauseMenu.SetActive(false); 
     }
 
+    // Used to track if the player touches their watch, if so display menu or close menu.
     void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.CompareTag("watch"))
@@ -42,7 +43,6 @@ public class HandCollider : MonoBehaviour
     public void ResumeGame()
     {
         // Turn off the menu UI
-        //pauseMenu.GetComponent<Canvas>().enabled = false;
         pauseMenu.SetActive(false); 
 
         // Start the game running again
@@ -53,8 +53,6 @@ public class HandCollider : MonoBehaviour
     public void PauseGame()
     {
         pauseMenu.SetActive(true); 
-        //pauseMenu.GetComponent<Canvas>().enabled = true;
-
         isGamePaused = true;
     }
 }

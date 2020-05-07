@@ -87,8 +87,6 @@ public class ScoreManager
                 obj.conversations.Add(userInput);
                 obj.conversations.Add(npcResponse);
 
-                Debug.Log(userInput);
-
                 // Increment or decrement score.
                 if (scoreValue == 0)
                 {
@@ -118,8 +116,6 @@ public class ScoreManager
 
         if (isGameComplete)
         {
-            Debug.Log("Game Complete!");
-            
             GameObject.Find("ColStick").GetComponent<PersonCollider>().GameComplete();
 
             // Play audio for arriving at the train station.
@@ -138,6 +134,7 @@ public class ScoreManager
         }
     }
     
+    // Update the game object score.
     private Game UpdateGameScore(Game game)
     {
         if (scoreValue == 0)
@@ -152,6 +149,7 @@ public class ScoreManager
         return game;
     }
 
+    // Check if the game is complete by checking all NPS's
     private bool CheckGameComplete(List<NPCList> npcs)
     {
         bool isGameComplete = true;

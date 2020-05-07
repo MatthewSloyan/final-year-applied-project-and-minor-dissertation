@@ -71,6 +71,7 @@ public class GameOverMenu : MonoBehaviour
             // Update the image in the template container, using the determined image.
             container.transform.GetChild(0).GetComponent<Image>().sprite = images[imageIndex];
 
+            // Update the text in the template container using the score from file.
             container.transform.GetChild(1).transform.GetComponent<Text>().text = "Rating: " + npc.score;
             container.transform.SetParent(grid.transform, false);
 

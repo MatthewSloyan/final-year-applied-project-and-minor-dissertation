@@ -9,28 +9,18 @@ public class SatisfactionMeter : MonoBehaviour
 
     void Start()
     {
+        // Set initial satisfaction to 3.
         satifaction = 3;
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            DecreaseSatifaction();
-        }
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            IncreaseSatifaction();
-        }
-    }
-
+    // Decreases satisfaction arrow by one on each call.
     public void DecreaseSatifaction()
     {
         transform.Rotate(0f, 0f, 38);
         satifaction--;
     }
 
+    // Increases satisfaction arrow by one on each call.
     public void IncreaseSatifaction()
     {
         if (satifaction < 5)

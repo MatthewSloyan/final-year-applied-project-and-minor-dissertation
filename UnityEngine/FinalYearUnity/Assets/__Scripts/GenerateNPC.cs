@@ -133,7 +133,6 @@ public class GenerateNPC : MonoBehaviour
         person.complete = false;
         
         // Set and get NPC data, I tried by just getting the component from the copy gameObject but the values were null.
-        
         npcScript.SetSessionId();
         npcScript.SetPersona();
         npcScript.SetHasTicket();
