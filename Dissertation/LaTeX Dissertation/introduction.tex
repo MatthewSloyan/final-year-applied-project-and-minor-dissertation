@@ -55,7 +55,7 @@ In chapter 5 we mainly focus on the actual performance and robustness of the sys
 In the final chapter we conclude this document as a whole. We highlight any findings from the system evaluations section. We also look at objectives and see how well we met them.
 
 \section{Source Code}
-The entirety of the this project can be located on GitHub. Upon clicking the link below you should be able to see the project's repository containing all source code and documentation related to the project. The "Chatbot" folder contains the AIML bot's source code that was used in the project and a sample bot using the Keras machine learning library. The "Research" folder contains a "Initial Research.md" file that contains all the research that was completed before starting the development stage. The "UnityEngine" folder contains the entire Unity project including all scripts and assets. Finally, there is a "README.md" file that shows all information regarding trying to run the project. The "Presentation" folder contains the presentation and video demo we created and finally the "Dissertation" folder contains all the files required to create this document.
+The entirety of the this project can be located on GitHub. Upon clicking the link below you should be able to see the project's repository containing all source code and documentation related to the project. The "Chatbot \& Server" folder contains the AIML bot's source code that was used in the project and a sample bot using the Keras machine learning library. The "Research" folder contains a "Initial Research.md" file that contains all additional research that was completed before starting the development stage. All the researched technologies can be found in the "Technology Review" chapter of this dissertation. The "UnityEngine" folder contains the entire Unity project including all scripts and assets. Finally, there is a "README.md" file that shows all information regarding trying to run the project. The "Presentation" folder contains the presentation and video demo we created and finally the "Dissertation" folder contains all the files required to create this document.
 \newline
 
 GitHub Link: https://github.com/MatthewSloyan/final-year-applied-project-and-minor-dissertation
@@ -71,6 +71,26 @@ Listed below are all the components to be included in the project derived from t
     \item A Mongo database that contains all the data of previous training sessions so that the trainees progress or score can be reviewed to see how well they deal with conflict resolution. 
 \end{itemize}
 \newpage
+
+\section{Project Plan}
+From our initial client and supervisor meetings we developed a simple outline of the work to be concluded within the time-frame. An outline of this can be found below. This outline spans from October 2019 to April 2020.
+
+\begin{itemize}
+    \item October - Initial research into technologies and chosen topics.
+    
+    \item November - Implementation and testing of technologies (Speech to Text and Text to Speech API's). Also, start development on server and chatbot.
+    
+    \item December - Training simulation development in Unity (Windows and Android support). Also, develop gameplay features for said simulation (Scoring system, interactions, menus etc.).
+    
+    \item January - Full VR support (Oculus Quest). 
+    
+    \item February - Database implementation and make improvements to server, chatbot and diction.
+    
+    \item March - Final improvements, and improve immersive experience for the player.
+    
+    \item April - Final improvements and more user testing.
+\end{itemize}
+
 \section{Workload Breakdown}
 In this section we will break down all the work we individually did that made it into the final build throughout the projects life cycle. Below is the list of the work done (Not necessarily in chronological order):
 
@@ -78,12 +98,12 @@ In this section we will break down all the work we individually did that made it
 \begin{itemize}
     \item Full AIML bot implementation, with multiple personas.
     \item Keras neural network implementation for chatbot. This is what we initially used, but moved to AIML.
-    \item Flask server with AIML implementation and hosted on PythonAnywhere.
+    \item Flask server with AIML implementation and hosting on PythonAnywhere.
     \item Created Unity3D environment With non-playable characters(NPCs).
     \item Designed 3D environments (Trains, city and station).
     \item NPCs have genders and different personas.
     \item Created client that allowed Unity to communicate to the Flask server hosted on PythonAnywhere.
-    \item Add animations all aspects of the training experience.
+    \item Added animations all aspects of the training experience.
     \item Added character controller allowing the user to navigate through the scene for testing when not built to the Oculus.
 \end{itemize}
 
@@ -95,8 +115,9 @@ In this section we will break down all the work we individually did that made it
     \item Added various voices types to the NPCs.
     \item Improved NPC interaction system (Colour ring and satisfaction meter).
     \item Added sound and user options.
+    \item Added animations to NPC's (Head movement, idle positions and sitting in train to improve immersion).
     \item Designed and implemented all menus/user interface (UI) that work in VR and Windows.
     \item Completed full unit testing of Flask server, for AIML and database requests (HTTP).
-    \item Implemented scoring system.
+    \item Implemented scoring system and training completion.
     \item Added database support for user training data (MongoDB).
 \end{itemize}
